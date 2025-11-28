@@ -24,6 +24,16 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def destroy
+    if current_user.sole_owner_of_multi_member_account?
+      redirect_to profile_path, alert: "You must transfer ownership before deleting your account"
+      return
+    end
+
+    current_user.destroy
+    redirect_to root_path, notice: "Your account has been deleted"
+  end
+
   private
 
   def profile_params

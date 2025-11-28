@@ -83,4 +83,46 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe "#sole_owner_of_multi_member_account?" do
+    context "when user is sole owner of their only account (1 member)" do
+      it "returns false" do
+        user = create(:user)
+
+        expect(user.sole_owner_of_multi_member_account?).to be false
+      end
+    end
+
+    context "when user is a regular member of an account" do
+      it "returns false" do
+        user = create(:user)
+        other_account = create(:account)
+        create(:membership, user: user, account: other_account, role: :member)
+
+        expect(user.sole_owner_of_multi_member_account?).to be false
+      end
+    end
+
+    context "when user is sole owner of multi-member account" do
+      it "returns true" do
+        user = create(:user)
+        account = user.accounts.first
+        other_user = create(:user)
+        create(:membership, user: other_user, account: account, role: :member)
+
+        expect(user.sole_owner_of_multi_member_account?).to be true
+      end
+    end
+
+    context "when account has multiple owners" do
+      it "returns false" do
+        user = create(:user)
+        account = user.accounts.first
+        other_user = create(:user)
+        create(:membership, user: other_user, account: account, role: :owner)
+
+        expect(user.sole_owner_of_multi_member_account?).to be false
+      end
+    end
+  end
 end

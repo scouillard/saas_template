@@ -49,4 +49,11 @@ class User < ApplicationRecord
   def send_welcome_notification
     WelcomeNotifier.with(record: self).deliver(self)
   end
+
+  def sole_owner_of_multi_member_account?
+    memberships.owner.any? do |m|
+      m.account.memberships.count > 1 &&
+        m.account.memberships.owner.count == 1
+    end
+  end
 end
