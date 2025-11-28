@@ -10,15 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_28_045550) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_28_064757) do
+  create_table "account_invitations", force: :cascade do |t|
+    t.datetime "accepted_at"
+    t.integer "account_id", null: false
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.datetime "expires_at", null: false
+    t.integer "inviter_id", null: false
+    t.string "token", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "email"], name: "index_account_invitations_on_account_id_and_email"
+    t.index ["account_id"], name: "index_account_invitations_on_account_id"
+    t.index ["inviter_id"], name: "index_account_invitations_on_inviter_id"
+    t.index ["token"], name: "index_account_invitations_on_token", unique: true
+  end
+
   create_table "accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
     t.string "plan", default: "free", null: false
     t.string "stripe_customer_id"
+    t.string "stripe_price_id"
     t.string "stripe_subscription_id"
     t.datetime "subscription_ends_at"
     t.datetime "subscription_started_at"
+    t.string "subscription_status", default: "none"
     t.datetime "updated_at", null: false
     t.index ["plan"], name: "index_accounts_on_plan"
     t.index ["stripe_customer_id"], name: "index_accounts_on_stripe_customer_id", unique: true
@@ -91,6 +108,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_28_045550) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "account_invitations", "accounts"
+  add_foreign_key "account_invitations", "users", column: "inviter_id"
   add_foreign_key "memberships", "accounts"
   add_foreign_key "memberships", "users"
 end
