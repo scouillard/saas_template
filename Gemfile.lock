@@ -140,7 +140,6 @@ GEM
       logger
     faraday-net_http (3.4.2)
       net-http (~> 0.5)
-    ffi (1.17.2)
     ffi (1.17.2-x86_64-linux-gnu)
     fugit (1.12.1)
       et-orbi (~> 1.4)
@@ -211,7 +210,6 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (5.26.2)
     msgpack (1.8.0)
     multi_xml (0.7.2)
@@ -233,9 +231,6 @@ GEM
       net-protocol
     net-ssh (7.3.0)
     nio4r (2.7.5)
-    nokogiri (1.18.10)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
     noticed (2.9.3)
@@ -430,8 +425,6 @@ GEM
       fugit (~> 1.11)
       railties (>= 7.1)
       thor (>= 1.3.1)
-    sqlite3 (2.8.0)
-      mini_portile2 (~> 2.8.0)
     sqlite3 (2.8.0-x86_64-linux-gnu)
     sshkit (1.24.0)
       base64
@@ -447,7 +440,6 @@ GEM
     tailwindcss-rails (4.4.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.1.16)
     tailwindcss-ruby (4.1.16-x86_64-linux-gnu)
     thor (1.4.0)
     timeout (0.4.4)
@@ -482,7 +474,6 @@ GEM
     zeitwerk (2.7.3)
 
 PLATFORMS
-  ruby
   x86_64-linux
 
 DEPENDENCIES
