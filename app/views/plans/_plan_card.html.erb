@@ -1,0 +1,41 @@
+<%# locals: (plan:) %>
+<div class="relative bg-base-100 border <%= plan.recommended? ? 'border-2 border-primary' : 'border border-base-300' %> rounded-2xl p-6 sm:p-8 flex flex-col">
+  <% if plan.recommended? %>
+    <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
+      Recommended
+    </span>
+  <% end %>
+
+  <div class="mb-6">
+    <h3 class="text-lg font-semibold text-base-content"><%= plan.name %></h3>
+    <p class="text-sm text-base-500 mt-1"><%= plan.description %></p>
+  </div>
+
+  <div class="mb-6">
+    <span class="text-4xl font-bold text-base-content" data-pricing-toggle-target="price" data-monthly-price="<%= number_to_currency(plan.monthly_price / 100.0, precision: 0) %>" data-annual-price="<%= number_to_currency(plan.annual_price / 100.0, precision: 0) %>">
+      <%= number_to_currency(plan.monthly_price / 100.0, precision: 0) %>
+    </span>
+    <span class="text-base-500" data-pricing-toggle-target="period">/month</span>
+  </div>
+
+  <ul class="space-y-3 mb-8 flex-grow">
+    <% plan.bullet_points.each do |feature| %>
+      <li class="flex items-start gap-2">
+        <svg class="w-5 h-5 text-success flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+        </svg>
+        <span class="text-sm text-base-content"><%= feature %></span>
+      </li>
+    <% end %>
+  </ul>
+
+  <% if plan.free? %>
+    <button type="button" class="w-full px-4 py-2.5 text-base font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer text-center" data-pricing-toggle-target="cta">
+      Get Started
+    </button>
+  <% else %>
+    <button type="button" class="w-full px-4 py-2.5 text-base font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all cursor-pointer text-center" data-pricing-toggle-target="cta">
+      Subscribe
+    </button>
+  <% end %>
+</div>

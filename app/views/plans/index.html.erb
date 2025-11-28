@@ -1,0 +1,23 @@
+<div class="max-w-5xl mx-auto px-4 py-16" data-controller="pricing-toggle">
+  <div class="text-center max-w-2xl mx-auto mb-12">
+    <h1 class="text-4xl font-bold text-base-content mb-4">Simple, transparent pricing</h1>
+    <p class="text-lg text-base-500">Choose the plan that works best for you and your team.</p>
+  </div>
+
+  <div class="flex justify-center mb-12">
+    <div class="inline-flex bg-base-200 rounded-full p-1">
+      <button type="button" data-pricing-toggle-target="monthlyButton" data-action="click->pricing-toggle#selectMonthly" class="px-6 py-3 text-sm font-medium rounded-full transition-all bg-base-100 text-base-content shadow-sm">
+        Monthly
+      </button>
+      <button type="button" data-pricing-toggle-target="annualButton" data-action="click->pricing-toggle#selectAnnual" class="px-6 py-3 text-sm font-medium rounded-full transition-all text-base-500 hover:text-base-content">
+        Annual
+      </button>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-6">
+    <% @plans.each do |plan| %>
+      <%= render "plan_card", plan: plan %>
+    <% end %>
+  </div>
+</div>
