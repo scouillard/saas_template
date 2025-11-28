@@ -1,0 +1,87 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-semibold text-base-content mb-4">Simple, transparent pricing</h1>
+    <p class="text-lg text-base-500 max-w-2xl mx-auto">Choose the plan that's right for you</p>
+  </div>
+
+  <div class="flex justify-center mb-12" data-controller="pricing-toggle">
+    <div class="inline-flex bg-base-200 rounded-full p-1">
+      <button type="button"
+              data-pricing-toggle-target="monthlyBtn"
+              data-action="click->pricing-toggle#showMonthly"
+              class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all bg-base-100 text-base-content shadow-sm cursor-pointer">
+        Monthly
+      </button>
+      <button type="button"
+              data-pricing-toggle-target="annualBtn"
+              data-action="click->pricing-toggle#showAnnual"
+              class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all text-base-500 hover:text-base-content cursor-pointer">
+        Annual
+        <span class="ml-1 text-xs text-primary">Save up to 17%</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8" data-controller="pricing-toggle">
+    <% @plans.each do |plan| %>
+      <div class="<%= plan.recommended? ? 'bg-base-100 border-2 border-primary' : 'bg-base-100 border border-base-300' %> rounded-2xl p-6 sm:p-8 flex flex-col relative">
+        <% if plan.badge_text.present? %>
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+            <span class="bg-primary text-primary-content text-xs font-semibold px-3 py-1 rounded-full"><%= plan.badge_text %></span>
+          </div>
+        <% end %>
+
+        <div class="mb-6">
+          <h2 class="text-xl font-semibold text-base-content mb-2"><%= plan.name %></h2>
+          <p class="text-sm text-base-500"><%= plan.description %></p>
+        </div>
+
+        <div class="mb-6">
+          <div data-pricing-toggle-target="monthlyPrice" class="block">
+            <span class="text-4xl font-semibold text-base-content"><%= plan.formatted_monthly_price %></span>
+            <% unless plan.free? %>
+              <span class="text-base-500">/month</span>
+            <% end %>
+          </div>
+          <div data-pricing-toggle-target="annualPrice" class="hidden">
+            <span class="text-4xl font-semibold text-base-content"><%= plan.formatted_annual_monthly_price %></span>
+            <% unless plan.free? %>
+              <span class="text-base-500">/month</span>
+              <div class="text-sm text-base-500 mt-1">Billed <%= plan.formatted_annual_price %>/year</div>
+            <% end %>
+          </div>
+          <% if plan.trial_days.present? %>
+            <div class="text-sm text-primary mt-2"><%= plan.trial_days %>-day free trial</div>
+          <% end %>
+        </div>
+
+        <ul class="space-y-3 mb-8 flex-1">
+          <% plan.bullet_points.each do |feature| %>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-primary shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              <span class="text-sm text-base-content"><%= feature %></span>
+            </li>
+          <% end %>
+        </ul>
+
+        <% if user_signed_in? && current_account.plan == plan.id %>
+          <div class="w-full px-4 py-2.5 text-base font-semibold rounded-full text-center bg-base-200 text-base-500">
+            Current Plan
+          </div>
+        <% else %>
+          <% if plan.recommended? %>
+            <button type="button" class="w-full px-4 py-2.5 text-base font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all cursor-pointer">
+              <%= plan.cta_text %>
+            </button>
+          <% else %>
+            <button type="button" class="w-full px-4 py-2.5 text-base font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer">
+              <%= plan.cta_text %>
+            </button>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
