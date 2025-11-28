@@ -24,6 +24,16 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def destroy
+    if current_user.can_delete_account?
+      sign_out current_user
+      current_user.destroy!
+      redirect_to root_path, notice: "Your account has been deleted"
+    else
+      redirect_to profile_path, alert: "Cannot delete account while you are the sole owner of a team with other members"
+    end
+  end
+
   private
 
   def profile_params

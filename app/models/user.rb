@@ -8,6 +8,18 @@ class User < ApplicationRecord
   has_many :accounts, through: :memberships
   has_many :notifications, as: :recipient, dependent: :destroy, class_name: "Noticed::Notification"
 
+  before_destroy :verify_can_delete_account
+
+  def sole_owner_of_accounts
+    @sole_owner_of_accounts ||= memberships.owner.includes(:account).select do |m|
+      m.account.memberships.count > 1
+    end.map(&:account)
+  end
+
+  def can_delete_account?
+    sole_owner_of_accounts.empty?
+  end
+
   after_create_commit :create_default_account
   after_create_commit :send_welcome_notification
 
@@ -39,6 +51,13 @@ class User < ApplicationRecord
   end
 
   private
+
+  def verify_can_delete_account
+    unless can_delete_account?
+      errors.add(:base, "Cannot delete account while sole owner of a team with other members")
+      throw(:abort)
+    end
+  end
 
   def create_default_account
     default_name = name.presence || email.split("@").first.titleize
