@@ -1,5 +1,11 @@
-<p>Welcome <%= @email %>!</p>
+<p>Welcome!</p>
 
-<p>You can confirm your account email through the link below:</p>
+<p>Thanks for signing up. Please confirm your email address (<strong><%= @email %></strong>) by clicking the button below:</p>
 
-<p><%= link_to 'Confirm my account', user_confirmation_url(confirmation_token: @token) %></p>
+<p><%= link_to "Confirm my account", user_confirmation_url(confirmation_token: @token), class: "button" %></p>
+
+<p>If the button doesn't work, copy and paste this link into your browser:</p>
+
+<p><%= user_confirmation_url(confirmation_token: @token) %></p>
+
+<p>If you didn't create an account, you can safely ignore this email.</p>
