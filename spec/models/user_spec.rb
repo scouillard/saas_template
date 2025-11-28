@@ -66,6 +66,37 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "#can_delete_account?" do
+    context "when user is solo owner of all their accounts" do
+      it "returns true" do
+        user = create(:user)
+
+        expect(user.can_delete_account?).to be true
+      end
+    end
+
+    context "when user is a member of another account (not owner)" do
+      it "returns true" do
+        user = create(:user)
+        other_account = create(:account)
+        create(:membership, user: user, account: other_account, role: :member)
+
+        expect(user.can_delete_account?).to be true
+      end
+    end
+
+    context "when user is owner/admin of account with other members" do
+      it "returns false" do
+        user = create(:user)
+        other_user = create(:user)
+        user_account = user.accounts.first
+        create(:membership, user: other_user, account: user_account, role: :member)
+
+        expect(user.can_delete_account?).to be false
+      end
+    end
+  end
+
   describe "callbacks" do
     describe "create_default_account" do
       it "creates a default account with user as owner" do

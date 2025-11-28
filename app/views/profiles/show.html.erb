@@ -57,6 +57,34 @@
               class: "px-4 py-2 text-sm font-medium rounded-full text-base-500 hover:text-base-content hover:bg-base-200 transition-all cursor-pointer w-fit" %>
         </div>
       </div>
+
+      <div class="pt-6 border-t border-base-300">
+        <h3 class="text-sm font-semibold text-error mb-4">Danger Zone</h3>
+
+        <div class="bg-base-200 rounded-xl p-4 border border-base-300">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <div class="text-base-content font-medium">Delete Account</div>
+              <div class="text-sm text-base-500">Permanently delete your account and all associated data</div>
+            </div>
+            <% if current_user.can_delete_account? %>
+              <%= button_to "Delete Account", profile_path, method: :delete,
+                  data: { turbo_confirm: "Are you sure? This action cannot be undone." },
+                  class: "bg-error text-error-content rounded-full hover:brightness-90 px-4 py-2 text-sm font-medium cursor-pointer" %>
+            <% else %>
+              <button disabled class="bg-base-300 text-base-500 rounded-full px-4 py-2 text-sm font-medium cursor-not-allowed">
+                Delete Account
+              </button>
+            <% end %>
+          </div>
+          <% if current_user.sole_owner_of_accounts.any? %>
+            <p class="text-error text-sm mt-3">
+              You cannot delete your account because you are the sole owner of: <%= current_user.sole_owner_of_accounts.map(&:name).to_sentence %>.
+              Please transfer ownership or remove other members first.
+            </p>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
