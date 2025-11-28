@@ -1,0 +1,43 @@
+<nav class="border-b border-base-200" data-controller="burger">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex items-center">
+        <%= link_to root_path, class: "text-xl font-semibold text-base-content" do %>
+          Logo
+        <% end %>
+      </div>
+
+      <!-- Desktop navigation -->
+      <div class="hidden md:flex items-center gap-2">
+        <% if user_signed_in? %>
+          <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "px-4 py-2 text-sm font-medium rounded-full text-base-content/70 hover:text-base-content transition-all" %>
+        <% else %>
+          <%= link_to "Log in", new_user_session_path, class: "px-4 py-2 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 hover:bg-base-200 transition-all" %>
+          <%= link_to "Sign up", new_user_registration_path, class: "px-4 py-2 text-sm font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all" %>
+        <% end %>
+      </div>
+
+      <!-- Burger button (mobile) -->
+      <button class="burger md:hidden" data-burger-target="burger" data-action="burger#toggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu backdrop -->
+  <div class="burger-backdrop" data-burger-target="backdrop" data-action="click->burger#close"></div>
+
+  <!-- Mobile menu -->
+  <div class="burger-menu" data-burger-target="menu">
+    <div class="p-6 flex flex-col gap-4">
+      <% if user_signed_in? %>
+        <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "w-full px-4 py-3 text-sm font-medium rounded-full text-base-content border-2 border-base-300 hover:bg-base-200 transition-all text-center" %>
+      <% else %>
+        <%= link_to "Log in", new_user_session_path, class: "w-full px-4 py-3 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 hover:bg-base-200 transition-all text-center" %>
+        <%= link_to "Sign up", new_user_registration_path, class: "w-full px-4 py-3 text-sm font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all text-center" %>
+      <% end %>
+    </div>
+  </div>
+</nav>

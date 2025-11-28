@@ -23,9 +23,15 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="bg-base-100 text-base-content min-h-screen flex flex-col">
+    <%= render "shared/navbar" %>
+
+    <%= render "shared/flash" %>
+
+    <main class="flex-1">
       <%= yield %>
     </main>
+
+    <%= render "shared/footer" %>
   </body>
 </html>

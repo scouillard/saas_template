@@ -1,1 +1,129 @@
 @import "tailwindcss";
+@plugin "daisyui";
+
+/*
+  Theme Colors
+  Uses oklch color format: oklch(lightness chroma hue)
+  - Lightness: 0-1 (0 = black, 1 = white)
+  - Chroma: 0-0.4 (0 = gray, higher = more saturated)
+  - Hue: 0-360 (color wheel degrees)
+
+  Tip: Use https://oklch.com to pick colors
+*/
+
+/* Extended base scale (Tailwind registration) */
+@theme {
+  --color-base-400: oklch(0.80 0.01 260);
+  --color-base-500: oklch(0.68 0.015 260);
+  --color-base-600: oklch(0.55 0.015 260);
+  --color-base-700: oklch(0.45 0.015 260);
+  --color-base-800: oklch(0.35 0.02 260);
+  --color-base-900: oklch(0.25 0.02 260);
+}
+
+/* DaisyUI theme overrides */
+:root {
+  /* Brand Colors */
+  --color-primary: oklch(0.55 0.2 250);
+  --color-primary-content: oklch(0.98 0.01 250);
+
+  --color-secondary: oklch(0.65 0.15 180);
+  --color-secondary-content: oklch(0.98 0.01 180);
+
+  --color-accent: oklch(0.7 0.18 80);
+  --color-accent-content: oklch(0.2 0.02 80);
+
+  /* Neutral */
+  --color-neutral: oklch(0.3 0.02 260);
+  --color-neutral-content: oklch(0.95 0.01 260);
+
+  /* Base (backgrounds/surfaces) */
+  --color-base-100: oklch(0.98 0.005 260);
+  --color-base-200: oklch(0.94 0.008 260);
+  --color-base-300: oklch(0.88 0.01 260);
+  --color-base-content: oklch(0.25 0.02 260);
+
+  /* Status Colors */
+  --color-info: oklch(0.65 0.18 240);
+  --color-info-content: oklch(0.98 0.01 240);
+
+  --color-success: oklch(0.65 0.2 145);
+  --color-success-content: oklch(0.98 0.01 145);
+
+  --color-warning: oklch(0.75 0.18 85);
+  --color-warning-content: oklch(0.2 0.02 85);
+
+  --color-error: oklch(0.55 0.22 25);
+  --color-error-content: oklch(0.98 0.01 25);
+}
+
+/* Burger Menu */
+.burger {
+  width: 24px;
+  height: 20px;
+  position: relative;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.burger span {
+  display: block;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: var(--color-base-content);
+  border-radius: 2px;
+  left: 0;
+  transition: all 0.25s ease-in-out;
+}
+
+.burger span:nth-child(1) { top: 0; }
+.burger span:nth-child(2) { top: 9px; }
+.burger span:nth-child(3) { top: 18px; }
+
+.burger.active span:nth-child(1) {
+  top: 9px;
+  transform: rotate(45deg);
+}
+
+.burger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.active span:nth-child(3) {
+  top: 9px;
+  transform: rotate(-45deg);
+}
+
+.burger-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 40;
+}
+
+.burger-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.burger-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100%;
+  background: var(--color-base-100);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 50;
+}
+
+.burger-menu.active {
+  transform: translateX(0);
+}

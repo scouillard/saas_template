@@ -4,7 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Ruby on Rails 8.1 SaaS template using Ruby 3.2.0. The stack includes Hotwire (Turbo + Stimulus), Tailwind CSS, SQLite3 with multi-database support, Solid Queue for background jobs, Solid Cache, and Solid Cable for WebSockets.
+Ruby on Rails 8.1 SaaS template with Ruby 3.2.0. Stack: Hotwire (Turbo + Stimulus), Tailwind CSS + DaisyUI, SQLite3, Solid Queue/Cache/Cable.
+
+## Documentation
+
+- **Design guidelines**: `docs/design.md` - Read before any UI work
 
 ## Common Commands
 
@@ -15,12 +19,12 @@ bin/dev                # Start dev server (web + CSS watcher)
 bin/rails server       # Start Rails server only (port 3000)
 ```
 
-### Testing
+### Testing (RSpec)
 ```bash
-bin/rails test                    # Run all unit tests
-bin/rails test:system             # Run browser/system tests
-bin/rails test test/models/user_test.rb           # Run single test file
-bin/rails test test/models/user_test.rb:10        # Run specific test line
+bundle exec rspec                              # Run all specs
+bundle exec rspec spec/models                  # Run model specs
+bundle exec rspec spec/models/user_spec.rb    # Run single file
+bundle exec rspec spec/models/user_spec.rb:10 # Run specific line
 ```
 
 ### Linting & Security
