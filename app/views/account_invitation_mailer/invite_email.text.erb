@@ -1,0 +1,10 @@
+You've been invited to join <%= @account.name %>
+
+<%= @inviter.name || @inviter.email %> has invited you to join their team.
+
+Accept the invitation by visiting this link:
+<%= @accept_url %>
+
+This invitation will expire in 7 days.
+
+If you didn't expect this invitation, you can safely ignore this email.

@@ -1,0 +1,44 @@
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 40px 20px;">
+  <tr>
+    <td align="center">
+      <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 480px; background-color: #ffffff; border: 1px solid #e5e5e5; border-radius: 16px; padding: 32px;">
+        <tr>
+          <td style="padding-bottom: 24px;">
+            <h1 style="margin: 0; font-size: 20px; font-weight: 600; color: #171717;">
+              You've been invited to join <%= @account.name %>
+            </h1>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 24px;">
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #525252;">
+              <%= @inviter.name || @inviter.email %> has invited you to join their team on <%= @account.name %>.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 24px;" align="center">
+            <a href="<%= @accept_url %>" style="display: inline-block; padding: 12px 32px; font-size: 14px; font-weight: 600; color: #ffffff; background-color: #6366f1; border-radius: 9999px; text-decoration: none;">
+              Accept Invitation
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 16px;">
+            <p style="margin: 0; font-size: 12px; color: #737373;">
+              This invitation will expire in 7 days. If you didn't expect this invitation, you can safely ignore this email.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p style="margin: 0; font-size: 12px; color: #a3a3a3;">
+              If the button doesn't work, copy and paste this link into your browser:<br>
+              <a href="<%= @accept_url %>" style="color: #6366f1; word-break: break-all;"><%= @accept_url %></a>
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
