@@ -1,23 +1,23 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def google_oauth2
-    handle_auth("Google")
+    user = User.find_or_create_from_oauth(auth)
+
+    if user.persisted?
+      sign_in user
+
+      redirect_to after_sign_in_path_for(user)
+    else
+      redirect_to new_user_session_path, alert: "Authentication failed. Please try again."
+    end
   end
 
   def failure
-    redirect_to root_path, alert: "Authentication failed: #{failure_message}"
+    redirect_to new_user_session_path, alert: "Authentication failed: #{params[:message]}"
   end
 
   private
 
-  def handle_auth(provider)
-    @user = User.from_omniauth(request.env["omniauth.auth"])
-
-    if @user.persisted?
-      flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider)
-      sign_in_and_redirect @user, event: :authentication
-    else
-      session["devise.oauth_data"] = request.env["omniauth.auth"].except(:extra)
-      redirect_to new_user_registration_url, alert: @user.errors.full_messages.join("\n")
-    end
+  def auth
+    request.env["omniauth.auth"]
   end
 end
