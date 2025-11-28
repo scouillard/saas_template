@@ -1,0 +1,58 @@
+<div class="flex-1 flex items-center justify-center py-12 px-4">
+  <div class="w-full max-w-md">
+    <div class="bg-base-100 border border-base-300 rounded-2xl p-6 sm:p-8">
+      <div class="text-center mb-8">
+        <h1 class="text-2xl font-semibold text-base-content">You've been invited</h1>
+        <p class="mt-2 text-sm text-base-500">
+          <%= @invitation.invited_by.name || @invitation.invited_by.email %> has invited you to join
+          <span class="font-medium text-base-content"><%= @invitation.account.name %></span>
+        </p>
+      </div>
+
+      <% if user_signed_in? %>
+        <%= form_with url: confirm_invitation_path(token: @invitation.token), method: :post, class: "space-y-5" do |f| %>
+          <div class="pt-2">
+            <%= f.submit "Accept Invitation",
+                class: "w-full px-4 py-2.5 text-base font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all cursor-pointer" %>
+          </div>
+        <% end %>
+
+        <div class="mt-4 text-center">
+          <p class="text-sm text-base-500">
+            Signed in as <%= current_user.email %>
+          </p>
+        </div>
+      <% else %>
+        <div class="space-y-4">
+          <p class="text-sm text-base-500 text-center">
+            Create an account to accept this invitation
+          </p>
+
+          <%= link_to "Create Account",
+              new_user_registration_path,
+              class: "block w-full px-4 py-2.5 text-base font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all cursor-pointer text-center" %>
+
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-base-300"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-4 bg-base-100 text-base-400">or</span>
+            </div>
+          </div>
+
+          <%= link_to "Sign in to existing account",
+              new_user_session_path,
+              class: "block w-full px-4 py-2.5 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer text-center" %>
+        </div>
+      <% end %>
+
+      <div class="mt-6 pt-6 border-t border-base-300">
+        <p class="text-xs text-base-400 text-center">
+          This invitation was sent to <span class="font-medium"><%= @invitation.email %></span>
+          and expires <%= time_ago_in_words(@invitation.expires_at) %> from now.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

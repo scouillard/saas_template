@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  devise_for :users, controllers: {
+    omniauth_callbacks: "users/omniauth_callbacks",
+    registrations: "users/registrations"
+  }
+
+  # Invitation acceptance flow
+  get "invitations/:token", to: "invitation_acceptances#show", as: :accept_invitation
+  post "invitations/:token/accept", to: "invitation_acceptances#accept", as: :confirm_invitation
 
   post "notifications/mark_all_seen", to: "notifications#mark_all_seen", as: :mark_all_seen_notifications
   post "notifications/:id/read", to: "notifications#mark_as_read", as: :read_notification
