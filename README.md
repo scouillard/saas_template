@@ -1,24 +1,38 @@
-# README
+# SaaS Template
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A Ruby on Rails 8.1 SaaS template with Ruby 3.2.0.
 
-Things you may want to cover:
+## Tech Stack
 
-* Ruby version
+- **Framework**: Ruby on Rails 8.1
+- **Frontend**: Hotwire (Turbo + Stimulus), Tailwind CSS + DaisyUI
+- **Database**: SQLite3
+- **Background Jobs**: Solid Queue/Cache/Cable
 
-* System dependencies
+## Getting Started
 
-* Configuration
+```bash
+bin/setup    # Initial setup (idempotent, safe to re-run)
+bin/dev      # Start dev server (web + CSS watcher)
+```
 
-* Database creation
+## Testing
 
-* Database initialization
+```bash
+bundle exec rspec    # Run all specs
+```
 
-* How to run the test suite
+## Linting
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+bin/rubocop          # Ruby code style
+bin/brakeman         # Security scanner
+```
 
-* Deployment instructions
+## Deployment
 
-* ...
+This project uses Kamal for deployment:
+
+```bash
+bin/kamal deploy     # Deploy new version
+```
