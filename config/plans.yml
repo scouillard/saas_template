@@ -1,0 +1,65 @@
+free:
+  name: Free
+  description: Perfect for getting started
+  monthly_price: 0
+  annual_price: 0
+  stripe_price_id:
+  stripe_annual_price_id:
+  trial_days: 0
+  recommended: false
+  badge:
+  cta_text: Get Started
+  bullet_points:
+    - Up to 3 projects
+    - Basic analytics
+    - Community support
+    - 1 team member
+  limits:
+    projects: 3
+    team_members: 1
+    storage_gb: 1
+
+pro:
+  name: Pro
+  description: For growing teams
+  monthly_price: 29
+  annual_price: 290
+  stripe_price_id: price_pro_monthly
+  stripe_annual_price_id: price_pro_annual
+  trial_days: 14
+  recommended: true
+  badge: Most Popular
+  cta_text: Start Free Trial
+  bullet_points:
+    - Unlimited projects
+    - Advanced analytics
+    - Priority support
+    - Up to 10 team members
+    - Custom integrations
+  limits:
+    projects: -1
+    team_members: 10
+    storage_gb: 100
+
+enterprise:
+  name: Enterprise
+  description: For large organizations
+  monthly_price: 99
+  annual_price: 990
+  stripe_price_id: price_enterprise_monthly
+  stripe_annual_price_id: price_enterprise_annual
+  trial_days: 14
+  recommended: false
+  badge:
+  cta_text: Contact Sales
+  bullet_points:
+    - Everything in Pro
+    - Unlimited team members
+    - Dedicated support
+    - SSO & SAML
+    - Custom contracts
+    - SLA guarantee
+  limits:
+    projects: -1
+    team_members: -1
+    storage_gb: -1

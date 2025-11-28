@@ -22,19 +22,28 @@
           </p>
         </div>
       <% end %>
+    </div>
+  </div>
 
-      <div class="pt-6 border-t border-base-300">
-        <h3 class="text-sm font-semibold text-error mb-4">Cancel Subscription</h3>
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-base-200 rounded-xl border border-base-300">
-          <div>
-            <div class="text-base-content font-medium">Cancel Subscription</div>
-            <div class="text-sm text-base-500">Your data will be retained for 30 days</div>
-          </div>
-          <button type="button" class="px-4 py-2 text-sm font-medium rounded-full text-error hover:bg-error/10 transition-all cursor-pointer w-fit">
-            Cancel Plan
-          </button>
-        </div>
+  <div class="mt-8">
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-semibold text-base-content mb-2">Choose Your Plan</h2>
+      <p class="text-base-500">Select the plan that best fits your needs</p>
+    </div>
+
+    <%= render "plans/pricing_cards" %>
+  </div>
+
+  <div class="bg-base-100 border border-base-300 rounded-2xl p-6 mt-8">
+    <h3 class="text-sm font-semibold text-error mb-4">Cancel Subscription</h3>
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-base-200 rounded-xl border border-base-300">
+      <div>
+        <div class="text-base-content font-medium">Cancel Subscription</div>
+        <div class="text-sm text-base-500">Your data will be retained for 30 days</div>
       </div>
+      <button type="button" class="px-4 py-2 text-sm font-medium rounded-full text-error hover:bg-base-200 transition-all cursor-pointer w-fit">
+        Cancel Plan
+      </button>
     </div>
   </div>
 </div>

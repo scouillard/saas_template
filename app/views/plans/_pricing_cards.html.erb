@@ -1,0 +1,83 @@
+<div data-controller="billing-toggle" data-billing-toggle-period-value="monthly">
+  <div class="flex justify-center mb-8">
+    <div class="inline-flex bg-base-200 rounded-full p-1">
+      <button type="button"
+              data-billing-toggle-target="monthlyButton"
+              data-action="click->billing-toggle#toggle"
+              data-period="monthly"
+              class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all cursor-pointer bg-base-100 text-base-content shadow-sm">
+        Monthly
+      </button>
+      <button type="button"
+              data-billing-toggle-target="annualButton"
+              data-action="click->billing-toggle#toggle"
+              data-period="annual"
+              class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all cursor-pointer text-base-500 hover:text-base-content">
+        Annual
+        <span class="ml-1 text-xs text-success font-semibold">Save 20%</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <% Plan.all.each do |plan| %>
+      <div class="bg-base-100 border <%= plan.recommended? ? 'border-primary border-2' : 'border-base-300' %> rounded-2xl p-6 sm:p-8 flex flex-col relative">
+        <% if plan.badge.present? || plan.recommended? %>
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+            <span class="bg-primary text-primary-content text-xs font-semibold px-3 py-1 rounded-full">
+              <%= plan.badge.presence || "Most Popular" %>
+            </span>
+          </div>
+        <% end %>
+
+        <div class="mb-6">
+          <h3 class="text-xl font-semibold text-base-content"><%= plan.name %></h3>
+          <p class="text-sm text-base-500 mt-1"><%= plan.description %></p>
+        </div>
+
+        <div class="mb-6">
+          <div data-billing-toggle-target="monthlyPrice">
+            <% if plan.free? %>
+              <span class="text-4xl font-semibold text-base-content">Free</span>
+            <% else %>
+              <span class="text-4xl font-semibold text-base-content">$<%= plan.monthly_price %></span>
+              <span class="text-base-500">/month</span>
+            <% end %>
+          </div>
+          <div data-billing-toggle-target="annualPrice" class="hidden">
+            <% if plan.free? %>
+              <span class="text-4xl font-semibold text-base-content">Free</span>
+            <% else %>
+              <span class="text-4xl font-semibold text-base-content">$<%= plan.annual_monthly_equivalent.to_i %></span>
+              <span class="text-base-500">/month</span>
+              <div class="text-sm text-base-500 mt-1">
+                $<%= plan.annual_price %> billed annually
+                <% if plan.annual_discount_percent > 0 %>
+                  <span class="text-success font-medium">(Save <%= plan.annual_discount_percent %>%)</span>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+          <% if plan.trial_days > 0 %>
+            <p class="text-sm text-base-500 mt-2"><%= plan.trial_days %>-day free trial</p>
+          <% end %>
+        </div>
+
+        <ul class="space-y-3 mb-8 flex-1">
+          <% plan.bullet_points.each do |feature| %>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-success shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-sm text-base-content"><%= feature %></span>
+            </li>
+          <% end %>
+        </ul>
+
+        <button type="button" class="w-full px-4 py-2.5 text-base font-semibold rounded-full <%= plan.recommended? ? 'bg-primary text-primary-content border-2 border-primary hover:brightness-90' : 'text-primary border-2 border-base-300 hover:border-base-400' %> transition-all cursor-pointer">
+          <%= plan.cta_text %>
+        </button>
+      </div>
+    <% end %>
+  </div>
+</div>
