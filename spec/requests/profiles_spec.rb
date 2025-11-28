@@ -69,4 +69,50 @@ RSpec.describe "Profiles", type: :request do
       expect(user.reload.valid_password?("password123")).to be true
     end
   end
+
+  describe "DELETE /profile" do
+    context "when user is solo owner (only member of their account)" do
+      it "deletes the user and redirects to root" do
+        expect { delete profile_path }.to change(User, :count).by(-1)
+
+        expect(response).to redirect_to(root_path)
+        follow_redirect!
+        expect(response.body).to include("Your account has been deleted")
+      end
+
+      it "cleans up memberships" do
+        expect { delete profile_path }.to change(Membership, :count).by(-1)
+      end
+    end
+
+    context "when user is a regular member of another account" do
+      let(:other_account) { create(:account) }
+
+      before do
+        create(:membership, user: user, account: other_account, role: :member)
+      end
+
+      it "deletes the user successfully" do
+        expect { delete profile_path }.to change(User, :count).by(-1)
+
+        expect(response).to redirect_to(root_path)
+      end
+    end
+
+    context "when user is sole owner of multi-member account" do
+      before do
+        account = user.accounts.first
+        other_user = create(:user)
+        create(:membership, user: other_user, account: account, role: :member)
+      end
+
+      it "blocks deletion and shows alert" do
+        expect { delete profile_path }.not_to change(User, :count)
+
+        expect(response).to redirect_to(profile_path)
+        follow_redirect!
+        expect(response.body).to include("You must transfer ownership before deleting your account")
+      end
+    end
+  end
 end

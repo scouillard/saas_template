@@ -57,6 +57,21 @@
               class: "px-4 py-2 text-sm font-medium rounded-full text-base-500 hover:text-base-content hover:bg-base-200 transition-all cursor-pointer w-fit" %>
         </div>
       </div>
+
+      <div class="pt-6 border-t border-base-300">
+        <h3 class="text-sm font-semibold text-error mb-4">Danger Zone</h3>
+
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <div class="text-base-content font-medium">Delete Account</div>
+            <div class="text-sm text-base-500">Permanently delete your account and all data</div>
+          </div>
+          <%= button_to "Delete Account", profile_path,
+              method: :delete,
+              form: { data: { turbo_confirm: "Are you sure you want to delete your account? This action cannot be undone." } },
+              class: "px-4 py-2 text-sm font-medium rounded-full text-error border border-error hover:bg-error hover:text-error-content transition-all cursor-pointer" %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
