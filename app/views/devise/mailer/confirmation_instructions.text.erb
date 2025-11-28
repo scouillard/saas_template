@@ -1,0 +1,7 @@
+Welcome!
+
+Thanks for signing up. Please confirm your email address (<%= @email %>) by visiting the link below:
+
+<%= user_confirmation_url(confirmation_token: @token) %>
+
+If you didn't create an account, you can safely ignore this email.
