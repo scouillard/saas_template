@@ -15,6 +15,12 @@ Rails.application.routes.draw do
   resources :invitations, only: [ :create, :destroy ]
   resource :settings, only: [ :show, :update ]
   resource :plan, only: [ :show ]
+
+  # Stripe
+  post "stripe/checkout", to: "stripe#checkout", as: :stripe_checkout
+  get "stripe/success", to: "stripe#success", as: :stripe_success
+  get "stripe/cancel", to: "stripe#cancel", as: :stripe_cancel
+  post "stripe/webhook", to: "stripe#webhook", as: :stripe_webhook
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
