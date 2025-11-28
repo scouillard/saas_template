@@ -7,8 +7,11 @@ class User < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :accounts, through: :memberships
   has_many :notifications, as: :recipient, dependent: :destroy, class_name: "Noticed::Notification"
+  has_many :sent_invitations, class_name: "AccountInvitation", foreign_key: :inviter_id, dependent: :nullify
 
-  after_create_commit :create_default_account
+  attr_accessor :invitation_token
+
+  after_create_commit :create_default_account, unless: :joining_via_invitation?
   after_create_commit :send_welcome_notification
 
   def self.find_or_create_from_oauth(auth)
@@ -36,6 +39,10 @@ class User < ApplicationRecord
         confirmed_at: Time.current
       )
     end
+  end
+
+  def joining_via_invitation?
+    invitation_token.present?
   end
 
   private
