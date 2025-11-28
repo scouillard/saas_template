@@ -2,7 +2,7 @@ class NotificationsController < ApplicationController
   before_action :authenticate_user!
 
   def mark_all_seen
-    current_user.notifications.unseen.update_all(seen_at: Time.current)
+    current_user.notifications.unseen.update_all(seen_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
     head :ok
   end
 

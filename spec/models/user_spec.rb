@@ -34,7 +34,7 @@ RSpec.describe User, type: :model do
 
     context "when no user exists with email or OAuth credentials" do
       it "creates a new user" do
-        expect { described_class.find_or_create_from_oauth(auth) }.to change(User, :count).by(1)
+        expect { described_class.find_or_create_from_oauth(auth) }.to change(described_class, :count).by(1)
       end
 
       it "sets the correct attributes" do
