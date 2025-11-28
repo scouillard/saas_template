@@ -1,0 +1,73 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <%= render "shared/settings_nav" %>
+
+  <div class="text-center mb-8">
+    <h1 class="text-3xl font-semibold text-base-content mb-2">Choose Your Plan</h1>
+    <p class="text-base-500">Simple, transparent pricing for your needs</p>
+  </div>
+
+  <div data-controller="billing-toggle" class="flex flex-col items-center">
+    <div class="inline-flex bg-base-200 rounded-full p-1 mb-8">
+      <button type="button"
+              data-billing-toggle-target="monthlyBtn"
+              data-action="click->billing-toggle#showMonthly"
+              class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all cursor-pointer">
+        Monthly
+      </button>
+      <button type="button"
+              data-billing-toggle-target="annualBtn"
+              data-action="click->billing-toggle#showAnnual"
+              class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all cursor-pointer hover:text-base-content">
+        Annual
+        <span class="ml-1 text-xs text-success font-semibold">Save up to 17%</span>
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+      <% @plans.each do |plan| %>
+        <div class="bg-base-100 border <%= plan.recommended? ? 'border-primary border-2' : 'border-base-300' %> rounded-2xl p-6 sm:p-8 flex flex-col">
+          <% if plan.recommended? %>
+            <div class="text-xs font-semibold text-primary uppercase tracking-wide mb-2">Recommended</div>
+          <% end %>
+
+          <h2 class="text-xl font-semibold text-base-content"><%= plan.name %></h2>
+          <p class="text-sm text-base-500 mt-1 mb-4"><%= plan.description %></p>
+
+          <div data-billing-toggle-target="monthlyPrice" class="mb-6">
+            <span class="text-4xl font-bold text-base-content">$<%= plan.monthly_price_dollars.to_i %></span>
+            <span class="text-sm text-base-500">/month</span>
+          </div>
+
+          <div data-billing-toggle-target="annualPrice" class="mb-6 hidden">
+            <span class="text-4xl font-bold text-base-content">$<%= plan.annual_monthly_price_dollars.to_i %></span>
+            <span class="text-sm text-base-500">/month</span>
+            <% if plan.annual_savings_percent > 0 %>
+              <div class="text-xs text-success mt-1">Save <%= plan.annual_savings_percent %>% annually</div>
+            <% end %>
+          </div>
+
+          <ul class="space-y-3 flex-1 mb-6">
+            <% plan.bullet_points.each do |feature| %>
+              <li class="flex items-start gap-2 text-sm text-base-content">
+                <svg class="w-5 h-5 text-success shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <%= feature %>
+              </li>
+            <% end %>
+          </ul>
+
+          <% if plan.recommended? %>
+            <button type="button" class="w-full px-4 py-2.5 text-base font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all cursor-pointer">
+              Get Started
+            </button>
+          <% else %>
+            <button type="button" class="w-full px-4 py-2 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer">
+              Get Started
+            </button>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
