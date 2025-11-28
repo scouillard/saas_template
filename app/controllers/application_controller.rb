@@ -4,4 +4,14 @@ class ApplicationController < ActionController::Base
 
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
+
+  helper_method :current_account
+
+  private
+
+  def current_account
+    return nil unless current_user
+
+    @current_account ||= current_user.accounts.first
+  end
 end
