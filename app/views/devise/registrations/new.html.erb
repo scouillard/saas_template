@@ -8,6 +8,7 @@
 
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-5" }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
+        <%= f.hidden_field :invitation_token %>
 
         <div>
           <%= f.label :email, class: "block text-sm font-medium text-base-600 mb-1.5" %>

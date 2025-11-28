@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  devise_for :users, controllers: {
+    omniauth_callbacks: "users/omniauth_callbacks",
+    registrations: "users/registrations"
+  }
 
   post "notifications/mark_all_seen", to: "notifications#mark_all_seen", as: :mark_all_seen_notifications
   post "notifications/:id/read", to: "notifications#mark_as_read", as: :read_notification
@@ -12,7 +15,8 @@ Rails.application.routes.draw do
 
   # Account settings
   resource :team, only: [ :show, :update ]
-  resources :invitations, only: [ :create, :destroy ]
+  resources :account_invitations, only: [ :create ], as: :invitations, path: :invitations
+  get "/invitations/:token/accept", to: "account_invitations#accept", as: :accept_invitation
   resource :settings, only: [ :show, :update ]
   resource :plan, only: [ :show ]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

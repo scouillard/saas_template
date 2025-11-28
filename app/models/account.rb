@@ -3,4 +3,5 @@ class Account < ApplicationRecord
 
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
+  has_many :invitations, class_name: "AccountInvitation", dependent: :destroy
 end

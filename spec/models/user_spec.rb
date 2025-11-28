@@ -82,5 +82,46 @@ RSpec.describe User, type: :model do
         expect(user.accounts.first.name).to eq("John's Team")
       end
     end
+
+    describe "when joining via invitation" do
+      let(:inviter) { create(:user) }
+      let(:account) { inviter.accounts.first }
+      let(:invitation) { create(:account_invitation, account: account, invited_by: inviter, email: "invitee@example.com") }
+
+      it "does not create default account when invitation_token is present" do
+        user = described_class.create!(
+          email: "invitee@example.com",
+          password: "password123",
+          confirmed_at: Time.current,
+          invitation_token: invitation.token
+        )
+
+        expect(user.accounts).to eq([ account ])
+        expect(user.memberships.first.role).to eq("member")
+      end
+
+      it "accepts the pending invitation" do
+        user = described_class.create!(
+          email: "invitee@example.com",
+          password: "password123",
+          confirmed_at: Time.current,
+          invitation_token: invitation.token
+        )
+
+        expect(invitation.reload.accepted?).to be true
+      end
+    end
+  end
+
+  describe "#joining_via_invitation?" do
+    it "returns true when invitation_token is present" do
+      user = described_class.new(invitation_token: "some_token")
+      expect(user.joining_via_invitation?).to be true
+    end
+
+    it "returns false when invitation_token is blank" do
+      user = described_class.new
+      expect(user.joining_via_invitation?).to be false
+    end
   end
 end
