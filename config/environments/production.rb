@@ -21,6 +21,7 @@ Rails.application.configure do
   config.solid_queue.connects_to = { database: { writing: :queue } }
 
   config.action_mailer.default_url_options = { host: "example.com" }
+  config.action_mailer.delivery_method = :resend
 
   config.i18n.fallbacks = true
   config.active_record.dump_schema_after_migration = false
