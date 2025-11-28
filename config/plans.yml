@@ -1,0 +1,47 @@
+starter:
+  name: "Starter"
+  description: "Perfect for trying out"
+  monthly_price: 0
+  annual_price: 0
+  bullet_points:
+    - "Up to 3 team members"
+    - "Basic features"
+    - "Community support"
+  recommended: false
+  stripe_monthly_price_id: ""
+  stripe_annual_price_id: ""
+  features_limit:
+    team_members: 3
+
+pro:
+  name: "Pro"
+  description: "For growing teams"
+  monthly_price: 2900
+  annual_price: 29000
+  bullet_points:
+    - "Up to 10 team members"
+    - "All features included"
+    - "Priority support"
+    - "Advanced analytics"
+  recommended: true
+  stripe_monthly_price_id: ""
+  stripe_annual_price_id: ""
+  features_limit:
+    team_members: 10
+
+enterprise:
+  name: "Enterprise"
+  description: "For large organizations"
+  monthly_price: 9900
+  annual_price: 99000
+  bullet_points:
+    - "Unlimited team members"
+    - "All features included"
+    - "Dedicated support"
+    - "Custom integrations"
+    - "SLA guarantee"
+  recommended: false
+  stripe_monthly_price_id: ""
+  stripe_annual_price_id: ""
+  features_limit:
+    team_members: -1
