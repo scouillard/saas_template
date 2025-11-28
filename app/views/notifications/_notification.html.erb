@@ -1,0 +1,17 @@
+<%= link_to read_notification_path(notification), data: { turbo_method: :post }, class: "block px-4 py-3 hover:bg-base-200 transition-colors #{notification.unread? ? 'bg-base-200' : ''}" do %>
+  <div class="flex gap-3">
+    <div class="flex-1 min-w-0">
+      <p class="text-sm text-base-content <%= notification.unread? ? 'font-medium' : '' %>">
+        <%= notification.message %>
+      </p>
+      <p class="text-xs text-base-400 mt-1">
+        <%= time_ago_in_words(notification.created_at) %> ago
+      </p>
+    </div>
+    <% if notification.unread? %>
+      <div class="flex-shrink-0 mt-1">
+        <span class="w-2 h-2 bg-primary rounded-full block"></span>
+      </div>
+    <% end %>
+  </div>
+<% end %>

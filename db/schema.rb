@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_28_002009) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_28_045550) do
   create_table "accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string "name", null: false
+    t.string "name"
     t.string "plan", default: "free", null: false
     t.string "stripe_customer_id"
     t.string "stripe_subscription_id"
@@ -37,20 +37,58 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_28_002009) do
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "noticed_events", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.integer "notifications_count"
+    t.json "params"
+    t.bigint "record_id"
+    t.string "record_type"
+    t.string "type"
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id"], name: "index_noticed_events_on_record"
+  end
+
+  create_table "noticed_notifications", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "event_id", null: false
+    t.datetime "read_at", precision: nil
+    t.bigint "recipient_id", null: false
+    t.string "recipient_type", null: false
+    t.datetime "seen_at", precision: nil
+    t.string "type"
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_noticed_notifications_on_event_id"
+    t.index ["recipient_type", "recipient_id"], name: "index_noticed_notifications_on_recipient"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.datetime "confirmation_sent_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "created_at", null: false
+    t.datetime "current_sign_in_at"
+    t.string "current_sign_in_ip"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.datetime "last_seen_at"
+    t.integer "failed_attempts", default: 0, null: false
+    t.datetime "last_sign_in_at"
+    t.string "last_sign_in_ip"
+    t.datetime "locked_at"
+    t.string "name"
     t.string "provider"
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
+    t.integer "sign_in_count", default: 0, null: false
     t.string "uid"
+    t.string "unconfirmed_email"
+    t.string "unlock_token"
     t.datetime "updated_at", null: false
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
   add_foreign_key "memberships", "accounts"

@@ -1,4 +1,4 @@
-<nav class="bg-white border-b border-gray-200" data-controller="burger">
+<nav class="bg-base-100 border-b border-base-300" data-controller="burger">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <div class="flex items-center">
@@ -10,9 +10,27 @@
       <!-- Desktop navigation -->
       <div class="hidden md:flex items-center gap-2">
         <% if user_signed_in? %>
-          <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "px-4 py-2 text-sm font-medium rounded-full text-base-content/70 hover:text-base-content transition-all" %>
+          <%= render "shared/notification_bell" %>
+
+          <%# Avatar Dropdown %>
+          <div class="dropdown dropdown-end" style="z-index: 1000;">
+            <label tabindex="0" class="flex items-center justify-center w-9 h-9 rounded-full bg-base-200 text-base-content cursor-pointer hover:bg-base-300 transition-colors">
+              <span class="text-sm font-semibold"><%= current_user.email[0].upcase %></span>
+            </label>
+            <ul tabindex="0" class="dropdown-content menu p-2 mt-2 bg-base-100 border border-base-300 rounded-xl w-52 shadow-lg">
+              <li><%= link_to "Profile", profile_path, class: "rounded-lg" %></li>
+              <li><%= link_to "Team", team_path, class: "rounded-lg" %></li>
+              <li><%= link_to "Settings", settings_path, class: "rounded-lg" %></li>
+              <li><%= link_to "Plan", plan_path, class: "rounded-lg" %></li>
+              <li class="border-t border-base-300 mt-1 pt-1">
+                <%= button_to destroy_user_session_path, method: :delete, class: "w-full text-left text-error rounded-lg" do %>
+                  Log out
+                <% end %>
+              </li>
+            </ul>
+          </div>
         <% else %>
-          <%= link_to "Log in", new_user_session_path, class: "px-4 py-2 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 hover:bg-base-200 transition-all" %>
+          <%= link_to "Log in", new_user_session_path, class: "px-4 py-2 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all" %>
           <%= link_to "Sign up", new_user_registration_path, class: "px-4 py-2 text-sm font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all" %>
         <% end %>
       </div>
@@ -31,11 +49,17 @@
 
   <!-- Mobile menu -->
   <div class="burger-menu" data-burger-target="menu">
-    <div class="p-6 flex flex-col gap-4">
+    <div class="p-6 flex flex-col gap-3">
       <% if user_signed_in? %>
-        <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "w-full px-4 py-3 text-sm font-medium rounded-full text-base-content border-2 border-base-300 hover:bg-base-200 transition-all text-center" %>
+        <%= link_to "Profile", profile_path, class: "w-full px-4 py-3 text-sm font-medium rounded-full text-base-content border-2 border-base-300 hover:bg-base-200 transition-all text-center" %>
+        <%= link_to "Team", team_path, class: "w-full px-4 py-3 text-sm font-medium rounded-full text-base-content border-2 border-base-300 hover:bg-base-200 transition-all text-center" %>
+        <%= link_to "Settings", settings_path, class: "w-full px-4 py-3 text-sm font-medium rounded-full text-base-content border-2 border-base-300 hover:bg-base-200 transition-all text-center" %>
+        <%= link_to "Plan", plan_path, class: "w-full px-4 py-3 text-sm font-medium rounded-full text-base-content border-2 border-base-300 hover:bg-base-200 transition-all text-center" %>
+        <div class="border-t border-base-300 pt-3">
+          <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "w-full px-4 py-3 text-sm font-medium rounded-full text-error border-2 border-base-300 hover:bg-base-200 transition-all text-center" %>
+        </div>
       <% else %>
-        <%= link_to "Log in", new_user_session_path, class: "w-full px-4 py-3 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 hover:bg-base-200 transition-all text-center" %>
+        <%= link_to "Log in", new_user_session_path, class: "w-full px-4 py-3 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all text-center" %>
         <%= link_to "Sign up", new_user_registration_path, class: "w-full px-4 py-3 text-sm font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all text-center" %>
       <% end %>
     </div>

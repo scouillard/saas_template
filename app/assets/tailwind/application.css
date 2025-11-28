@@ -11,47 +11,47 @@
   Tip: Use https://oklch.com to pick colors
 */
 
-/* Extended base scale (Tailwind registration) */
+/* Extended base scale (Tailwind registration) - for light theme, these are muted dark colors */
 @theme {
-  --color-base-400: oklch(0.80 0.01 260);
-  --color-base-500: oklch(0.68 0.015 260);
-  --color-base-600: oklch(0.55 0.015 260);
-  --color-base-700: oklch(0.45 0.015 260);
-  --color-base-800: oklch(0.35 0.02 260);
-  --color-base-900: oklch(0.25 0.02 260);
+  --color-base-400: oklch(0.55 0.01 240);
+  --color-base-500: oklch(0.45 0.01 240);
+  --color-base-600: oklch(0.35 0.01 240);
+  --color-base-700: oklch(0.28 0.01 240);
+  --color-base-800: oklch(0.22 0.005 240);
+  --color-base-900: oklch(0.15 0.005 240);
 }
 
-/* DaisyUI theme overrides */
+/* DaisyUI theme overrides - Light theme with Blue & White */
 :root {
   /* Brand Colors */
-  --color-primary: oklch(0.55 0.2 250);
-  --color-primary-content: oklch(0.98 0.01 250);
+  --color-primary: oklch(0.55 0.22 250);           /* Professional blue */
+  --color-primary-content: oklch(0.98 0.01 250);   /* White text on blue */
 
-  --color-secondary: oklch(0.65 0.15 180);
-  --color-secondary-content: oklch(0.98 0.01 180);
+  --color-secondary: oklch(0.65 0.15 220);         /* Lighter blue */
+  --color-secondary-content: oklch(0.98 0.01 220); /* White text on secondary */
 
-  --color-accent: oklch(0.7 0.18 80);
-  --color-accent-content: oklch(0.2 0.02 80);
+  --color-accent: oklch(0.60 0.18 265);            /* Indigo accent */
+  --color-accent-content: oklch(0.98 0.01 265);
 
   /* Neutral */
-  --color-neutral: oklch(0.3 0.02 260);
-  --color-neutral-content: oklch(0.95 0.01 260);
+  --color-neutral: oklch(0.25 0.01 240);
+  --color-neutral-content: oklch(0.98 0.01 240);
 
-  /* Base (backgrounds/surfaces) */
-  --color-base-100: oklch(0.98 0.005 260);
-  --color-base-200: oklch(0.94 0.008 260);
-  --color-base-300: oklch(0.88 0.01 260);
-  --color-base-content: oklch(0.25 0.02 260);
+  /* Base (backgrounds/surfaces) - Light theme */
+  --color-base-100: oklch(1.00 0 0);               /* Cards, navbar, footer - white */
+  --color-base-200: oklch(0.97 0.005 240);         /* Page background - light gray */
+  --color-base-300: oklch(0.88 0.01 240);          /* Borders - gray */
+  --color-base-content: oklch(0.25 0.01 240);      /* Primary text - dark gray */
 
   /* Status Colors */
-  --color-info: oklch(0.65 0.18 240);
+  --color-info: oklch(0.55 0.18 240);
   --color-info-content: oklch(0.98 0.01 240);
 
-  --color-success: oklch(0.65 0.2 145);
+  --color-success: oklch(0.55 0.18 145);
   --color-success-content: oklch(0.98 0.01 145);
 
-  --color-warning: oklch(0.75 0.18 85);
-  --color-warning-content: oklch(0.2 0.02 85);
+  --color-warning: oklch(0.75 0.15 85);
+  --color-warning-content: oklch(0.20 0.02 85);
 
   --color-error: oklch(0.55 0.22 25);
   --color-error-content: oklch(0.98 0.01 25);
@@ -99,7 +99,10 @@
 
 .burger-backdrop {
   position: fixed;
-  inset: 0;
+  top: 4rem; /* Below navbar */
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   visibility: hidden;
@@ -114,14 +117,17 @@
 
 .burger-menu {
   position: fixed;
-  top: 0;
+  top: 4rem; /* Below navbar (h-16 = 64px = 4rem) */
   right: 0;
   width: 280px;
-  height: 100%;
+  max-width: calc(100vw - 1rem);
+  height: calc(100vh - 4rem);
   background: var(--color-base-100);
   transform: translateX(100%);
   transition: transform 0.3s ease;
   z-index: 50;
+  border-left: 1px solid var(--color-base-300);
+  overflow-y: auto;
 }
 
 .burger-menu.active {

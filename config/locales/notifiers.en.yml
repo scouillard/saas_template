@@ -1,0 +1,5 @@
+en:
+  notifiers:
+    welcome_notifier:
+      notification:
+        message: "Welcome to SaaS Template! Edit this message in config/locales/notifiers.en.yml"

@@ -12,7 +12,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def failure
-    redirect_to new_user_session_path, alert: "Authentication failed: #{params[:message]}"
+    redirect_to new_user_session_path, alert: "Authentication failed. Please try again."
   end
 
   private

@@ -1,13 +1,13 @@
 <% if notice.present? %>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4" data-controller="notice">
-    <div class="flex items-center gap-3 p-4 rounded-2xl bg-base-200 text-sm">
-      <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0">
+    <div class="flex items-center gap-3 p-4 rounded-2xl bg-base-100 border border-base-300 text-sm">
+      <div class="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center shrink-0">
         <svg class="w-5 h-5 text-success" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
         </svg>
       </div>
       <span class="flex-1 text-base-content"><%= notice %></span>
-      <button type="button" data-action="notice#close" class="text-base-content/50 hover:text-base-content transition-colors cursor-pointer">
+      <button type="button" data-action="notice#close" class="text-base-400 hover:text-base-content transition-colors cursor-pointer">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
@@ -18,14 +18,14 @@
 
 <% if alert.present? %>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4" data-controller="notice">
-    <div class="flex items-center gap-3 p-4 rounded-2xl bg-base-200 text-sm">
-      <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0">
+    <div class="flex items-center gap-3 p-4 rounded-2xl bg-base-100 border border-base-300 text-sm">
+      <div class="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center shrink-0">
         <svg class="w-5 h-5 text-error" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
         </svg>
       </div>
       <span class="flex-1 text-base-content"><%= alert %></span>
-      <button type="button" data-action="notice#close" class="text-base-content/50 hover:text-base-content transition-colors cursor-pointer">
+      <button type="button" data-action="notice#close" class="text-base-400 hover:text-base-content transition-colors cursor-pointer">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
