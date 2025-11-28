@@ -1,0 +1,44 @@
+plans:
+  - name: "Starter"
+    description: "For individuals and small projects"
+    monthly_price: 900
+    annual_price: 9000
+    stripe_price_id:
+      monthly: "price_starter_monthly"
+      annual: "price_starter_annual"
+    bullet_points:
+      - "5 projects"
+      - "10,000 API calls/month"
+      - "Email support"
+      - "Basic analytics"
+    recommended: false
+
+  - name: "Pro"
+    description: "For growing teams and businesses"
+    monthly_price: 2900
+    annual_price: 29000
+    stripe_price_id:
+      monthly: "price_pro_monthly"
+      annual: "price_pro_annual"
+    bullet_points:
+      - "Unlimited projects"
+      - "100,000 API calls/month"
+      - "Priority support"
+      - "Advanced analytics"
+      - "Team collaboration"
+    recommended: true
+
+  - name: "Enterprise"
+    description: "For large organizations"
+    monthly_price: 9900
+    annual_price: 99000
+    stripe_price_id:
+      monthly: "price_enterprise_monthly"
+      annual: "price_enterprise_annual"
+    bullet_points:
+      - "Unlimited everything"
+      - "Dedicated support"
+      - "Custom integrations"
+      - "SLA guarantee"
+      - "SSO & advanced security"
+    recommended: false
