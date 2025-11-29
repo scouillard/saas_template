@@ -1,34 +1,33 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-  <div class="text-center mb-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" data-controller="tabs" data-tabs-active-value="monthly">
+  <div class="text-center">
     <h1 class="text-4xl font-semibold text-base-content mb-4">Simple, transparent pricing</h1>
     <p class="text-lg text-base-500 max-w-2xl mx-auto">Choose the plan that's right for you</p>
   </div>
 
-  <div class="flex justify-center mb-12" data-controller="pricing-toggle">
-    <div class="inline-flex bg-base-200 rounded-full p-1">
+  <div class="flex justify-center mt-4 mb-8">
+    <div class="inline-flex bg-base-300 rounded-full p-1">
       <button type="button"
-              data-pricing-toggle-target="monthlyBtn"
-              data-action="click->pricing-toggle#showMonthly"
-              class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all bg-base-100 text-base-content shadow-sm cursor-pointer">
+              data-tabs-target="tab"
+              data-tabs-id="monthly"
+              data-action="tabs#select"
+              class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all cursor-pointer bg-base-100 text-base-content shadow-sm">
         Monthly
       </button>
       <button type="button"
-              data-pricing-toggle-target="annualBtn"
-              data-action="click->pricing-toggle#showAnnual"
-              class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all text-base-500 hover:text-base-content cursor-pointer">
+              data-tabs-target="tab"
+              data-tabs-id="annual"
+              data-action="tabs#select"
+              class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all cursor-pointer text-base-500 hover:text-base-content">
         Annual
-        <span class="ml-1 text-xs text-primary">Save up to 17%</span>
       </button>
     </div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8" data-controller="pricing-toggle">
+  <div class="flex flex-wrap justify-center gap-6 lg:gap-8">
     <% @plans.each do |plan| %>
-      <div class="<%= plan.recommended? ? 'bg-base-100 border-2 border-primary' : 'bg-base-100 border border-base-300' %> rounded-2xl p-6 sm:p-8 flex flex-col relative">
+      <div class="w-full max-w-sm <%= plan.recommended? ? 'bg-base-100 border-2 border-primary' : 'bg-base-100 border border-base-300' %> rounded-2xl p-6 sm:p-8 flex flex-col relative">
         <% if plan.badge_text.present? %>
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2">
-            <span class="bg-primary text-primary-content text-xs font-semibold px-3 py-1 rounded-full"><%= plan.badge_text %></span>
-          </div>
+          <span class="bg-primary text-primary-content text-sm font-semibold px-4 py-1.5 rounded-full" style="position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%);"><%= plan.badge_text %></span>
         <% end %>
 
         <div class="mb-6">
@@ -37,13 +36,13 @@
         </div>
 
         <div class="mb-6">
-          <div data-pricing-toggle-target="monthlyPrice" class="block">
+          <div data-tabs-target="panel" data-tabs-id="monthly">
             <span class="text-4xl font-semibold text-base-content"><%= plan.formatted_monthly_price %></span>
             <% unless plan.free? %>
               <span class="text-base-500">/month</span>
             <% end %>
           </div>
-          <div data-pricing-toggle-target="annualPrice" class="hidden">
+          <div data-tabs-target="panel" data-tabs-id="annual" class="hidden">
             <span class="text-4xl font-semibold text-base-content"><%= plan.formatted_annual_monthly_price %></span>
             <% unless plan.free? %>
               <span class="text-base-500">/month</span>
