@@ -1,0 +1,50 @@
+starter:
+  name: Starter
+  description: Perfect for individuals getting started
+  monthly_price: 9
+  annual_price: 90
+  bullet_points:
+    - Up to 3 projects
+    - Basic support
+    - 1 GB storage
+  recommended: false
+  stripe_price_id: price_starter_monthly
+  stripe_annual_price_id: price_starter_annual
+  trial_days: 14
+  position: 1
+  active: true
+
+pro:
+  name: Pro
+  description: Best for growing teams
+  monthly_price: 29
+  annual_price: 290
+  bullet_points:
+    - Unlimited projects
+    - Priority support
+    - 10 GB storage
+    - Advanced analytics
+  recommended: true
+  stripe_price_id: price_pro_monthly
+  stripe_annual_price_id: price_pro_annual
+  trial_days: 14
+  position: 2
+  active: true
+
+enterprise:
+  name: Enterprise
+  description: For large organizations
+  monthly_price: 99
+  annual_price: 990
+  bullet_points:
+    - Everything in Pro
+    - Dedicated support
+    - Unlimited storage
+    - Custom integrations
+    - SSO
+  recommended: false
+  stripe_price_id: price_enterprise_monthly
+  stripe_annual_price_id: price_enterprise_annual
+  trial_days: 30
+  position: 3
+  active: true
