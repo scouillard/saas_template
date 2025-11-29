@@ -30,8 +30,8 @@ Rails.application.routes.draw do
   get "terms", to: "home#terms"
 
   # Contact form
-  get "help", to: "contact#new"
-  post "help", to: "contact#create"
+  get "contact", to: "contact#new"
+  post "contact", to: "contact#create"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

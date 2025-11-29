@@ -1,15 +1,15 @@
 require "rails_helper"
 
 RSpec.describe "Contact", type: :request do
-  describe "GET /help" do
+  describe "GET /contact" do
     it "renders the contact form" do
-      get help_path
+      get contact_path
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Contact Us")
     end
   end
 
-  describe "POST /help" do
+  describe "POST /contact" do
     context "with valid parameters" do
       let(:valid_params) do
         {
@@ -24,12 +24,12 @@ RSpec.describe "Contact", type: :request do
 
       it "creates a contact message" do
         expect {
-          post help_path, params: valid_params
+          post contact_path, params: valid_params
         }.to change(ContactMessage, :count).by(1)
       end
 
       it "redirects to root with a success notice" do
-        post help_path, params: valid_params
+        post contact_path, params: valid_params
         expect(response).to redirect_to(root_path)
         follow_redirect!
         expect(response.body).to include("Thanks!")
@@ -50,12 +50,12 @@ RSpec.describe "Contact", type: :request do
 
       it "does not create a contact message" do
         expect {
-          post help_path, params: invalid_params
+          post contact_path, params: invalid_params
         }.not_to change(ContactMessage, :count)
       end
 
       it "renders the form with errors" do
-        post help_path, params: invalid_params
+        post contact_path, params: invalid_params
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.body).to include("Please fix the following errors")
       end
