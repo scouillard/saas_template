@@ -1,7 +1,9 @@
-class InvitationAcceptancesController < ApplicationController
+class AccountInvitationsController < ApplicationController
+  before_action :authenticate_user!, only: [ :create, :destroy ]
   before_action :set_invitation, only: [ :show, :accept ]
   before_action :redirect_if_signed_in_with_different_email, only: [ :show, :accept ]
 
+  # GET /invitations/:token
   def show
     if @invitation.nil?
       redirect_to root_path, alert: "Invalid invitation link"
@@ -14,6 +16,7 @@ class InvitationAcceptancesController < ApplicationController
     end
   end
 
+  # POST /invitations/:token/accept
   def accept
     if @invitation.nil? || !@invitation.pending?
       redirect_to root_path, alert: "Invalid or expired invitation"
@@ -25,6 +28,26 @@ class InvitationAcceptancesController < ApplicationController
     else
       redirect_to new_user_registration_path
     end
+  end
+
+  # POST /invitations
+  def create
+    @invitation = current_account.account_invitations.build(invitation_params)
+    @invitation.invited_by = current_user
+
+    if @invitation.save
+      AccountInvitationMailer.invite(@invitation).deliver_later
+      redirect_to team_path, notice: "Invitation sent to #{@invitation.email}"
+    else
+      redirect_to team_path, alert: @invitation.errors.full_messages.to_sentence
+    end
+  end
+
+  # DELETE /invitations/:id
+  def destroy
+    @invitation = current_account.account_invitations.find(params[:id])
+    @invitation.destroy
+    redirect_to team_path, notice: "Invitation cancelled"
   end
 
   private
@@ -55,5 +78,9 @@ class InvitationAcceptancesController < ApplicationController
 
   def clear_invitation_token
     session.delete(:invitation_token)
+  end
+
+  def invitation_params
+    params.permit(:email)
   end
 end
