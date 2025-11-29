@@ -63,23 +63,4 @@ class Plan
     ((yearly_if_monthly - annual_price).to_f / yearly_if_monthly * 100).round
   end
 
-  def formatted_monthly_price
-    format_price(monthly_price)
-  end
-
-  def formatted_annual_price
-    format_price(annual_price)
-  end
-
-  def formatted_annual_monthly_price
-    format_price(annual_price / 12)
-  end
-
-  private
-
-  def format_price(cents)
-    return "Free" if cents.zero?
-    dollars = cents / 100.0
-    dollars == dollars.to_i ? "$#{dollars.to_i}" : "$#{'%.2f' % dollars}"
-  end
 end

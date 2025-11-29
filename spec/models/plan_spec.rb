@@ -87,33 +87,6 @@ RSpec.describe Plan, type: :model do
     end
   end
 
-  describe "#formatted_monthly_price" do
-    it "returns 'Free' for zero price" do
-      plan = described_class.find("free")
-      expect(plan.formatted_monthly_price).to eq("Free")
-    end
-
-    it "formats price in dollars" do
-      plan = described_class.find("pro")
-      expect(plan.formatted_monthly_price).to eq("$29")
-    end
-  end
-
-  describe "#formatted_annual_price" do
-    it "formats annual price in dollars" do
-      plan = described_class.find("pro")
-      expect(plan.formatted_annual_price).to eq("$290")
-    end
-  end
-
-  describe "#formatted_annual_monthly_price" do
-    it "formats monthly equivalent of annual price" do
-      plan = described_class.find("pro")
-      # $290/year / 12 = $24.17
-      expect(plan.formatted_annual_monthly_price).to eq("$24")
-    end
-  end
-
   describe "attributes" do
     let(:plan) { described_class.find("pro") }
 

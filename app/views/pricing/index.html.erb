@@ -37,16 +37,16 @@
 
         <div class="mb-6">
           <div data-tabs-target="panel" data-tabs-id="monthly">
-            <span class="text-4xl font-semibold text-base-content"><%= plan.formatted_monthly_price %></span>
+            <span class="text-4xl font-semibold text-base-content"><%= format_plan_price(plan.monthly_price) %></span>
             <% unless plan.free? %>
               <span class="text-base-500">/month</span>
             <% end %>
           </div>
           <div data-tabs-target="panel" data-tabs-id="annual" class="hidden">
-            <span class="text-4xl font-semibold text-base-content"><%= plan.formatted_annual_monthly_price %></span>
+            <span class="text-4xl font-semibold text-base-content"><%= format_plan_price(annual_monthly_price(plan)) %></span>
             <% unless plan.free? %>
               <span class="text-base-500">/month</span>
-              <div class="text-sm text-base-500 mt-1">Billed <%= plan.formatted_annual_price %>/year</div>
+              <div class="text-sm text-base-500 mt-1">Billed <%= format_plan_price(plan.annual_price) %>/year</div>
             <% end %>
           </div>
           <% if plan.trial_days.present? %>
