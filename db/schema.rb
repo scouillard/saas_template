@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_28_170000) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_29_201357) do
   create_table "account_invitations", force: :cascade do |t|
     t.datetime "accepted_at"
     t.integer "account_id", null: false
@@ -20,8 +20,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_28_170000) do
     t.integer "inviter_id", null: false
     t.string "token", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id", "email"], name: "index_account_invitations_on_account_id_and_email", unique: true
     t.index ["account_id"], name: "index_account_invitations_on_account_id"
-    t.index ["email"], name: "index_account_invitations_on_email"
     t.index ["inviter_id"], name: "index_account_invitations_on_inviter_id"
     t.index ["token"], name: "index_account_invitations_on_token", unique: true
   end
