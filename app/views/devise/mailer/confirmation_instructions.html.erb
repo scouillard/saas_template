@@ -1,5 +1,30 @@
-<p>Welcome <%= @email %>!</p>
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <tr>
+    <td style="padding: 40px 20px;">
+      <h1 style="margin: 0 0 24px; font-size: 24px; font-weight: 600; color: #1a1a1a;">
+        Confirm your email address
+      </h1>
 
-<p>You can confirm your account email through the link below:</p>
+      <p style="margin: 0 0 16px; font-size: 16px; line-height: 1.5; color: #4a4a4a;">
+        Hi <%= @email %>,
+      </p>
 
-<p><%= link_to 'Confirm my account', user_confirmation_url(confirmation_token: @token) %></p>
+      <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.5; color: #4a4a4a;">
+        Thanks for signing up! Please confirm your email address by clicking the button below.
+      </p>
+
+      <table cellpadding="0" cellspacing="0" style="margin: 0 0 24px;">
+        <tr>
+          <td style="background-color: #e5e5e5; border-radius: 9999px;">
+            <%= link_to "Confirm my account", user_confirmation_url(confirmation_token: @token),
+                style: "display: inline-block; padding: 12px 24px; font-size: 16px; font-weight: 600; color: #374151; text-decoration: none;" %>
+          </td>
+        </tr>
+      </table>
+
+      <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #6b6b6b;">
+        If you didn't create an account, you can safely ignore this email.
+      </p>
+    </td>
+  </tr>
+</table>
