@@ -1,4 +1,3 @@
-# Omakase Ruby styling for Rails
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
 plugins:
@@ -7,9 +6,6 @@ plugins:
 AllCops:
   NewCops: enable
 
-# =============================================================================
-# Security - important for SaaS
-# =============================================================================
 Security/Eval:
   Enabled: true
 
@@ -19,9 +15,6 @@ Security/Open:
 Security/YAMLLoad:
   Enabled: true
 
-# =============================================================================
-# Lint - catch common mistakes
-# =============================================================================
 Lint/Debugger:
   Enabled: true
 
@@ -29,20 +22,48 @@ Lint/UnusedMethodArgument:
   Enabled: true
   AllowUnusedKeywordArguments: true
 
-# =============================================================================
-# Style
-# =============================================================================
-# Prefer early returns over nested conditionals
+Metrics/CyclomaticComplexity:
+  Enabled: true
+  Max: 8
+  Exclude:
+    - "db/migrate/*"
+
+Metrics/PerceivedComplexity:
+  Enabled: true
+  Max: 10
+  Exclude:
+    - "db/migrate/*"
+
+Metrics/AbcSize:
+  Enabled: true
+  Max: 20
+  Exclude:
+    - "db/migrate/*"
+
+Metrics/MethodLength:
+  Enabled: true
+  Max: 15
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+    - method_call
+  Exclude:
+    - "db/migrate/*"
+
 Style/GuardClause:
   Enabled: true
   MinBodyLength: 1
 
+Style/CaseLikeIf:
+  Enabled: true
+
+Style/NestedTernaryOperator:
+  Enabled: true
+
 Style/IfUnlessModifier:
   Enabled: false
 
-# =============================================================================
-# Rails-specific safety
-# =============================================================================
 Rails/OutputSafety:
   Enabled: true
 
@@ -52,48 +73,35 @@ Rails/SkipsModelValidations:
 Rails/UniqueValidationWithoutIndex:
   Enabled: true
 
-# =============================================================================
-# RSpec - sensible defaults
-# =============================================================================
 RSpec:
   Enabled: true
 
-# Allow let! - it's useful for setup that must run
 RSpec/LetSetup:
   Enabled: false
 
-# Relax example length (default 5 is too strict)
 RSpec/ExampleLength:
   Max: 15
 
-# Relax multiple expectations (default 1 is too strict)
 RSpec/MultipleExpectations:
   Max: 5
 
-# Allow deeper nesting (default 3 is often not enough)
 RSpec/NestedGroups:
   Max: 4
 
-# Allow more let/subject declarations
 RSpec/MultipleMemoizedHelpers:
   Max: 10
 
-# Don't force named subjects
 RSpec/NamedSubject:
   Enabled: false
 
-# Allow flexibility in describe blocks
 RSpec/DescribeClass:
   Enabled: false
 
-# Message expectations style - allow both
 RSpec/MessageSpies:
   Enabled: false
 
-# Allow context without "when/with/without" prefix
 RSpec/ContextWording:
   Enabled: false
 
-# Don't enforce specific metadata style
 RSpec/EmptyMetadata:
   Enabled: false
