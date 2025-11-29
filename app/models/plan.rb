@@ -62,5 +62,4 @@ class Plan
     yearly_if_monthly = monthly_price * 12
     ((yearly_if_monthly - annual_price).to_f / yearly_if_monthly * 100).round
   end
-
 end
