@@ -4,6 +4,10 @@ Rails.application.routes.draw do
     registrations: "users/registrations"
   }
 
+  namespace :webhooks do
+    resource :stripe, only: [ :create ], controller: "stripe"
+  end
+
   # Invitation acceptance flow
   get "invitations/:token", to: "account_invitations#show", as: :accept_invitation
   post "invitations/:token/accept", to: "account_invitations#accept", as: :confirm_invitation
@@ -24,6 +28,10 @@ Rails.application.routes.draw do
   resource :settings, only: [ :show, :update ]
   resource :plan, only: [ :show ]
   get "pricing", to: "pricing#index"
+  get "help", to: "contacts#new", as: :help
+  post "help", to: "contacts#create"
+  get "privacy", to: "home#privacy", as: :privacy
+  get "terms", to: "home#terms", as: :terms
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
