@@ -1,0 +1,23 @@
+<div style="max-width: 600px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <div style="padding: 40px 20px; text-align: center;">
+    <h1 style="margin: 0 0 24px; font-size: 24px; font-weight: 600; color: #1f2937;">
+      You've been invited to join <%= @account.name %>
+    </h1>
+
+    <p style="margin: 0 0 24px; font-size: 16px; color: #6b7280; line-height: 1.5;">
+      <%= @invited_by.name || @invited_by.email %> has invited you to join their team on our platform.
+    </p>
+
+    <a href="<%= @accept_url %>" style="display: inline-block; padding: 12px 32px; background-color: #1f2937; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 16px; border-radius: 9999px;">
+      Accept Invitation
+    </a>
+
+    <p style="margin: 24px 0 0; font-size: 14px; color: #9ca3af;">
+      This invitation will expire in 7 days.
+    </p>
+
+    <p style="margin: 16px 0 0; font-size: 14px; color: #9ca3af;">
+      If you didn't expect this invitation, you can safely ignore this email.
+    </p>
+  </div>
+</div>

@@ -135,6 +135,13 @@ RSpec.describe User, type: :model do
 
         expect(user.accounts.first.name).to eq("John's Team")
       end
+
+      it "skips default account creation when joining via invitation" do
+        user = build(:user, joining_via_invitation: true)
+        user.save!
+
+        expect(user.accounts.count).to eq(0)
+      end
     end
   end
 end

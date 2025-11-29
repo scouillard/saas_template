@@ -8,7 +8,8 @@ Ruby on Rails 8.1 SaaS template with Ruby 3.2.0. Stack: Hotwire (Turbo + Stimulu
 
 ## Documentation
 
-- **Design guidelines**: `docs/design.md` - Read before any UI work
+- **UI design**: `docs/ui_design.md` - Read before any UI work
+- **Conventions**: `docs/conventions.md` - Read before writing code
 
 ## Common Commands
 

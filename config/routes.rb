@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  devise_for :users, controllers: {
+    omniauth_callbacks: "users/omniauth_callbacks",
+    registrations: "users/registrations"
+  }
+
+  # Invitation acceptance flow
+  get "invitations/:token", to: "account_invitations#show", as: :accept_invitation
+  post "invitations/:token/accept", to: "account_invitations#accept", as: :confirm_invitation
 
   post "notifications/mark_all_seen", to: "notifications#mark_all_seen", as: :mark_all_seen_notifications
   post "notifications/:id/read", to: "notifications#mark_as_read", as: :read_notification
@@ -13,9 +20,10 @@ Rails.application.routes.draw do
 
   # Account settings
   resource :team, only: [ :show, :update ]
-  resources :invitations, only: [ :create, :destroy ]
+  resources :invitations, only: [ :create, :destroy ], controller: "account_invitations"
   resource :settings, only: [ :show, :update ]
   resource :plan, only: [ :show ]
+  get "pricing", to: "pricing#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
