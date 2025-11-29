@@ -3,6 +3,7 @@ class TeamsController < ApplicationController
 
   def show
     @memberships = current_account.memberships.includes(:user)
+    @pending_invitations = current_account.account_invitations.pending.includes(:invited_by)
   end
 
   def update
@@ -10,6 +11,7 @@ class TeamsController < ApplicationController
       redirect_to team_path, notice: "Team updated"
     else
       @memberships = current_account.memberships.includes(:user)
+      @pending_invitations = current_account.account_invitations.pending.includes(:invited_by)
       render :show, status: :unprocessable_entity
     end
   end

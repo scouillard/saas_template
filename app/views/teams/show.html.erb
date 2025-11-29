@@ -68,6 +68,35 @@
           <% end %>
         </div>
       </div>
+
+      <% if @pending_invitations.any? %>
+        <div class="pt-6 border-t border-base-300">
+          <h3 class="text-sm font-semibold text-base-content mb-3">Pending Invitations (<%= @pending_invitations.count %>)</h3>
+          <div class="space-y-2">
+            <% @pending_invitations.each do |invitation| %>
+              <div class="flex items-center gap-4 p-4 bg-base-200 rounded-xl border border-base-300">
+                <div class="w-12 h-12 rounded-full bg-warning/10 flex items-center justify-center">
+                  <span class="text-warning font-semibold text-lg"><%= invitation.email[0].upcase %></span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="font-medium text-base-content truncate"><%= invitation.email %></div>
+                  <div class="text-sm text-base-500">
+                    Invited by <%= invitation.invited_by.name || invitation.invited_by.email %> · Expires <%= time_ago_in_words(invitation.expires_at) %> from now
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="px-3 py-1 rounded-full text-xs font-semibold bg-warning/10 text-warning border border-warning/20">Pending</span>
+                  <%= button_to invitation_path(invitation), method: :delete, class: "p-2 text-base-400 hover:text-error transition-colors cursor-pointer", title: "Cancel invitation", data: { turbo_confirm: "Cancel invitation to #{invitation.email}?" } do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
