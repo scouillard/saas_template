@@ -12,9 +12,10 @@ Rails.application.routes.draw do
   post "notifications/:id/read", to: "notifications#mark_as_read", as: :read_notification
 
   # User settings
-  resource :profile, only: [ :show, :update ] do
+  resource :profile, only: [ :show, :update, :destroy ] do
     get "password/edit", action: :edit_password, as: :edit_password
     patch "password", action: :update_password, as: :update_password
+    get "delete", action: :confirm_destroy, as: :confirm_destroy
   end
 
   # Account settings

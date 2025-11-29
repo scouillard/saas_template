@@ -15,6 +15,12 @@ class ProfilesController < ApplicationController
   def edit_password
   end
 
+  def confirm_destroy
+    @can_delete = current_user.can_delete_account?
+    @accounts_owned = current_user.memberships.where(role: :owner).includes(:account).map(&:account)
+    @total_memberships = current_user.memberships.count
+  end
+
   def update_password
     if current_user.update_with_password(password_params)
       bypass_sign_in(current_user)
@@ -22,6 +28,16 @@ class ProfilesController < ApplicationController
     else
       render :edit_password, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    unless current_user.can_delete_account?
+      redirect_to profile_path, alert: "You are an account owner or admin with team members. Please transfer ownership or remove team members first."
+      return
+    end
+
+    current_user.destroy!
+    redirect_to root_path, notice: "Your account has been deleted."
   end
 
   private

@@ -69,4 +69,42 @@ RSpec.describe "Profiles", type: :request do
       expect(user.reload.valid_password?("password123")).to be true
     end
   end
+
+  describe "DELETE /profile" do
+    context "when user can delete their account" do
+      it "deletes the user and redirects to root" do
+        expect { delete profile_path }.to change(User, :count).by(-1)
+
+        expect(response).to redirect_to(root_path)
+        follow_redirect!
+        expect(response.body).to include("Your account has been deleted")
+      end
+
+      it "destroys user memberships" do
+        expect { delete profile_path }.to change(Membership, :count).by(-1)
+      end
+    end
+
+    context "when user is owner with other members" do
+      let(:account) { user.accounts.first }
+
+      before do
+        other_user = create(:user)
+        other_user.memberships.destroy_all
+        create(:membership, user: other_user, account: account)
+      end
+
+      it "does not delete the user" do
+        expect { delete profile_path }.not_to change(User, :count)
+      end
+
+      it "redirects to profile with alert" do
+        delete profile_path
+
+        expect(response).to redirect_to(profile_path)
+        follow_redirect!
+        expect(response.body).to include("owner or admin with team members")
+      end
+    end
+  end
 end

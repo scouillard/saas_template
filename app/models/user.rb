@@ -41,6 +41,15 @@ class User < ApplicationRecord
     end
   end
 
+  def can_delete_account?
+    !owner_or_admin_with_other_members?
+  end
+
+  def owner_or_admin_with_other_members?
+    memberships.where(role: [ :owner, :admin ]).any? do |membership|
+      membership.account.memberships.count > 1
+    end
+
   def joining_via_invitation?
     joining_via_invitation == true
   end
