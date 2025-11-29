@@ -1,0 +1,9 @@
+Unlock your account
+
+Hi <%= @resource.email %>,
+
+Your account has been locked due to an excessive number of unsuccessful sign in attempts. You can unlock your account by visiting the link below:
+
+<%= user_unlock_url(unlock_token: @token) %>
+
+If you didn't request this, you can safely ignore this email.
