@@ -24,6 +24,15 @@ Rails.application.routes.draw do
   resource :settings, only: [ :show, :update ]
   resource :plan, only: [ :show ]
   get "pricing", to: "pricing#index"
+
+  # Static pages
+  get "privacy", to: "home#privacy"
+  get "terms", to: "home#terms"
+
+  # Contact form
+  get "help", to: "contact#new"
+  post "help", to: "contact#create"
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
