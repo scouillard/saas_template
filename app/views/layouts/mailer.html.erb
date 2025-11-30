@@ -7,7 +7,35 @@
     </style>
   </head>
 
-  <body>
-    <%= yield %>
+  <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f5f5f5;">
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f5f5f5;">
+      <tr>
+        <td style="padding: 20px 0;">
+          <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="margin: 0 auto; background-color: #ffffff; border-radius: 8px;">
+            <!-- Logo Header -->
+            <tr>
+              <td style="padding: 30px 40px 20px 40px; text-align: center;">
+                <!--
+                  Replace this inline SVG with your logo.
+                  For better email compatibility, consider using a hosted image:
+                  <img src="https://yourdomain.com/logo.png" alt="Logo" width="120" height="32" style="display: block; margin: 0 auto;">
+                -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 32" width="120" height="32" style="display: block; margin: 0 auto;">
+                  <rect x="0" y="4" width="24" height="24" rx="4" fill="#6366f1" />
+                  <circle cx="12" cy="16" r="6" fill="white" />
+                  <text x="32" y="23" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="600" fill="#1f2937">YourApp</text>
+                </svg>
+              </td>
+            </tr>
+            <!-- Email Content -->
+            <tr>
+              <td style="padding: 0 40px 40px 40px;">
+                <%= yield %>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
