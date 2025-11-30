@@ -269,3 +269,34 @@ Font weights: regular (400), medium (500), semibold (600). Don't over-bold.
 - Consistent stroke width: `stroke-width="1.5"` or `stroke-width="2"`
 - Size: `w-5 h-5` for inline, `w-6 h-6` for standalone
 - Color: inherit from parent or use `text-base-500`
+
+---
+
+## DaisyUI Components
+
+**Always prefer DaisyUI components over custom Stimulus controllers.** DaisyUI provides CSS-only interactive components that work without JavaScript.
+
+### When to use DaisyUI
+- Accordions/Collapsibles → `collapse`
+- Dropdowns → `dropdown`
+- Modals → `modal`
+- Tabs → `tabs`
+- Tooltips → `tooltip`
+- Drawers → `drawer`
+
+### Example: Accordion/FAQ
+```erb
+<div class="collapse collapse-arrow bg-base-100 border border-base-300 rounded-2xl">
+  <input type="checkbox" />
+  <div class="collapse-title font-semibold text-base-content">Question here</div>
+  <div class="collapse-content text-base-500">
+    <p>Answer here</p>
+  </div>
+</div>
+```
+
+### When to use Stimulus
+Only create custom Stimulus controllers when:
+- DaisyUI doesn't have a matching component
+- You need complex state management
+- You need to interact with external APIs or services

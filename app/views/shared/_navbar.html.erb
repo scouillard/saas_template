@@ -29,9 +29,9 @@
             </ul>
           </div>
         <% else %>
-          <%= link_to "Pricing", pricing_path, class: "px-4 py-2 text-sm font-semibold text-base-content hover:text-primary transition-colors" %>
-          <%= link_to "Log in", new_user_session_path, class: "px-4 py-2 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all" %>
-          <%= link_to "Sign up", new_user_registration_path, class: "px-4 py-2 text-sm font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all" %>
+          <%= link_to "Pricing", pricing_path, class: "mr-4 text-sm font-semibold text-base-content hover:text-primary transition-colors" %>
+          <%= link_to "Log in", new_user_session_path, class: "btn btn-sm rounded-full bg-transparent text-primary border-2 border-base-300 hover:border-base-400 hover:bg-transparent" %>
+          <%= link_to "Sign up", new_user_registration_path, class: "btn btn-primary btn-sm rounded-full" %>
         <% end %>
       </div>
 
