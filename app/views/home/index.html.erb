@@ -40,33 +40,106 @@
         Launch your SaaS in days, not months. Our production-ready template includes everything you need to build, deploy, and scale.
       </p>
       <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-        <%= link_to "Get Started Free", new_user_registration_path, class: "px-8 py-3 text-base font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all cursor-pointer" %>
-        <%= link_to "See How It Works", "#how-it-works", class: "px-8 py-3 text-base font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer" %>
+        <%= link_to "Get Started Free", new_user_registration_path, class: "btn btn-primary btn-lg rounded-full" %>
+        <%= link_to "See How It Works", "#how-it-works", class: "btn btn-lg rounded-full bg-transparent text-primary border-2 border-base-300 hover:border-base-400 hover:bg-transparent" %>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Trust Bar / Social Proof -->
-<section class="bg-base-100 border-y border-base-300">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <p class="text-center text-sm text-base-500 mb-8">Trusted by developers and teams worldwide</p>
-    <div class="flex flex-wrap justify-center items-center gap-8 sm:gap-12 lg:gap-16">
-      <div class="text-center">
-        <div class="text-3xl font-semibold text-base-content">10,000+</div>
-        <div class="text-sm text-base-500">Active Users</div>
+<!-- Feature Showcase Section -->
+<section class="bg-base-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+    <!-- Feature 1: Image Left -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-20 lg:mb-32">
+      <div class="bg-base-200 rounded-2xl aspect-video flex items-center justify-center">
+        <span class="text-base-500">Feature screenshot or GIF</span>
       </div>
-      <div class="text-center">
-        <div class="text-3xl font-semibold text-base-content">99.9%</div>
-        <div class="text-sm text-base-500">Uptime</div>
+      <div>
+        <h2 class="text-3xl sm:text-4xl font-semibold text-base-content">Feature headline goes here</h2>
+        <p class="mt-4 text-lg text-base-500">Describe the key benefit of this feature. Focus on the outcome for the user, not just what it does.</p>
+        <ul class="mt-6 space-y-3">
+          <li class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            <span class="text-base-content">Benefit point one</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            <span class="text-base-content">Benefit point two</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            <span class="text-base-content">Benefit point three</span>
+          </li>
+        </ul>
       </div>
-      <div class="text-center">
-        <div class="text-3xl font-semibold text-base-content">500+</div>
-        <div class="text-sm text-base-500">Companies</div>
+    </div>
+
+    <!-- Feature 2: Image Right -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-20 lg:mb-32">
+      <div class="order-2 lg:order-1">
+        <h2 class="text-3xl sm:text-4xl font-semibold text-base-content">Another feature headline</h2>
+        <p class="mt-4 text-lg text-base-500">Describe another key feature and its benefits. Keep it concise and focused on user value.</p>
+        <ul class="mt-6 space-y-3">
+          <li class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            <span class="text-base-content">Benefit point one</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            <span class="text-base-content">Benefit point two</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            <span class="text-base-content">Benefit point three</span>
+          </li>
+        </ul>
       </div>
-      <div class="text-center">
-        <div class="text-3xl font-semibold text-base-content">24/7</div>
-        <div class="text-sm text-base-500">Support</div>
+      <div class="bg-base-200 rounded-2xl aspect-video flex items-center justify-center order-1 lg:order-2">
+        <span class="text-base-500">Feature screenshot or GIF</span>
+      </div>
+    </div>
+
+    <!-- Feature 3: Image Left -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="bg-base-200 rounded-2xl aspect-video flex items-center justify-center">
+        <span class="text-base-500">Feature screenshot or GIF</span>
+      </div>
+      <div>
+        <h2 class="text-3xl sm:text-4xl font-semibold text-base-content">Third feature headline</h2>
+        <p class="mt-4 text-lg text-base-500">Highlight a third major feature. Three features is a good balance for showcasing without overwhelming.</p>
+        <ul class="mt-6 space-y-3">
+          <li class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            <span class="text-base-content">Benefit point one</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            <span class="text-base-content">Benefit point two</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            <span class="text-base-content">Benefit point three</span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -196,7 +269,7 @@
                 data-tabs-id="annual"
                 data-action="tabs#select"
                 class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all cursor-pointer text-base-500 hover:text-base-content">
-          Annual <span class="text-primary ml-1">Save 20%</span>
+          Annual
         </button>
       </div>
     </div>
@@ -234,9 +307,7 @@
           </li>
         </ul>
 
-        <button type="button" class="w-full px-4 py-2.5 text-base font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer">
-          Get Started
-        </button>
+        <%= link_to "Get Started", new_user_registration_path, class: "btn w-full rounded-full bg-transparent text-primary border-2 border-base-300 hover:border-base-400 hover:bg-transparent" %>
       </div>
 
       <!-- Pro Plan -->
@@ -293,9 +364,7 @@
           </li>
         </ul>
 
-        <button type="button" class="w-full px-4 py-2.5 text-base font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all cursor-pointer">
-          Start Free Trial
-        </button>
+        <%= link_to "Start Free Trial", new_user_registration_path, class: "btn btn-primary w-full rounded-full" %>
       </div>
 
       <!-- Enterprise Plan -->
@@ -342,81 +411,50 @@
           </li>
         </ul>
 
-        <button type="button" class="w-full px-4 py-2.5 text-base font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer">
-          Contact Sales
-        </button>
+        <%= link_to "Contact Sales", contact_path, class: "btn w-full rounded-full bg-transparent text-primary border-2 border-base-300 hover:border-base-400 hover:bg-transparent" %>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Testimonials Section -->
-<section class="bg-base-100">
+<!-- The Problem Section -->
+<section id="the-problem" class="bg-base-100">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
     <div class="text-center mb-16">
-      <h2 class="text-3xl sm:text-4xl font-semibold text-base-content">What Our Customers Say</h2>
-      <p class="mt-4 text-lg text-base-500 max-w-2xl mx-auto">Join thousands of satisfied customers who have transformed their business.</p>
+      <span class="text-sm font-semibold text-primary uppercase tracking-wide">The Problem</span>
+      <h2 class="mt-3 text-3xl sm:text-4xl font-semibold text-base-content">Why we built this</h2>
+      <p class="mt-4 text-lg text-base-500 max-w-2xl mx-auto">Describe the pain point your product solves. Make visitors nod along.</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-      <div class="bg-base-100 border border-base-300 rounded-2xl p-6 sm:p-8">
-        <div class="flex items-center gap-1 mb-4">
-          <% 5.times do %>
-            <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-            </svg>
-          <% end %>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="text-center">
+        <div class="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center mx-auto mb-4">
+          <svg class="w-6 h-6 text-error" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
         </div>
-        <blockquote class="text-base-content mb-6">"This template saved us months of development time. We were able to launch our MVP in just two weeks instead of three months."</blockquote>
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-base-300 flex items-center justify-center">
-            <span class="text-sm font-semibold text-base-content">JD</span>
-          </div>
-          <div>
-            <div class="font-semibold text-base-content">Jane Doe</div>
-            <div class="text-sm text-base-500">CEO, TechStartup</div>
-          </div>
-        </div>
+        <h3 class="font-semibold text-base-content mb-2">Pain Point One</h3>
+        <p class="text-base-500 text-sm">Brief description of the first problem your customers face.</p>
       </div>
 
-      <div class="bg-base-100 border border-base-300 rounded-2xl p-6 sm:p-8">
-        <div class="flex items-center gap-1 mb-4">
-          <% 5.times do %>
-            <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-            </svg>
-          <% end %>
+      <div class="text-center">
+        <div class="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center mx-auto mb-4">
+          <svg class="w-6 h-6 text-error" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
         </div>
-        <blockquote class="text-base-content mb-6">"The code quality is exceptional. Clean, well-documented, and follows all the best practices. Exactly what we needed."</blockquote>
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-base-300 flex items-center justify-center">
-            <span class="text-sm font-semibold text-base-content">MS</span>
-          </div>
-          <div>
-            <div class="font-semibold text-base-content">Mike Smith</div>
-            <div class="text-sm text-base-500">CTO, DevAgency</div>
-          </div>
-        </div>
+        <h3 class="font-semibold text-base-content mb-2">Pain Point Two</h3>
+        <p class="text-base-500 text-sm">Brief description of the second problem your customers face.</p>
       </div>
 
-      <div class="bg-base-100 border border-base-300 rounded-2xl p-6 sm:p-8">
-        <div class="flex items-center gap-1 mb-4">
-          <% 5.times do %>
-            <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-            </svg>
-          <% end %>
+      <div class="text-center">
+        <div class="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center mx-auto mb-4">
+          <svg class="w-6 h-6 text-error" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+          </svg>
         </div>
-        <blockquote class="text-base-content mb-6">"Customer support is fantastic. They helped us customize everything to fit our specific needs. Highly recommended!"</blockquote>
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-base-300 flex items-center justify-center">
-            <span class="text-sm font-semibold text-base-content">SJ</span>
-          </div>
-          <div>
-            <div class="font-semibold text-base-content">Sarah Johnson</div>
-            <div class="text-sm text-base-500">Founder, GrowthCo</div>
-          </div>
-        </div>
+        <h3 class="font-semibold text-base-content mb-2">Pain Point Three</h3>
+        <p class="text-base-500 text-sm">Brief description of the third problem your customers face.</p>
       </div>
     </div>
   </div>
@@ -430,64 +468,44 @@
       <p class="mt-4 text-lg text-base-500">Everything you need to know about our platform.</p>
     </div>
 
-    <div class="space-y-4" data-controller="accordion">
-      <div class="bg-base-100 border border-base-300 rounded-2xl overflow-hidden">
-        <button type="button" class="w-full px-6 py-4 text-left flex items-center justify-between cursor-pointer" data-action="accordion#toggle" data-accordion-target="trigger">
-          <span class="font-semibold text-base-content">How do I get started?</span>
-          <svg class="w-5 h-5 text-base-500 transition-transform" data-accordion-target="icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-          </svg>
-        </button>
-        <div class="hidden px-6 pb-4" data-accordion-target="content">
-          <p class="text-base-500">Simply sign up for a free account, and you'll have instant access to all basic features. No credit card required. You can upgrade to a paid plan anytime to unlock premium features.</p>
+    <div class="space-y-4">
+      <div class="collapse collapse-arrow bg-base-100 border border-base-300 rounded-2xl">
+        <input type="checkbox" />
+        <div class="collapse-title font-semibold text-base-content">How do I get started?</div>
+        <div class="collapse-content text-base-500">
+          <p>Simply sign up for a free account, and you'll have instant access to all basic features. No credit card required. You can upgrade to a paid plan anytime to unlock premium features.</p>
         </div>
       </div>
 
-      <div class="bg-base-100 border border-base-300 rounded-2xl overflow-hidden">
-        <button type="button" class="w-full px-6 py-4 text-left flex items-center justify-between cursor-pointer" data-action="accordion#toggle" data-accordion-target="trigger">
-          <span class="font-semibold text-base-content">Can I cancel my subscription anytime?</span>
-          <svg class="w-5 h-5 text-base-500 transition-transform" data-accordion-target="icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-          </svg>
-        </button>
-        <div class="hidden px-6 pb-4" data-accordion-target="content">
-          <p class="text-base-500">Yes, you can cancel your subscription at any time. Your access will continue until the end of your current billing period. We don't believe in lock-in contracts.</p>
+      <div class="collapse collapse-arrow bg-base-100 border border-base-300 rounded-2xl">
+        <input type="checkbox" />
+        <div class="collapse-title font-semibold text-base-content">Can I cancel my subscription anytime?</div>
+        <div class="collapse-content text-base-500">
+          <p>Yes, you can cancel your subscription at any time. Your access will continue until the end of your current billing period. We don't believe in lock-in contracts.</p>
         </div>
       </div>
 
-      <div class="bg-base-100 border border-base-300 rounded-2xl overflow-hidden">
-        <button type="button" class="w-full px-6 py-4 text-left flex items-center justify-between cursor-pointer" data-action="accordion#toggle" data-accordion-target="trigger">
-          <span class="font-semibold text-base-content">Do you offer a free trial?</span>
-          <svg class="w-5 h-5 text-base-500 transition-transform" data-accordion-target="icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-          </svg>
-        </button>
-        <div class="hidden px-6 pb-4" data-accordion-target="content">
-          <p class="text-base-500">Yes! All paid plans come with a 14-day free trial. You'll have full access to all features during the trial period. No credit card required to start.</p>
+      <div class="collapse collapse-arrow bg-base-100 border border-base-300 rounded-2xl">
+        <input type="checkbox" />
+        <div class="collapse-title font-semibold text-base-content">Do you offer a free trial?</div>
+        <div class="collapse-content text-base-500">
+          <p>Yes! All paid plans come with a 14-day free trial. You'll have full access to all features during the trial period. No credit card required to start.</p>
         </div>
       </div>
 
-      <div class="bg-base-100 border border-base-300 rounded-2xl overflow-hidden">
-        <button type="button" class="w-full px-6 py-4 text-left flex items-center justify-between cursor-pointer" data-action="accordion#toggle" data-accordion-target="trigger">
-          <span class="font-semibold text-base-content">What payment methods do you accept?</span>
-          <svg class="w-5 h-5 text-base-500 transition-transform" data-accordion-target="icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-          </svg>
-        </button>
-        <div class="hidden px-6 pb-4" data-accordion-target="content">
-          <p class="text-base-500">We accept all major credit cards (Visa, MasterCard, American Express) and PayPal. Enterprise customers can also pay via invoice with NET 30 terms.</p>
+      <div class="collapse collapse-arrow bg-base-100 border border-base-300 rounded-2xl">
+        <input type="checkbox" />
+        <div class="collapse-title font-semibold text-base-content">What payment methods do you accept?</div>
+        <div class="collapse-content text-base-500">
+          <p>We accept all major credit cards (Visa, MasterCard, American Express) and PayPal. Enterprise customers can also pay via invoice with NET 30 terms.</p>
         </div>
       </div>
 
-      <div class="bg-base-100 border border-base-300 rounded-2xl overflow-hidden">
-        <button type="button" class="w-full px-6 py-4 text-left flex items-center justify-between cursor-pointer" data-action="accordion#toggle" data-accordion-target="trigger">
-          <span class="font-semibold text-base-content">Is my data secure?</span>
-          <svg class="w-5 h-5 text-base-500 transition-transform" data-accordion-target="icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-          </svg>
-        </button>
-        <div class="hidden px-6 pb-4" data-accordion-target="content">
-          <p class="text-base-500">Absolutely. We use industry-standard encryption for all data in transit and at rest. We're SOC 2 compliant and conduct regular security audits. Your data is never shared with third parties.</p>
+      <div class="collapse collapse-arrow bg-base-100 border border-base-300 rounded-2xl">
+        <input type="checkbox" />
+        <div class="collapse-title font-semibold text-base-content">Is my data secure?</div>
+        <div class="collapse-content text-base-500">
+          <p>Absolutely. We use industry-standard encryption for all data in transit and at rest. We're SOC 2 compliant and conduct regular security audits. Your data is never shared with third parties.</p>
         </div>
       </div>
     </div>
@@ -495,15 +513,13 @@
 </section>
 
 <!-- Final CTA Section -->
-<section class="bg-base-100">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
-    <div class="bg-gradient-to-br from-primary to-primary/80 rounded-2xl p-8 sm:p-12 lg:p-16 text-center">
-      <h2 class="text-3xl sm:text-4xl font-semibold text-primary-content mb-4">Ready to Get Started?</h2>
-      <p class="text-lg text-primary-content/90 max-w-2xl mx-auto mb-8">Join thousands of teams already building with our platform. Start your free trial today.</p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <%= link_to "Start Free Trial", new_user_registration_path, class: "px-8 py-3 text-base font-semibold rounded-full bg-base-100 text-primary hover:brightness-95 transition-all cursor-pointer" %>
-        <%= link_to "Contact Sales", contact_path, class: "px-8 py-3 text-base font-semibold rounded-full text-primary-content border-2 border-primary-content/30 hover:border-primary-content/50 transition-all cursor-pointer" %>
-      </div>
+<section class="bg-primary">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 text-center">
+    <h2 class="text-3xl sm:text-4xl font-semibold text-primary-content mb-4">Ready to Get Started?</h2>
+    <p class="text-lg text-primary-content/90 max-w-2xl mx-auto mb-8">Join thousands of teams already building with our platform. Start your free trial today.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <%= link_to "Start Free Trial", new_user_registration_path, class: "btn btn-lg rounded-full bg-base-100 text-primary border-none hover:bg-base-200" %>
+      <%= link_to "Contact Sales", contact_path, class: "btn btn-outline btn-lg rounded-full border-primary-content/30 text-primary-content hover:border-primary-content hover:bg-primary-content/10" %>
     </div>
   </div>
 </section>

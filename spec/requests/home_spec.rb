@@ -31,6 +31,12 @@ RSpec.describe "Home", type: :request do
       expect(response.body).to include("Frequently Asked Questions")
     end
 
+    it "includes the problem section" do
+      get root_path
+      expect(response.body).to include("The Problem")
+      expect(response.body).to include("Why we built this")
+    end
+
     it "includes SEO meta tags" do
       get root_path
       expect(response.body).to include('meta name="description"')
