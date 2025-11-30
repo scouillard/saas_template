@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_29_201357) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_29_234216) do
   create_table "account_invitations", force: :cascade do |t|
     t.datetime "accepted_at"
     t.integer "account_id", null: false
@@ -31,15 +31,22 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_201357) do
     t.string "name"
     t.string "plan", default: "free", null: false
     t.string "stripe_customer_id"
-    t.string "stripe_price_id"
     t.string "stripe_subscription_id"
     t.datetime "subscription_ends_at"
     t.datetime "subscription_started_at"
-    t.string "subscription_status", default: "none"
     t.datetime "updated_at", null: false
     t.index ["plan"], name: "index_accounts_on_plan"
     t.index ["stripe_customer_id"], name: "index_accounts_on_stripe_customer_id", unique: true
     t.index ["stripe_subscription_id"], name: "index_accounts_on_stripe_subscription_id"
+  end
+
+  create_table "contact_messages", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.text "message", null: false
+    t.string "name", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "memberships", force: :cascade do |t|
