@@ -1,24 +1,40 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-  <h1 class="text-4xl font-semibold text-base-content mb-8">Terms of Service</h1>
-  <div class="prose max-w-none">
-    <p class="text-base-content">Last updated: <%= Date.today.strftime("%B %d, %Y") %></p>
+  <div class="bg-base-100 border border-base-300 rounded-2xl p-6 sm:p-8">
+    <div class="mb-8 pb-6 border-b border-base-300">
+      <h1 class="text-3xl font-semibold text-base-content">Terms of Service</h1>
+      <p class="mt-2 text-sm text-base-500">Last updated: <%= Date.today.strftime("%B %d, %Y") %></p>
+    </div>
 
-    <h2 class="text-2xl font-semibold text-base-content mt-8 mb-4">1. Acceptance of Terms</h2>
-    <p class="text-base-content mb-4">By accessing or using our service, you agree to be bound by these Terms of Service and all applicable laws and regulations.</p>
+    <div class="space-y-6">
+      <div>
+        <h2 class="text-lg font-semibold text-base-content mb-2">1. Acceptance of Terms</h2>
+        <p class="text-base-content">By accessing or using our service, you agree to be bound by these Terms of Service and all applicable laws and regulations.</p>
+      </div>
 
-    <h2 class="text-2xl font-semibold text-base-content mt-8 mb-4">2. Use of Service</h2>
-    <p class="text-base-content mb-4">You agree to use our service only for lawful purposes and in accordance with these Terms. You are responsible for maintaining the confidentiality of your account.</p>
+      <div>
+        <h2 class="text-lg font-semibold text-base-content mb-2">2. Use of Service</h2>
+        <p class="text-base-content">You agree to use our service only for lawful purposes and in accordance with these Terms. You are responsible for maintaining the confidentiality of your account.</p>
+      </div>
 
-    <h2 class="text-2xl font-semibold text-base-content mt-8 mb-4">3. Intellectual Property</h2>
-    <p class="text-base-content mb-4">The service and its original content, features, and functionality are owned by us and are protected by international copyright, trademark, and other intellectual property laws.</p>
+      <div>
+        <h2 class="text-lg font-semibold text-base-content mb-2">3. Intellectual Property</h2>
+        <p class="text-base-content">The service and its original content, features, and functionality are owned by us and are protected by international copyright, trademark, and other intellectual property laws.</p>
+      </div>
 
-    <h2 class="text-2xl font-semibold text-base-content mt-8 mb-4">4. Limitation of Liability</h2>
-    <p class="text-base-content mb-4">In no event shall we be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of the service.</p>
+      <div>
+        <h2 class="text-lg font-semibold text-base-content mb-2">4. Limitation of Liability</h2>
+        <p class="text-base-content">In no event shall we be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of the service.</p>
+      </div>
 
-    <h2 class="text-2xl font-semibold text-base-content mt-8 mb-4">5. Changes to Terms</h2>
-    <p class="text-base-content mb-4">We reserve the right to modify these terms at any time. We will notify users of any material changes by posting the new Terms of Service on this page.</p>
+      <div>
+        <h2 class="text-lg font-semibold text-base-content mb-2">5. Changes to Terms</h2>
+        <p class="text-base-content">We reserve the right to modify these terms at any time. We will notify users of any material changes by posting the new Terms of Service on this page.</p>
+      </div>
 
-    <h2 class="text-2xl font-semibold text-base-content mt-8 mb-4">6. Contact Us</h2>
-    <p class="text-base-content mb-4">If you have any questions about these Terms of Service, please <%= link_to "contact us", contact_path, class: "text-primary underline hover:brightness-75 transition-colors" %>.</p>
+      <div>
+        <h2 class="text-lg font-semibold text-base-content mb-2">6. Contact Us</h2>
+        <p class="text-base-content">If you have any questions about these Terms of Service, please <%= link_to "contact us", contact_path, class: "text-primary underline hover:brightness-75 transition-colors" %>.</p>
+      </div>
+    </div>
   </div>
 </div>

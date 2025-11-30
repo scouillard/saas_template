@@ -1,21 +1,35 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-  <h1 class="text-4xl font-semibold text-base-content mb-8">Privacy Policy</h1>
-  <div class="prose max-w-none">
-    <p class="text-base-content">Last updated: <%= Date.today.strftime("%B %d, %Y") %></p>
+  <div class="bg-base-100 border border-base-300 rounded-2xl p-6 sm:p-8">
+    <div class="mb-8 pb-6 border-b border-base-300">
+      <h1 class="text-3xl font-semibold text-base-content">Privacy Policy</h1>
+      <p class="mt-2 text-sm text-base-500">Last updated: <%= Date.today.strftime("%B %d, %Y") %></p>
+    </div>
 
-    <h2 class="text-2xl font-semibold text-base-content mt-8 mb-4">1. Information We Collect</h2>
-    <p class="text-base-content mb-4">We collect information you provide directly to us, such as when you create an account, make a purchase, or contact us for support.</p>
+    <div class="space-y-6">
+      <div>
+        <h2 class="text-lg font-semibold text-base-content mb-2">1. Information We Collect</h2>
+        <p class="text-base-content">We collect information you provide directly to us, such as when you create an account, make a purchase, or contact us for support.</p>
+      </div>
 
-    <h2 class="text-2xl font-semibold text-base-content mt-8 mb-4">2. How We Use Your Information</h2>
-    <p class="text-base-content mb-4">We use the information we collect to provide, maintain, and improve our services, process transactions, and communicate with you.</p>
+      <div>
+        <h2 class="text-lg font-semibold text-base-content mb-2">2. How We Use Your Information</h2>
+        <p class="text-base-content">We use the information we collect to provide, maintain, and improve our services, process transactions, and communicate with you.</p>
+      </div>
 
-    <h2 class="text-2xl font-semibold text-base-content mt-8 mb-4">3. Information Sharing</h2>
-    <p class="text-base-content mb-4">We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this policy.</p>
+      <div>
+        <h2 class="text-lg font-semibold text-base-content mb-2">3. Information Sharing</h2>
+        <p class="text-base-content">We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this policy.</p>
+      </div>
 
-    <h2 class="text-2xl font-semibold text-base-content mt-8 mb-4">4. Data Security</h2>
-    <p class="text-base-content mb-4">We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+      <div>
+        <h2 class="text-lg font-semibold text-base-content mb-2">4. Data Security</h2>
+        <p class="text-base-content">We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+      </div>
 
-    <h2 class="text-2xl font-semibold text-base-content mt-8 mb-4">5. Contact Us</h2>
-    <p class="text-base-content mb-4">If you have any questions about this Privacy Policy, please <%= link_to "contact us", contact_path, class: "text-primary underline hover:brightness-75 transition-colors" %>.</p>
+      <div>
+        <h2 class="text-lg font-semibold text-base-content mb-2">5. Contact Us</h2>
+        <p class="text-base-content">If you have any questions about this Privacy Policy, please <%= link_to "contact us", contact_path, class: "text-primary underline hover:brightness-75 transition-colors" %>.</p>
+      </div>
+    </div>
   </div>
 </div>
