@@ -25,6 +25,11 @@ Rails.application.routes.draw do
   resource :plan, only: [ :show ]
   get "pricing", to: "pricing#index"
 
+  # API
+  namespace :api do
+    post "stripe/webhook", to: "stripe#webhook"
+  end
+
   # Static pages
   get "privacy", to: "home#privacy"
   get "terms", to: "home#terms"
