@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_29_234216) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_05_224101) do
   create_table "account_invitations", force: :cascade do |t|
     t.datetime "accepted_at"
     t.integer "account_id", null: false
@@ -31,9 +31,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_234216) do
     t.string "name"
     t.string "plan", default: "free", null: false
     t.string "stripe_customer_id"
+    t.string "stripe_price_id"
     t.string "stripe_subscription_id"
     t.datetime "subscription_ends_at"
     t.datetime "subscription_started_at"
+    t.string "subscription_status", default: "none"
     t.datetime "updated_at", null: false
     t.index ["plan"], name: "index_accounts_on_plan"
     t.index ["stripe_customer_id"], name: "index_accounts_on_stripe_customer_id", unique: true
@@ -83,6 +85,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_234216) do
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_noticed_notifications_on_event_id"
     t.index ["recipient_type", "recipient_id"], name: "index_noticed_notifications_on_recipient"
+  end
+
+  create_table "subscribers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_subscribers_on_email", unique: true
   end
 
   create_table "users", force: :cascade do |t|

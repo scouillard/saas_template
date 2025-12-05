@@ -33,6 +33,10 @@ Rails.application.routes.draw do
   get "contact", to: "contact#new"
   post "contact", to: "contact#create"
 
+  # Newsletter subscribe / waitlist
+  get "subscribe", to: "subscribers#new"
+  post "subscribe", to: "subscribers#create"
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
