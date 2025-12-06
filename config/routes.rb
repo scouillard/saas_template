@@ -41,6 +41,12 @@ Rails.application.routes.draw do
   get "subscribe", to: "subscribers#new"
   post "subscribe", to: "subscribers#create"
 
+  # Projects and Tasks
+  resources :projects, only: [ :show ]
+  resources :tasks, only: [] do
+    resource :restart, only: [ :create ], controller: "tasks/restarts"
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
