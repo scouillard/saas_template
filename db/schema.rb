@@ -28,14 +28,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_05_224101) do
 
   create_table "accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.datetime "current_period_ends_at"
     t.string "name"
     t.string "plan", default: "free", null: false
     t.string "stripe_customer_id"
-    t.string "stripe_price_id"
     t.string "stripe_subscription_id"
     t.datetime "subscription_ends_at"
     t.datetime "subscription_started_at"
-    t.string "subscription_status", default: "none"
+    t.string "subscription_status"
     t.datetime "updated_at", null: false
     t.index ["plan"], name: "index_accounts_on_plan"
     t.index ["stripe_customer_id"], name: "index_accounts_on_stripe_customer_id", unique: true

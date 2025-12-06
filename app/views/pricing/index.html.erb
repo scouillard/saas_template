@@ -1,86 +1,10 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" data-controller="tabs" data-tabs-active-value="monthly">
-  <div class="text-center">
-    <h1 class="text-4xl font-semibold text-base-content mb-4">Simple, transparent pricing</h1>
-    <p class="text-lg text-base-500 max-w-2xl mx-auto">Choose the plan that's right for you</p>
-  </div>
-
-  <div class="flex justify-center mt-4 mb-8">
-    <div class="inline-flex bg-base-300 rounded-full p-1">
-      <button type="button"
-              data-tabs-target="tab"
-              data-tabs-id="monthly"
-              data-action="tabs#select"
-              class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all cursor-pointer bg-base-100 text-base-content shadow-sm">
-        Monthly
-      </button>
-      <button type="button"
-              data-tabs-target="tab"
-              data-tabs-id="annual"
-              data-action="tabs#select"
-              class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all cursor-pointer text-base-500 hover:text-base-content">
-        Annual
-      </button>
+<section class="bg-base-200 flex-1">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-24" data-controller="tabs" data-tabs-active-value="monthly">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-semibold text-base-content mb-4">Simple, Transparent Pricing</h1>
+      <p class="text-lg text-base-500 max-w-2xl mx-auto">Choose the plan that's right for you</p>
     </div>
+
+    <%= render "plans/pricing_cards" %>
   </div>
-
-  <div class="flex flex-wrap justify-center gap-6 lg:gap-8">
-    <% @plans.each do |plan| %>
-      <div class="w-full max-w-sm <%= plan.recommended? ? 'bg-base-100 border-2 border-primary' : 'bg-base-100 border border-base-300' %> rounded-2xl p-6 sm:p-8 flex flex-col relative">
-        <% if plan.badge_text.present? %>
-          <span class="bg-primary text-primary-content text-sm font-semibold px-4 py-1.5 rounded-full" style="position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%);"><%= plan.badge_text %></span>
-        <% end %>
-
-        <div class="mb-6">
-          <h2 class="text-xl font-semibold text-base-content mb-2"><%= plan.name %></h2>
-          <p class="text-sm text-base-500"><%= plan.description %></p>
-        </div>
-
-        <div class="mb-6">
-          <div data-tabs-target="panel" data-tabs-id="monthly">
-            <span class="text-4xl font-semibold text-base-content"><%= format_plan_price(plan.monthly_price) %></span>
-            <% unless plan.free? %>
-              <span class="text-base-500">/month</span>
-            <% end %>
-          </div>
-          <div data-tabs-target="panel" data-tabs-id="annual" class="hidden">
-            <span class="text-4xl font-semibold text-base-content"><%= format_plan_price(annual_monthly_price(plan)) %></span>
-            <% unless plan.free? %>
-              <span class="text-base-500">/month</span>
-              <div class="text-sm text-base-500 mt-1">Billed <%= format_plan_price(plan.annual_price) %>/year</div>
-            <% end %>
-          </div>
-          <% if plan.trial_days.present? %>
-            <div class="text-sm text-primary mt-2"><%= plan.trial_days %>-day free trial</div>
-          <% end %>
-        </div>
-
-        <ul class="space-y-3 mb-8 flex-1">
-          <% plan.bullet_points.each do |feature| %>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-primary shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-              </svg>
-              <span class="text-sm text-base-content"><%= feature %></span>
-            </li>
-          <% end %>
-        </ul>
-
-        <% if user_signed_in? && current_account.plan == plan.id %>
-          <div class="w-full px-4 py-2.5 text-base font-semibold rounded-full text-center bg-base-200 text-base-500">
-            Current Plan
-          </div>
-        <% else %>
-          <% if plan.recommended? %>
-            <button type="button" class="w-full px-4 py-2.5 text-base font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all cursor-pointer">
-              <%= plan.cta_text %>
-            </button>
-          <% else %>
-            <button type="button" class="w-full px-4 py-2.5 text-base font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer">
-              <%= plan.cta_text %>
-            </button>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-</div>
+</section>
