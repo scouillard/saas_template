@@ -1,0 +1,75 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <%= render "shared/settings_nav" %>
+
+  <div class="bg-base-100 border border-base-300 rounded-2xl p-6">
+    <div class="pb-5 border-b border-base-300 mb-6">
+      <div class="flex items-center gap-3">
+        <%= link_to plan_path, class: "flex items-center justify-center w-8 h-8 rounded-lg bg-base-200 text-base-500 hover:bg-base-300 transition-colors cursor-pointer" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        <% end %>
+        <div>
+          <h2 class="text-xl font-semibold text-error">Cancel Subscription</h2>
+          <p class="text-sm text-base-500">This action will take effect at the end of your billing period</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-6">
+      <div class="bg-base-100 border border-error p-4">
+        <div class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-error shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+          </svg>
+          <div>
+            <p class="text-sm font-medium text-error">Your subscription will be canceled</p>
+            <p class="text-sm text-base-500 mt-1">You can continue using your plan until the end of your billing period.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold text-base-content mb-4">What will happen:</h3>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-error shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+            <div>
+              <span class="text-base-content font-medium">Premium features will be disabled</span>
+              <p class="text-sm text-base-500">After your access ends, you'll be moved to the free plan</p>
+            </div>
+          </li>
+
+          <li class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-error shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+            <div>
+              <span class="text-base-content font-medium">No more billing</span>
+              <p class="text-sm text-base-500">You won't be charged after your current period ends</p>
+            </div>
+          </li>
+
+          <li class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-success shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            </svg>
+            <div>
+              <span class="text-base-content font-medium">Access until <%= @current_period_ends_at&.strftime("%B %d, %Y") || "period end" %></span>
+              <p class="text-sm text-base-500">You can reactivate anytime before this date</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="pt-6 border-t border-base-300 flex flex-col sm:flex-row sm:justify-end gap-3">
+        <%= link_to "Keep Subscription", plan_path,
+            class: "px-4 py-2 text-sm font-medium rounded-full text-base-500 hover:text-base-content hover:bg-base-200 transition-all cursor-pointer text-center" %>
+        <%= link_to "Cancel Subscription", subscription_portal_path, method: :post, data: { turbo_method: :post },
+            class: "px-4 py-2 text-sm font-semibold rounded-full bg-error text-error-content hover:brightness-90 transition-all cursor-pointer text-center" %>
+      </div>
+    </div>
+  </div>
+</div>

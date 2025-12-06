@@ -7,7 +7,8 @@ class Account < ApplicationRecord
     active: "active",
     past_due: "past_due",
     canceled: "canceled",
-    unpaid: "unpaid"
+    unpaid: "unpaid",
+    canceling: "canceling"
   }, prefix: true
 
   has_many :memberships, dependent: :destroy
@@ -19,6 +20,14 @@ class Account < ApplicationRecord
 
   def subscription_active?
     subscription_status_active? || subscription_status_trialing?
+  end
+
+  def subscription_canceling?
+    subscription_status_canceling?
+  end
+
+  def can_reactivate?
+    subscription_canceling? && current_period_ends_at&.future?
   end
 
   def plan_name

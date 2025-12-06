@@ -37,6 +37,11 @@ Rails.application.routes.draw do
   # Plan Changes
   resources :plan_changes, only: [ :new, :create ]
 
+  # Subscription management
+  get "subscription/cancel", to: "subscriptions#cancel", as: :cancel_subscription
+  post "subscription/portal", to: "subscriptions#portal", as: :subscription_portal
+  post "subscription/reactivate", to: "subscriptions#reactivate", as: :reactivate_subscription
+
   # Static pages
   get "privacy", to: "home#privacy"
   get "terms", to: "home#terms"
