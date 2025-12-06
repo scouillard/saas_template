@@ -1,4 +1,14 @@
 class ProfilesController < ApplicationController
+  rate_limit to: RateLimiting::PROFILE_UPDATE_LIMIT,
+             within: RateLimiting::ONE_HOUR,
+             by: -> { rate_limit_key },
+             only: :update
+
+  rate_limit to: RateLimiting::PROFILE_DELETE_LIMIT,
+             within: RateLimiting::ONE_HOUR,
+             by: -> { rate_limit_key },
+             only: :destroy
+
   before_action :authenticate_user!
 
   def show

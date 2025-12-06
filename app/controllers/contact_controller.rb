@@ -1,4 +1,8 @@
 class ContactController < ApplicationController
+  rate_limit to: RateLimiting::CONTACT_FORM_LIMIT,
+             within: RateLimiting::TEN_MINUTES,
+             only: :create
+
   def new
     @contact_message = ContactMessage.new
   end

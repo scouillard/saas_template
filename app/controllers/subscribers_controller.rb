@@ -1,4 +1,8 @@
 class SubscribersController < ApplicationController
+  rate_limit to: RateLimiting::NEWSLETTER_LIMIT,
+             within: RateLimiting::ONE_HOUR,
+             only: :create
+
   def new
     @subscriber = Subscriber.new
   end

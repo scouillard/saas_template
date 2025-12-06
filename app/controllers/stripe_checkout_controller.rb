@@ -1,4 +1,9 @@
 class StripeCheckoutController < ApplicationController
+  rate_limit to: RateLimiting::CHECKOUT_LIMIT,
+             within: RateLimiting::FIVE_MINUTES,
+             by: -> { rate_limit_key },
+             only: :create
+
   before_action :authenticate_user!
 
   def create

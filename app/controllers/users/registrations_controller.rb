@@ -1,4 +1,8 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  rate_limit to: RateLimiting::REGISTRATION_LIMIT,
+             within: RateLimiting::ONE_HOUR,
+             only: :create
+
   before_action :configure_sign_up_params, only: [ :create ]
 
   def create
