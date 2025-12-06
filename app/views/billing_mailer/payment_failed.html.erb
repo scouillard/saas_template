@@ -1,0 +1,29 @@
+<h1 style="font-size: 24px; font-weight: 600; color: #1f2937; margin: 0 0 20px 0;">
+  Payment Failed
+</h1>
+
+<p style="font-size: 16px; color: #4b5563; line-height: 1.6; margin: 0 0 20px 0;">
+  Hi <%= @recipient.name || @recipient.email %>,
+</p>
+
+<p style="font-size: 16px; color: #4b5563; line-height: 1.6; margin: 0 0 20px 0;">
+  We were unable to process the payment for your subscription. Please update your payment method to avoid any interruption to your service.
+</p>
+
+<p style="font-size: 16px; color: #4b5563; line-height: 1.6; margin: 0 0 20px 0;">
+  We will automatically retry the payment in a few days. If the issue persists, your subscription may be canceled.
+</p>
+
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 30px 0;">
+  <tr>
+    <td style="background-color: #6366f1; border-radius: 9999px;">
+      <a href="<%= billing_url %>" style="display: inline-block; padding: 14px 28px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none;">
+        Update Payment Method
+      </a>
+    </td>
+  </tr>
+</table>
+
+<p style="font-size: 14px; color: #6b7280; line-height: 1.6; margin: 0;">
+  If you have any questions, please reply to this email.
+</p>

@@ -12,10 +12,29 @@
       <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
           <label class="text-xs font-semibold text-base-500 uppercase tracking-wide">Current Plan</label>
-          <p class="text-lg font-semibold text-base-content mt-2"><%= current_plan&.name || current_account.plan.capitalize %></p>
+          <div class="flex items-center gap-2 mt-2">
+            <p class="text-lg font-semibold text-base-content"><%= current_plan&.name || current_account.plan.capitalize %></p>
+            <% if current_account.past_due? %>
+              <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-warning text-warning-content">Past Due</span>
+            <% elsif current_account.canceled? %>
+              <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-error text-error-content">Canceled</span>
+            <% elsif current_account.active_subscription? %>
+              <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-success text-success-content">Active</span>
+            <% end %>
+          </div>
         </div>
         <%= link_to "Change Plan", pricing_path, class: "btn btn-sm btn-outline btn-primary rounded-full" %>
       </div>
+
+      <% if current_account.past_due? %>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-base-200 rounded-xl border border-warning">
+          <div>
+            <div class="text-base-content font-medium">Payment Issue</div>
+            <div class="text-sm text-base-500">Please update your payment method to continue your subscription</div>
+          </div>
+          <%= link_to "Update Payment Method", billing_path, class: "px-4 py-2 text-sm font-semibold rounded-full bg-primary text-primary-content hover:brightness-90 transition-all cursor-pointer w-fit" %>
+        </div>
+      <% end %>
 
       <% if current_account.subscription_started_at.present? %>
         <div>

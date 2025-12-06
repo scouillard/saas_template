@@ -22,6 +22,7 @@
   <body class="bg-base-200 text-base-content min-h-screen flex flex-col">
     <%= render "shared/navbar" unless content_for?(:hide_navbar) %>
 
+    <%= render "shared/past_due_banner" %>
     <%= render "shared/flash" %>
 
     <main class="flex-1 flex flex-col">

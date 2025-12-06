@@ -1,0 +1,29 @@
+<h1 style="font-size: 24px; font-weight: 600; color: #1f2937; margin: 0 0 20px 0;">
+  Subscription Canceled
+</h1>
+
+<p style="font-size: 16px; color: #4b5563; line-height: 1.6; margin: 0 0 20px 0;">
+  Hi <%= @recipient.name || @recipient.email %>,
+</p>
+
+<p style="font-size: 16px; color: #4b5563; line-height: 1.6; margin: 0 0 20px 0;">
+  Your subscription has been canceled. Your account has been downgraded to the Free plan.
+</p>
+
+<p style="font-size: 16px; color: #4b5563; line-height: 1.6; margin: 0 0 20px 0;">
+  If this was unintentional or you'd like to resubscribe, you can do so at any time from your account settings.
+</p>
+
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 30px 0;">
+  <tr>
+    <td style="background-color: #6366f1; border-radius: 9999px;">
+      <a href="<%= pricing_url %>" style="display: inline-block; padding: 14px 28px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none;">
+        View Plans
+      </a>
+    </td>
+  </tr>
+</table>
+
+<p style="font-size: 14px; color: #6b7280; line-height: 1.6; margin: 0;">
+  If you have any questions, please reply to this email.
+</p>

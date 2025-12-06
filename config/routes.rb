@@ -29,6 +29,12 @@ Rails.application.routes.draw do
   post "checkout", to: "stripe_checkout#create"
   get "checkout/success", to: "checkouts#success", as: :checkout_success
 
+  # Stripe Webhooks
+  post "webhooks/stripe", to: "webhooks/stripe#create"
+
+  # Billing (redirects to Stripe Customer Portal)
+  get "billing", to: "billing#show"
+
   # Static pages
   get "privacy", to: "home#privacy"
   get "terms", to: "home#terms"
