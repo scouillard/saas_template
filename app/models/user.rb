@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :accounts, through: :memberships
   has_many :notifications, as: :recipient, dependent: :destroy, class_name: "Noticed::Notification"
   has_many :sent_invitations, class_name: "AccountInvitation", foreign_key: :inviter_id, dependent: :nullify
+  has_many :projects, dependent: :destroy
 
   attr_accessor :joining_via_invitation
 

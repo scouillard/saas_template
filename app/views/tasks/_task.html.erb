@@ -1,0 +1,15 @@
+<%= turbo_frame_tag dom_id(task) do %>
+  <div class="bg-base-100 border border-base-300 rounded-2xl p-4 flex items-center justify-between">
+    <div>
+      <span class="font-medium text-base-content"><%= task.name %></span>
+      <span class="ml-2 text-sm text-base-500"><%= task.status %></span>
+    </div>
+
+    <% if task.status != "pending" %>
+      <%= button_to "Restart",
+                    task_restart_path(task),
+                    method: :post,
+                    class: "px-4 py-2 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer" %>
+    <% end %>
+  </div>
+<% end %>

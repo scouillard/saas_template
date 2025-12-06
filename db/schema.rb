@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_05_224101) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_06_233214) do
   create_table "account_invitations", force: :cascade do |t|
     t.datetime "accepted_at"
     t.integer "account_id", null: false
@@ -28,14 +28,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_05_224101) do
 
   create_table "accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.datetime "current_period_ends_at"
     t.string "name"
     t.string "plan", default: "free", null: false
     t.string "stripe_customer_id"
+    t.string "stripe_price_id"
     t.string "stripe_subscription_id"
     t.datetime "subscription_ends_at"
     t.datetime "subscription_started_at"
-    t.string "subscription_status"
+    t.string "subscription_status", default: "none"
     t.datetime "updated_at", null: false
     t.index ["plan"], name: "index_accounts_on_plan"
     t.index ["stripe_customer_id"], name: "index_accounts_on_stripe_customer_id", unique: true
@@ -87,6 +87,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_05_224101) do
     t.index ["recipient_type", "recipient_id"], name: "index_noticed_notifications_on_recipient"
   end
 
+  create_table "projects", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_projects_on_user_id"
+  end
+
   create_table "subscribers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", null: false
@@ -94,7 +102,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_05_224101) do
     t.index ["email"], name: "index_subscribers_on_email", unique: true
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.integer "project_id", null: false
+    t.string "status"
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_tasks_on_project_id"
+  end
+
   create_table "users", force: :cascade do |t|
+    t.boolean "admin", default: false, null: false
     t.datetime "confirmation_sent_at"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
@@ -128,4 +146,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_05_224101) do
   add_foreign_key "account_invitations", "users", column: "inviter_id"
   add_foreign_key "memberships", "accounts"
   add_foreign_key "memberships", "users"
+  add_foreign_key "projects", "users"
+  add_foreign_key "tasks", "projects"
 end
