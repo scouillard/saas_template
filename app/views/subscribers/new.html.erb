@@ -1,0 +1,73 @@
+<div class="min-h-[70vh] flex-1 flex flex-col bg-gradient-to-br from-base-100 via-base-100 to-primary/5">
+  <!-- Hero Section -->
+  <div class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <div class="max-w-3xl mx-auto text-center">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+        </span>
+        Coming Soon
+      </div>
+
+      <!-- Headline -->
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-base-content tracking-tight">
+        Something Amazing is
+        <span class="text-primary">Brewing</span>
+      </h1>
+
+      <!-- Subheadline -->
+      <p class="mt-6 text-lg sm:text-xl text-base-content/70 max-w-2xl mx-auto">
+        We're crafting a product that will change the way you work. Be the first to know when we launch and get exclusive early access.
+      </p>
+
+      <!-- Subscribe Form -->
+      <div class="mt-10 max-w-md mx-auto">
+        <%= turbo_frame_tag "subscribe_form" do %>
+          <%= form_with model: @subscriber, url: subscribe_path, class: "space-y-4" do |f| %>
+            <% if @subscriber.errors.any? %>
+              <div class="text-sm text-error"><%= @subscriber.errors.full_messages.first %></div>
+            <% end %>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+              <%= f.email_field :email,
+                  placeholder: "Enter your email",
+                  required: true,
+                  class: "flex-1 px-5 py-3.5 text-base rounded-full border border-base-300 bg-base-100 text-base-content placeholder:text-base-content/40 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all #{@subscriber.errors[:email].any? ? 'border-error' : ''}" %>
+              <button type="submit" class="px-8 py-3.5 text-base font-semibold rounded-full bg-primary text-primary-content hover:brightness-90 transition-all cursor-pointer shadow-none whitespace-nowrap">
+                Join Waitlist
+              </button>
+            </div>
+
+            <p class="text-sm text-base-content/50">
+              No spam, ever. Unsubscribe anytime.
+            </p>
+          <% end %>
+        <% end %>
+      </div>
+
+      <!-- Features/Trust -->
+      <div class="mt-16 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-sm text-base-content/60">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          <span>Free to get started</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          <span>Early access perks</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          <span>Exclusive updates</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

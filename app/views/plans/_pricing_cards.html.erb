@@ -1,0 +1,75 @@
+<div class="flex justify-center mb-12">
+  <div class="inline-flex bg-base-300 rounded-full p-1">
+    <button type="button"
+            data-tabs-target="tab"
+            data-tabs-id="monthly"
+            data-action="tabs#select"
+            class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all cursor-pointer bg-base-100 text-base-content shadow-sm">
+      Monthly
+    </button>
+    <button type="button"
+            data-tabs-target="tab"
+            data-tabs-id="annual"
+            data-action="tabs#select"
+            class="px-6 py-3 text-sm font-medium rounded-full text-center transition-all cursor-pointer text-base-500 hover:text-base-content">
+      Annual
+    </button>
+  </div>
+</div>
+
+<div class="flex flex-wrap justify-center gap-6 lg:gap-8">
+  <% @plans.each do |plan| %>
+    <div class="w-full max-w-sm <%= plan.recommended? ? 'bg-base-100 border-2 border-primary' : 'bg-base-100 border border-base-300' %> rounded-2xl p-6 sm:p-8 flex flex-col relative">
+      <% if plan.badge_text.present? %>
+        <span class="bg-primary text-primary-content text-sm font-semibold px-4 py-1.5 rounded-full absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"><%= plan.badge_text %></span>
+      <% end %>
+
+      <div class="mb-6">
+        <h3 class="text-xl font-semibold text-base-content mb-2"><%= plan.name %></h3>
+        <p class="text-sm text-base-500"><%= plan.description %></p>
+      </div>
+
+      <div class="mb-6">
+        <div data-tabs-target="panel" data-tabs-id="monthly">
+          <span class="text-4xl font-semibold text-base-content"><%= format_plan_price(plan.monthly_price) %></span>
+          <% unless plan.free? %>
+            <span class="text-base-500">/month</span>
+          <% end %>
+        </div>
+        <div data-tabs-target="panel" data-tabs-id="annual" class="hidden">
+          <span class="text-4xl font-semibold text-base-content"><%= format_plan_price(annual_monthly_price(plan)) %></span>
+          <% unless plan.free? %>
+            <span class="text-base-500">/month</span>
+            <div class="text-sm text-base-500 mt-1">Billed <%= format_plan_price(plan.annual_price) %>/year</div>
+          <% end %>
+        </div>
+        <% if plan.trial_days.present? %>
+          <div class="text-sm text-primary mt-2"><%= plan.trial_days %>-day free trial</div>
+        <% end %>
+      </div>
+
+      <ul class="space-y-3 mb-8 flex-1">
+        <% plan.bullet_points.each do |feature| %>
+          <li class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-primary shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            <span class="text-sm text-base-content"><%= feature %></span>
+          </li>
+        <% end %>
+      </ul>
+
+      <% if user_signed_in? && current_account.plan == plan.id %>
+        <div class="w-full px-4 py-2.5 text-base font-semibold rounded-full text-center bg-base-200 text-base-500">
+          Current Plan
+        </div>
+      <% else %>
+        <% if plan.recommended? %>
+          <%= link_to plan.cta_text, new_user_registration_path, class: "btn btn-primary w-full rounded-full" %>
+        <% else %>
+          <%= link_to plan.cta_text, new_user_registration_path, class: "btn w-full rounded-full bg-transparent text-primary border-2 border-base-300 hover:border-base-400 hover:bg-transparent" %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

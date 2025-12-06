@@ -1,9 +1,9 @@
 <!-- Sitemap -->
 <div class="bg-base-100 border-t border-base-300">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
+    <div class="grid grid-cols-2 md:grid-cols-8 gap-8 lg:gap-12">
       <!-- Brand -->
-      <div class="col-span-2 md:col-span-1">
+      <div class="col-span-2 md:col-span-2">
         <%= link_to root_path, class: "text-xl font-semibold text-base-content" do %>
           Logo
         <% end %>
@@ -54,6 +54,13 @@
           <li><%= link_to "Terms of Service", terms_path, class: "text-sm text-base-500 hover:text-base-content transition-colors" %></li>
           <li><%= link_to "Privacy Policy", privacy_path, class: "text-sm text-base-500 hover:text-base-content transition-colors" %></li>
         </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="col-span-2 md:col-span-3">
+        <h3 class="text-sm font-semibold text-base-content mb-4">Stay Updated</h3>
+        <p class="text-sm text-base-500 mb-4">Get product news and updates.</p>
+        <%= render "subscribers/form", subscriber: Subscriber.new, context: :footer %>
       </div>
     </div>
   </div>
