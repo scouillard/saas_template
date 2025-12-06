@@ -120,6 +120,32 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "#admin?" do
+    context "when user is an admin" do
+      it "returns true" do
+        user = build(:user, :admin)
+        expect(user.admin?).to be true
+      end
+    end
+
+    context "when user is not an admin" do
+      it "returns false" do
+        user = build(:user)
+        expect(user.admin?).to be false
+      end
+    end
+  end
+
+  describe ".admins" do
+    it "returns only admin users" do
+      admin = create(:user, :admin)
+      regular = create(:user)
+
+      expect(described_class.admins).to include(admin)
+      expect(described_class.admins).not_to include(regular)
+    end
+  end
+
   describe "callbacks" do
     describe "create_default_account" do
       it "creates a default account with user as owner" do
