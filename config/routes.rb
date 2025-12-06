@@ -4,6 +4,9 @@ Rails.application.routes.draw do
     registrations: "users/registrations"
   }
 
+  # Stripe webhook
+  post "/webhooks/stripe", to: "webhooks/stripe#create"
+
   # Invitation acceptance flow
   get "invitations/:token", to: "account_invitations#show", as: :accept_invitation
   post "invitations/:token/accept", to: "account_invitations#accept", as: :confirm_invitation
