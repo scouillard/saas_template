@@ -5,7 +5,7 @@ RSpec.describe "Subscribers", type: :request do
     it "renders the waitlist page" do
       get subscribe_path
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("We're Almost Ready")
+      expect(response.body).to include("Coming Soon")
     end
   end
 
