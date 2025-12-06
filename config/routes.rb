@@ -24,11 +24,10 @@ Rails.application.routes.draw do
   resource :settings, only: [ :show, :update ]
   resource :plan, only: [ :show ]
   get "pricing", to: "pricing#index"
-  get "checkout/success", to: "checkouts#success", as: :checkout_success
 
   # Stripe Checkout
   post "checkout", to: "stripe_checkout#create"
-  get "checkout/success", to: "checkout_success#show", as: :checkout_success
+  get "checkout/success", to: "checkouts#success", as: :checkout_success
 
   # Static pages
   get "privacy", to: "home#privacy"
