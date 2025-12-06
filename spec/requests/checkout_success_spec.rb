@@ -12,51 +12,53 @@ RSpec.describe "CheckoutSuccess", type: :request do
 
     context "when signed in" do
       let(:user) { create(:user) }
+      let(:account) { user.accounts.first }
 
       before { sign_in user }
 
-      def build_mock_session(price_id:, trial_end:, current_period_end:, interval: "month")
-        recurring = Struct.new(:interval).new(interval)
+      def build_mock_session(price_id:, current_period_end:, status: "complete", subscription_id: "sub_123", created: Time.current.to_i)
+        recurring = Struct.new(:interval).new("month")
         price = Struct.new(:id, :recurring).new(price_id, recurring)
         item = Struct.new(:price).new(price)
         items = Struct.new(:data).new([ item ])
-        subscription = Struct.new(:items, :trial_end, :current_period_end).new(items, trial_end, current_period_end)
-        Struct.new(:subscription).new(subscription)
+        subscription = Struct.new(:id, :items, :status, :created, :current_period_end).new(
+          subscription_id, items, "active", created, current_period_end
+        )
+        customer = Struct.new(:id).new("cus_123")
+        Struct.new(:subscription, :customer, :status).new(subscription, customer, status)
       end
 
-      it "renders success page with subscription details" do
+      it "redirects to root with success notice after processing subscription" do
         mock_session = build_mock_session(
           price_id: "price_pro_monthly",
-          trial_end: nil,
           current_period_end: 1.month.from_now.to_i
         )
 
         allow(Stripe::Checkout::Session).to receive(:retrieve)
-          .with("cs_test123", expand: [ "subscription" ])
+          .with("cs_test123", expand: [ "subscription", "customer" ])
           .and_return(mock_session)
 
         get checkout_success_path, params: { session_id: "cs_test123" }
 
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to include("Welcome to Pro!")
+        expect(response).to redirect_to(root_path)
+        expect(flash[:notice]).to include("Your subscription is now active")
       end
 
-      it "displays trial end date when subscription has trial" do
-        trial_end = 14.days.from_now.to_i
+      it "redirects to pricing when payment incomplete" do
         mock_session = build_mock_session(
           price_id: "price_pro_monthly",
-          trial_end: trial_end,
-          current_period_end: trial_end
+          current_period_end: 1.month.from_now.to_i,
+          status: "open"
         )
 
         allow(Stripe::Checkout::Session).to receive(:retrieve)
-          .with("cs_test_trial", expand: [ "subscription" ])
+          .with("cs_test_incomplete", expand: [ "subscription", "customer" ])
           .and_return(mock_session)
 
-        get checkout_success_path, params: { session_id: "cs_test_trial" }
+        get checkout_success_path, params: { session_id: "cs_test_incomplete" }
 
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to include("Trial ends")
+        expect(response).to redirect_to(pricing_path)
+        expect(flash[:alert]).to eq("Payment incomplete. Please try again.")
       end
 
       it "redirects to pricing when session not found" do
@@ -66,7 +68,7 @@ RSpec.describe "CheckoutSuccess", type: :request do
         get checkout_success_path, params: { session_id: "invalid_session" }
 
         expect(response).to redirect_to(pricing_path)
-        expect(flash[:alert]).to eq("Session not found")
+        expect(flash[:alert]).to eq("Checkout session not found")
       end
     end
   end

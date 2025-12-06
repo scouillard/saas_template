@@ -143,5 +143,51 @@ RSpec.describe User, type: :model do
         expect(user.accounts.count).to eq(0)
       end
     end
+
+    describe "send_welcome_notification" do
+      it "creates exactly one welcome notification for a new user" do
+        user = create(:user)
+
+        expect(user.notifications.count).to eq(1)
+        expect(user.notifications.first.event).to be_a(WelcomeNotifier)
+      end
+
+      it "creates exactly one welcome notification for OAuth user" do
+        auth = OpenStruct.new(
+          provider: "google_oauth2",
+          uid: "new_user_123",
+          info: OpenStruct.new(email: "new_oauth@example.com", name: "New OAuth User")
+        )
+        user = described_class.find_or_create_from_oauth(auth)
+
+        expect(user.notifications.count).to eq(1)
+        expect(user.notifications.first.event).to be_a(WelcomeNotifier)
+      end
+
+      it "does not create duplicate welcome notification when OAuth links to existing user" do
+        # Create user via email first
+        existing_user = create(:user, email: "existing_oauth@example.com")
+        initial_count = existing_user.notifications.count
+
+        # Now link OAuth
+        auth = OpenStruct.new(
+          provider: "google_oauth2",
+          uid: "existing_user_123",
+          info: OpenStruct.new(email: "existing_oauth@example.com", name: "Existing User")
+        )
+        linked_user = described_class.find_or_create_from_oauth(auth)
+
+        expect(linked_user).to eq(existing_user)
+        expect(linked_user.notifications.count).to eq(initial_count)
+      end
+
+      it "creates exactly one welcome notification for user joining via invitation" do
+        user = build(:user, joining_via_invitation: true)
+        user.save!
+
+        expect(user.notifications.count).to eq(1)
+        expect(user.notifications.first.event).to be_a(WelcomeNotifier)
+      end
+    end
   end
 end
