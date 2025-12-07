@@ -41,6 +41,30 @@ class Account < ApplicationRecord
     subscription_status == "active"
   end
 
+  def current_plan
+    Plan.find_by(id: plan)
+  end
+
+  def upgrading_to?(plan_id)
+    target_plan = Plan.find_by(id: plan_id.to_s)
+    current = current_plan
+    return false unless target_plan && current
+
+    target_plan.monthly_price > current.monthly_price
+  end
+
+  def downgrading_to?(plan_id)
+    target_plan = Plan.find_by(id: plan_id.to_s)
+    current = current_plan
+    return false unless target_plan && current
+
+    target_plan.monthly_price < current.monthly_price
+  end
+
+  def can_change_plan?
+    subscription_active? && stripe_subscription_id.present?
+  end
+
   def downgrade_to_free!
     update!(
       plan: "free",
@@ -77,7 +101,30 @@ class Account < ApplicationRecord
   end
 
   def determine_plan_from_price_id(price_id)
-    price_id_to_plan[price_id]
+    Plan.all.find { |p| [ p.stripe_monthly_price_id, p.stripe_annual_price_id ].include?(price_id) }&.id || price_id_to_plan[price_id]
+  end
+
+  def billing_interval
+    return nil unless stripe_subscription_id.present?
+    determine_interval_from_price_id(current_stripe_price_id)
+  end
+
+  def current_stripe_price_id
+    return nil unless stripe_subscription_id.present?
+    current = current_plan
+    return nil unless current
+
+    current.stripe_monthly_price_id || current.stripe_annual_price_id
+  end
+
+  def determine_interval_from_price_id(price_id)
+    return nil if price_id.blank?
+
+    Plan.all.each do |p|
+      return "monthly" if p.stripe_monthly_price_id == price_id
+      return "annual" if p.stripe_annual_price_id == price_id
+    end
+    nil
   end
 
   private
