@@ -3,6 +3,7 @@
   when /^\/profile/ then 'profile'
   when /^\/team/ then 'team'
   when /^\/settings/ then 'settings'
+  when /^\/billing/ then 'billing'
   when /^\/plan/ then 'plan'
   else ''
   end
@@ -17,6 +18,8 @@
         class: "px-6 py-3 text-sm font-medium rounded-full text-center transition-all #{current_tab == 'team' ? 'bg-base-100 text-base-content shadow-sm' : 'text-base-500 hover:text-base-content'}" %>
     <%= link_to "Settings", settings_path,
         class: "px-6 py-3 text-sm font-medium rounded-full text-center transition-all #{current_tab == 'settings' ? 'bg-base-100 text-base-content shadow-sm' : 'text-base-500 hover:text-base-content'}" %>
+    <%= link_to "Billing", billing_path,
+        class: "px-6 py-3 text-sm font-medium rounded-full text-center transition-all #{current_tab == 'billing' ? 'bg-base-100 text-base-content shadow-sm' : 'text-base-500 hover:text-base-content'}" %>
     <%= link_to "Plan", plan_path,
         class: "px-6 py-3 text-sm font-medium rounded-full text-center transition-all #{current_tab == 'plan' ? 'bg-base-100 text-base-content shadow-sm' : 'text-base-500 hover:text-base-content'}" %>
     </div>

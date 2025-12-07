@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   resource :team, only: [ :show, :update ]
   resources :invitations, only: [ :create, :destroy ], controller: "account_invitations"
   resource :settings, only: [ :show, :update ]
+  resource :billing, only: [ :show ]
+  post "billing_portal", to: "billing_portal#create"
   resource :plan, only: [ :show ]
   get "pricing", to: "pricing#index"
 
