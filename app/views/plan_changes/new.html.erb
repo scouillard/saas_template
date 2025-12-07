@@ -1,0 +1,115 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <%= render "shared/settings_nav" %>
+
+  <div class="bg-base-100 border border-base-300 rounded-2xl p-6">
+    <div class="pb-5 border-b border-base-300 mb-6">
+      <h2 class="text-xl font-semibold text-base-content mb-1">Change Plan</h2>
+      <p class="text-sm text-base-500">Review your plan change before confirming</p>
+    </div>
+
+    <div class="mb-6">
+      <div class="flex justify-center mb-6">
+        <div class="inline-flex bg-base-200 rounded-full p-1">
+          <%= link_to "Monthly", new_plan_change_path(plan: @target_plan.id, interval: "monthly"),
+              class: "px-6 py-3 text-sm font-medium rounded-full text-center transition-all cursor-pointer #{@interval == 'monthly' ? 'bg-base-100 text-base-content shadow-sm' : 'text-base-500 hover:text-base-content'}" %>
+          <%= link_to "Annual", new_plan_change_path(plan: @target_plan.id, interval: "annual"),
+              class: "px-6 py-3 text-sm font-medium rounded-full text-center transition-all cursor-pointer #{@interval == 'annual' ? 'bg-base-100 text-base-content shadow-sm' : 'text-base-500 hover:text-base-content'}" %>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-base-200 border border-base-300 rounded-2xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-base-content">Current Plan</h3>
+            <span class="bg-base-300 text-base-500 px-3 py-1 rounded-full text-sm font-medium">Current</span>
+          </div>
+          <div class="mb-4">
+            <p class="text-2xl font-semibold text-base-content"><%= @current_plan&.name || current_account.plan.capitalize %></p>
+            <p class="text-sm text-base-500"><%= @current_plan&.description %></p>
+          </div>
+          <div class="text-3xl font-semibold text-base-content mb-4">
+            <%= format_plan_price(@current_plan&.monthly_price || 0) %>
+            <% unless @current_plan&.free? %>
+              <span class="text-base text-base-500 font-normal">/month</span>
+            <% end %>
+          </div>
+          <% if @current_plan&.bullet_points&.any? %>
+            <ul class="space-y-2">
+              <% @current_plan.bullet_points.first(3).each do |feature| %>
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 text-base-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  <span class="text-sm text-base-500"><%= feature %></span>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+
+        <div class="bg-base-100 border-2 border-primary rounded-2xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-base-content">New Plan</h3>
+            <span class="bg-primary text-primary-content px-3 py-1 rounded-full text-sm font-medium">
+              <%= @change_type == :upgrade ? "Upgrade" : "Downgrade" %>
+            </span>
+          </div>
+          <div class="mb-4">
+            <p class="text-2xl font-semibold text-base-content"><%= @target_plan.name %></p>
+            <p class="text-sm text-base-500"><%= @target_plan.description %></p>
+          </div>
+          <div class="text-3xl font-semibold text-base-content mb-4">
+            <% if @interval == "annual" %>
+              <%= format_plan_price(annual_monthly_price(@target_plan)) %>
+              <span class="text-base text-base-500 font-normal">/month</span>
+              <div class="text-sm text-base-500 mt-1">Billed <%= format_plan_price(@target_plan.annual_price) %>/year</div>
+            <% else %>
+              <%= format_plan_price(@target_plan.monthly_price) %>
+              <span class="text-base text-base-500 font-normal">/month</span>
+            <% end %>
+          </div>
+          <% if @target_plan.bullet_points.any? %>
+            <ul class="space-y-2">
+              <% @target_plan.bullet_points.first(3).each do |feature| %>
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 text-primary shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  <span class="text-sm text-base-content"><%= feature %></span>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-base-200 rounded-xl p-4 mb-6">
+      <div class="flex items-start gap-3">
+        <svg class="w-5 h-5 text-primary shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+        </svg>
+        <div>
+          <% if @change_type == :upgrade %>
+            <p class="text-sm font-medium text-base-content">Upgrade takes effect immediately</p>
+            <p class="text-sm text-base-500">You'll be charged a prorated amount for the remainder of your current billing period.</p>
+          <% else %>
+            <p class="text-sm font-medium text-base-content">Downgrade takes effect at period end</p>
+            <p class="text-sm text-base-500">You'll continue to have access to your current plan until your next billing date.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-4">
+      <%= form_with url: plan_changes_path, method: :post, class: "flex-1" do |f| %>
+        <%= f.hidden_field :plan, value: @target_plan.id %>
+        <%= f.hidden_field :interval, value: @interval %>
+        <%= f.submit "Confirm #{@change_type == :upgrade ? 'Upgrade' : 'Downgrade'}",
+            class: "w-full px-4 py-2.5 text-base font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all cursor-pointer" %>
+      <% end %>
+      <%= link_to "Cancel", plan_path,
+          class: "flex-1 w-full px-4 py-2.5 text-base font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer text-center" %>
+    </div>
+  </div>
+</div>
