@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
-  include RateLimitable
+  # General rate limit to prevent abuse (60 requests per minute per IP)
+  rate_limit to: 60, within: 1.minute
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern

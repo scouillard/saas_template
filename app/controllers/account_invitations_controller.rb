@@ -1,13 +1,4 @@
 class AccountInvitationsController < ApplicationController
-  rate_limit to: RateLimiting::INVITATION_CREATE_LIMIT,
-             within: RateLimiting::ONE_HOUR,
-             by: -> { rate_limit_key },
-             only: :create
-
-  rate_limit to: RateLimiting::INVITATION_ACCEPT_LIMIT,
-             within: RateLimiting::ONE_HOUR,
-             only: :accept
-
   before_action :authenticate_user!, only: [ :create, :destroy ]
   before_action :set_invitation, only: [ :show, :accept ]
   before_action :redirect_if_signed_in_with_different_email, only: [ :show, :accept ]

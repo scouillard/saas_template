@@ -1,9 +1,4 @@
 class NotificationsController < ApplicationController
-  rate_limit to: RateLimiting::NOTIFICATION_LIMIT,
-             within: RateLimiting::ONE_MINUTE,
-             by: -> { rate_limit_key },
-             only: :mark_all_seen
-
   before_action :authenticate_user!
 
   def mark_all_seen

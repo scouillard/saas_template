@@ -1,7 +1,6 @@
 class ContactController < ApplicationController
-  rate_limit to: RateLimiting::CONTACT_FORM_LIMIT,
-             within: RateLimiting::TEN_MINUTES,
-             only: :create
+  # Strict limit for public endpoint (3 per 10 minutes)
+  rate_limit to: 3, within: 10.minutes, only: :create
 
   def new
     @contact_message = ContactMessage.new

@@ -1,7 +1,6 @@
 class SubscribersController < ApplicationController
-  rate_limit to: RateLimiting::NEWSLETTER_LIMIT,
-             within: RateLimiting::ONE_HOUR,
-             only: :create
+  # Strict limit for public endpoint (2 per hour)
+  rate_limit to: 2, within: 1.hour, only: :create
 
   def new
     @subscriber = Subscriber.new

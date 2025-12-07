@@ -1,8 +1,6 @@
 class StripeCheckoutController < ApplicationController
-  rate_limit to: RateLimiting::CHECKOUT_LIMIT,
-             within: RateLimiting::FIVE_MINUTES,
-             by: -> { rate_limit_key },
-             only: :create
+  # Security: limit checkout session creation (10 per 5 minutes)
+  rate_limit to: 10, within: 5.minutes, only: :create
 
   before_action :authenticate_user!
 
