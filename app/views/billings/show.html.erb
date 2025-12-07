@@ -1,0 +1,59 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <%= render "shared/settings_nav" %>
+
+  <div class="bg-base-100 border border-base-300 rounded-2xl p-6">
+    <div class="pb-5 border-b border-base-300 mb-6">
+      <h2 class="text-xl font-semibold text-base-content mb-1">Billing</h2>
+      <p class="text-sm text-base-500">Manage your subscription and payment method</p>
+    </div>
+
+    <div class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+        <div>
+          <label class="text-xs font-semibold text-base-500 uppercase tracking-wide">Current Plan</label>
+          <p class="text-lg font-semibold text-base-content mt-2"><%= @current_plan&.name || @account.plan&.titleize || "No Plan" %></p>
+        </div>
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium w-fit
+              <%= @account.subscription_active? ? 'bg-success/10 text-success' : 'bg-base-200 text-base-content' %>">
+          <%= subscription_status_text(@account) %>
+        </span>
+      </div>
+
+      <% if @account.subscription_active? %>
+        <div class="border-t border-base-300 pt-6">
+          <label class="text-xs font-semibold text-base-500 uppercase tracking-wide">Next Billing Date</label>
+          <p class="text-base-content font-medium mt-1">
+            <% if @account.current_period_ends_at.present? %>
+              <%= @account.current_period_ends_at.strftime("%B %d, %Y") %>
+            <% else %>
+              —
+            <% end %>
+          </p>
+        </div>
+      <% elsif @account.subscription_status_canceled? %>
+        <div class="border-t border-base-300 pt-6">
+          <label class="text-xs font-semibold text-base-500 uppercase tracking-wide">Subscription Ends</label>
+          <p class="text-base-content font-medium mt-1">
+            <% if @account.current_period_ends_at.present? %>
+              <%= @account.current_period_ends_at.strftime("%B %d, %Y") %>
+            <% else %>
+              —
+            <% end %>
+          </p>
+        </div>
+      <% end %>
+
+      <div class="border-t border-base-300 pt-6">
+        <% if @account.stripe_customer_id.present? %>
+          <%= button_to "Manage Billing", billing_portal_path, method: :post,
+              class: "w-full sm:w-auto px-4 py-2.5 text-base font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all cursor-pointer" %>
+          <p class="text-sm text-base-500 mt-2">Update payment method, view invoices, or cancel subscription</p>
+        <% else %>
+          <p class="text-sm text-base-500">Subscribe to a plan to manage billing.</p>
+          <%= link_to "View Plans", pricing_path,
+              class: "inline-block mt-3 px-4 py-2.5 text-base font-semibold rounded-full bg-primary text-primary-content border-2 border-primary hover:brightness-90 transition-all cursor-pointer" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
