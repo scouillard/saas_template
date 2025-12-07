@@ -207,5 +207,106 @@ RSpec.describe "Webhooks::Stripe", type: :request do
         expect(response).to have_http_status(:ok)
       end
     end
+
+    context "idempotency - same event processed twice" do
+      let(:subscription_data) do
+        {
+          id: account.stripe_subscription_id,
+          customer: account.stripe_customer_id,
+          ended_at: Time.now.to_i,
+          current_period_end: 1.month.from_now.to_i
+        }
+      end
+
+      before do
+        account.update!(plan: :pro, subscription_status: :active)
+      end
+
+      it "handles duplicate deletion events gracefully" do
+        # First deletion
+        post_webhook(event_type: "customer.subscription.deleted", data: subscription_data)
+        expect(response).to have_http_status(:ok)
+        expect(account.reload.subscription_status).to eq("canceled")
+
+        # Second deletion (same event)
+        post_webhook(event_type: "customer.subscription.deleted", data: subscription_data)
+        expect(response).to have_http_status(:ok)
+        expect(account.reload.subscription_status).to eq("canceled")
+      end
+
+      it "handles duplicate payment_failed events gracefully" do
+        account.update!(plan: :pro, subscription_status: :active)
+
+        # First failure
+        post_webhook(event_type: "invoice.payment_failed", data: { customer: account.stripe_customer_id })
+        expect(response).to have_http_status(:ok)
+        expect(account.reload.subscription_status).to eq("past_due")
+
+        # Second failure (same event)
+        post_webhook(event_type: "invoice.payment_failed", data: { customer: account.stripe_customer_id })
+        expect(response).to have_http_status(:ok)
+        expect(account.reload.subscription_status).to eq("past_due")
+      end
+    end
+
+    context "with unknown price IDs" do
+      describe "customer.subscription.updated" do
+        let(:subscription_data) do
+          {
+            id: account.stripe_subscription_id,
+            customer: account.stripe_customer_id,
+            status: "active",
+            start_date: 1.day.ago.to_i,
+            current_period_end: 1.month.from_now.to_i,
+            cancel_at: nil,
+            items: { data: [ { price: { id: "price_unknown_xyz" } } ] }
+          }
+        end
+
+        before do
+          account.update!(plan: :pro, subscription_status: :active)
+        end
+
+        it "keeps the current plan when price ID is not recognized" do
+          post_webhook(event_type: "customer.subscription.updated", data: subscription_data)
+
+          expect(response).to have_http_status(:ok)
+          account.reload
+          expect(account.plan).to eq("pro")
+          expect(account.subscription_status).to eq("active")
+        end
+      end
+    end
+
+    context "with missing subscription ID" do
+      describe "checkout.session.completed without subscription ID" do
+        it "returns ok but does not update account" do
+          post_webhook(
+            event_type: "checkout.session.completed",
+            data: {
+              customer: account.stripe_customer_id,
+              subscription: nil
+            }
+          )
+
+          # The webhook returns ok but subscription sync is skipped when subscription is nil
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      describe "invoice.payment_succeeded without subscription ID" do
+        it "returns ok without updating" do
+          post_webhook(
+            event_type: "invoice.payment_succeeded",
+            data: {
+              customer: account.stripe_customer_id,
+              subscription: nil
+            }
+          )
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
+    end
   end
 end

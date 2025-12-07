@@ -85,6 +85,52 @@ RSpec.describe "StripeCheckout", type: :request do
 
         expect(response).to have_http_status(:not_found)
       end
+
+      context "when Stripe API raises InvalidRequestError" do
+        before do
+          allow(Stripe::Checkout::Session).to receive(:create)
+            .and_raise(Stripe::InvalidRequestError.new("Invalid price", "price"))
+        end
+
+        it "raises the error (500)" do
+          expect {
+            post checkout_path, params: { plan: "pro", interval: "monthly" }
+          }.to raise_error(Stripe::InvalidRequestError)
+        end
+      end
+
+      context "when Stripe API raises StripeError" do
+        before do
+          allow(Stripe::Checkout::Session).to receive(:create)
+            .and_raise(Stripe::StripeError.new("Stripe API error"))
+        end
+
+        it "raises the error" do
+          expect {
+            post checkout_path, params: { plan: "pro", interval: "monthly" }
+          }.to raise_error(Stripe::StripeError)
+        end
+      end
+    end
+
+    context "rate limiting", :rate_limit do
+      let(:user) { create(:user) }
+      let(:mock_session) { Struct.new(:url).new("https://checkout.stripe.com/test") }
+
+      before do
+        sign_in user
+        allow(Stripe::Checkout::Session).to receive(:create).and_return(mock_session)
+        # Clear rate limit cache before each test
+        Rails.cache.clear
+      end
+
+      it "blocks requests exceeding rate limit" do
+        11.times do
+          post checkout_path, params: { plan: "pro", interval: "monthly" }
+        end
+
+        expect(response).to have_http_status(:too_many_requests)
+      end
     end
   end
 end

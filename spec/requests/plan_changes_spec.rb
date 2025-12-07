@@ -160,5 +160,56 @@ RSpec.describe "PlanChanges", type: :request do
         expect(response).to redirect_to("https://checkout.stripe.com/test")
       end
     end
+
+    context "when Stripe API raises error" do
+      let(:user) { create(:user) }
+      let(:account) { user.accounts.first }
+
+      before do
+        sign_in user
+        account.update!(
+          plan: "pro",
+          subscription_status: "active",
+          stripe_customer_id: "cus_test123",
+          stripe_subscription_id: "sub_test123"
+        )
+      end
+
+      it "raises InvalidRequestError when Stripe returns error" do
+        allow(Stripe::Checkout::Session).to receive(:create)
+          .and_raise(Stripe::InvalidRequestError.new("Customer not found", "customer"))
+
+        expect {
+          post plan_changes_path, params: { plan: "enterprise", interval: "monthly" }
+        }.to raise_error(Stripe::InvalidRequestError)
+      end
+    end
+
+    context "rate limiting", :rate_limit do
+      let(:user) { create(:user) }
+      let(:account) { user.accounts.first }
+      let(:mock_session) { Struct.new(:url).new("https://checkout.stripe.com/test") }
+
+      before do
+        sign_in user
+        account.update!(
+          plan: "pro",
+          subscription_status: "active",
+          stripe_customer_id: "cus_test123",
+          stripe_subscription_id: "sub_test123"
+        )
+        allow(Stripe::Checkout::Session).to receive(:create).and_return(mock_session)
+        # Clear rate limit cache before each test
+        Rails.cache.clear
+      end
+
+      it "blocks requests exceeding rate limit" do
+        11.times do
+          post plan_changes_path, params: { plan: "enterprise", interval: "monthly" }
+        end
+
+        expect(response).to have_http_status(:too_many_requests)
+      end
+    end
   end
 end

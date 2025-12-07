@@ -1,129 +1,127 @@
-<div class="max-w-7xl mx-auto px-4 py-8">
-  <%= render "shared/settings_nav" %>
+<%= render "shared/settings_nav" %>
 
-  <div class="bg-base-100 border border-base-300 rounded-2xl p-6">
-    <div class="pb-5 border-b border-base-300 mb-6">
-      <h2 class="text-xl font-semibold text-base-content mb-1">Plan & Billing</h2>
-      <p class="text-sm text-base-500">Manage your subscription</p>
-    </div>
+<div class="w-full bg-base-100 border border-base-300 rounded-2xl p-6">
+  <div class="pb-5 border-b border-base-300 mb-6">
+    <h2 class="text-xl font-semibold text-base-content mb-1">Plan & Billing</h2>
+    <p class="text-sm text-base-500">Manage your subscription</p>
+  </div>
 
-    <div class="space-y-6">
-      <% current_plan = Plan.find_by(id: current_account.plan) %>
-      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-        <div>
-          <label class="text-xs font-semibold text-base-500 uppercase tracking-wide">Current Plan</label>
-          <div class="flex items-center gap-2 mt-2">
-            <p class="text-lg font-semibold text-base-content"><%= current_plan&.name || current_account.plan.capitalize %></p>
-            <% if current_account.past_due? %>
-              <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-warning text-warning-content">Past Due</span>
-            <% elsif current_account.canceled? %>
-              <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-error text-error-content">Canceled</span>
-            <% elsif current_account.active_subscription? %>
-              <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-success text-success-content">Active</span>
-            <% end %>
-          </div>
-          <% if current_plan && !current_plan.free? %>
-            <p class="text-sm text-base-500 mt-1"><%= format_plan_price(current_plan.monthly_price) %>/month</p>
+  <div class="space-y-6">
+    <% current_plan = Plan.find_by(id: current_account.plan) %>
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+      <div>
+        <label class="text-xs font-semibold text-base-500 uppercase tracking-wide">Current Plan</label>
+        <div class="flex items-center gap-2 mt-2">
+          <p class="text-lg font-semibold text-base-content"><%= current_plan&.name || current_account.plan.capitalize %></p>
+          <% if current_account.past_due? %>
+            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-warning text-warning-content">Past Due</span>
+          <% elsif current_account.canceled? %>
+            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-error text-error-content">Canceled</span>
+          <% elsif current_account.active_subscription? %>
+            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-success text-success-content">Active</span>
           <% end %>
         </div>
-        <% if current_account.can_change_plan? %>
-          <%= link_to "View All Plans", pricing_path, class: "px-4 py-2 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer" %>
-        <% else %>
-          <%= link_to "View Plans", pricing_path, class: "px-4 py-2 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer" %>
+        <% if current_plan && !current_plan.free? %>
+          <p class="text-sm text-base-500 mt-1"><%= format_plan_price(current_plan.monthly_price) %>/month</p>
         <% end %>
       </div>
-
-      <% if current_account.past_due? %>
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-base-200 rounded-xl border border-warning">
-          <div>
-            <div class="text-base-content font-medium">Payment Issue</div>
-            <div class="text-sm text-base-500">Please update your payment method to continue your subscription</div>
-          </div>
-          <%= link_to "Update Payment Method", billing_path, class: "px-4 py-2 text-sm font-semibold rounded-full bg-primary text-primary-content hover:brightness-90 transition-all cursor-pointer w-fit" %>
-        </div>
-      <% end %>
-
-      <% if current_account.subscription_started_at.present? %>
-        <div>
-          <label class="text-xs font-semibold text-base-500 uppercase tracking-wide">Billing Period</label>
-          <p class="text-base-content font-medium mt-1">
-            <%= current_account.subscription_started_at.strftime("%B %d, %Y") %> -
-            <%= current_account.subscription_ends_at&.strftime("%B %d, %Y") || "Ongoing" %>
-          </p>
-        </div>
-      <% end %>
-
-      <% if current_account.current_period_ends_at.present? && !current_account.subscription_canceling? %>
-        <div>
-          <label class="text-xs font-semibold text-base-500 uppercase tracking-wide">Next Billing Date</label>
-          <p class="text-base-content font-medium mt-1">
-            <%= current_account.current_period_ends_at.strftime("%B %d, %Y") %>
-          </p>
-        </div>
-      <% end %>
-
-      <% if current_account.subscription_canceling? %>
-        <div class="bg-base-200 border border-warning rounded-2xl p-4">
-          <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-warning shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-            </svg>
-            <div>
-              <p class="text-sm font-medium text-warning">Your subscription will end on <%= current_account.current_period_ends_at&.strftime("%B %d, %Y") %></p>
-              <p class="text-sm text-base-500 mt-1">Keep your access by reactivating before this date.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="pt-6 border-t border-base-300">
-          <h3 class="text-sm font-semibold text-base-content mb-4">Reactivate Subscription</h3>
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-base-200 rounded-xl border border-base-300">
-            <div>
-              <div class="text-base-content font-medium">Continue your subscription</div>
-              <div class="text-sm text-base-500">Resume billing and keep your current plan</div>
-            </div>
-            <%= button_to "Reactivate Subscription", reactivate_subscription_path, method: :post, class: "px-4 py-2 text-sm font-semibold rounded-full bg-primary text-primary-content hover:brightness-90 transition-all cursor-pointer w-fit" %>
-          </div>
-        </div>
-      <% elsif current_account.can_change_plan? %>
-        <div class="pt-6 border-t border-base-300">
-          <h3 class="text-sm font-semibold text-base-content mb-4">Change Plan</h3>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <% Plan.all.each do |plan| %>
-              <% next if plan.id == current_account.plan %>
-              <% next if plan.free? %>
-              <div class="p-4 bg-base-200 rounded-xl border border-base-300">
-                <div class="flex items-start justify-between mb-2">
-                  <div>
-                    <p class="font-semibold text-base-content"><%= plan.name %></p>
-                    <p class="text-sm text-base-500"><%= format_plan_price(plan.monthly_price) %>/mo</p>
-                  </div>
-                  <% if current_account.upgrading_to?(plan.id) %>
-                    <span class="text-xs bg-primary text-primary-content px-2 py-1 rounded-full">Upgrade</span>
-                  <% else %>
-                    <span class="text-xs bg-base-300 text-base-500 px-2 py-1 rounded-full">Downgrade</span>
-                  <% end %>
-                </div>
-                <%= link_to "Select", new_plan_change_path(plan: plan.id, interval: "monthly"),
-                    class: "w-full mt-3 px-3 py-1.5 text-sm font-medium rounded-full text-primary border border-base-300 hover:border-base-400 transition-all cursor-pointer text-center block" %>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-
-      <% if current_account.subscription_active? %>
-        <div class="pt-6 border-t border-base-300">
-          <h3 class="text-sm font-semibold text-error mb-4">Cancel Subscription</h3>
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-base-200 rounded-xl border border-base-300">
-            <div>
-              <div class="text-base-content font-medium">Cancel Subscription</div>
-              <div class="text-sm text-base-500">Your data will be retained for 30 days</div>
-            </div>
-            <%= link_to "Cancel Plan", cancel_subscription_path, class: "px-4 py-2 text-sm font-medium rounded-full text-error hover:bg-base-300 transition-all cursor-pointer w-fit" %>
-          </div>
-        </div>
+      <% if current_account.can_change_plan? %>
+        <%= link_to "View All Plans", pricing_path, class: "px-4 py-2 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer" %>
+      <% else %>
+        <%= link_to "View Plans", pricing_path, class: "px-4 py-2 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer" %>
       <% end %>
     </div>
+
+    <% if current_account.past_due? %>
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-base-200 rounded-xl border border-warning">
+        <div>
+          <div class="text-base-content font-medium">Payment Issue</div>
+          <div class="text-sm text-base-500">Please update your payment method to continue your subscription</div>
+        </div>
+        <%= link_to "Update Payment Method", billing_path, class: "px-4 py-2 text-sm font-semibold rounded-full bg-primary text-primary-content hover:brightness-90 transition-all cursor-pointer w-fit" %>
+      </div>
+    <% end %>
+
+    <% if current_account.subscription_started_at.present? %>
+      <div>
+        <label class="text-xs font-semibold text-base-500 uppercase tracking-wide">Billing Period</label>
+        <p class="text-base-content font-medium mt-1">
+          <%= current_account.subscription_started_at.strftime("%B %d, %Y") %> -
+          <%= current_account.subscription_ends_at&.strftime("%B %d, %Y") || "Ongoing" %>
+        </p>
+      </div>
+    <% end %>
+
+    <% if current_account.current_period_ends_at.present? && !current_account.subscription_canceling? %>
+      <div>
+        <label class="text-xs font-semibold text-base-500 uppercase tracking-wide">Next Billing Date</label>
+        <p class="text-base-content font-medium mt-1">
+          <%= current_account.current_period_ends_at.strftime("%B %d, %Y") %>
+        </p>
+      </div>
+    <% end %>
+
+    <% if current_account.subscription_canceling? %>
+      <div class="bg-base-200 border border-warning rounded-2xl p-4">
+        <div class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-warning shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+          </svg>
+          <div>
+            <p class="text-sm font-medium text-warning">Your subscription will end on <%= current_account.current_period_ends_at&.strftime("%B %d, %Y") %></p>
+            <p class="text-sm text-base-500 mt-1">Keep your access by reactivating before this date.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-base-300">
+        <h3 class="text-sm font-semibold text-base-content mb-4">Reactivate Subscription</h3>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-base-200 rounded-xl border border-base-300">
+          <div>
+            <div class="text-base-content font-medium">Continue your subscription</div>
+            <div class="text-sm text-base-500">Resume billing and keep your current plan</div>
+          </div>
+          <%= button_to "Reactivate Subscription", reactivate_subscription_path, method: :post, class: "px-4 py-2 text-sm font-semibold rounded-full bg-primary text-primary-content hover:brightness-90 transition-all cursor-pointer w-fit" %>
+        </div>
+      </div>
+    <% elsif current_account.can_change_plan? %>
+      <div class="pt-6 border-t border-base-300">
+        <h3 class="text-sm font-semibold text-base-content mb-4">Change Plan</h3>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <% Plan.all.each do |plan| %>
+            <% next if plan.id == current_account.plan %>
+            <% next if plan.free? %>
+            <div class="p-4 bg-base-200 rounded-xl border border-base-300">
+              <div class="flex items-start justify-between mb-2">
+                <div>
+                  <p class="font-semibold text-base-content"><%= plan.name %></p>
+                  <p class="text-sm text-base-500"><%= format_plan_price(plan.monthly_price) %>/mo</p>
+                </div>
+                <% if current_account.upgrading_to?(plan.id) %>
+                  <span class="text-xs bg-primary text-primary-content px-2 py-1 rounded-full">Upgrade</span>
+                <% else %>
+                  <span class="text-xs bg-base-300 text-base-500 px-2 py-1 rounded-full">Downgrade</span>
+                <% end %>
+              </div>
+              <%= link_to "Select", new_plan_change_path(plan: plan.id, interval: "monthly"),
+                  class: "w-full mt-3 px-3 py-1.5 text-sm font-medium rounded-full text-primary border border-base-300 hover:border-base-400 transition-all cursor-pointer text-center block" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if current_account.subscription_active? %>
+      <div class="pt-6 border-t border-base-300">
+        <h3 class="text-sm font-semibold text-error mb-4">Cancel Subscription</h3>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-base-200 rounded-xl border border-base-300">
+          <div>
+            <div class="text-base-content font-medium">Cancel Subscription</div>
+            <div class="text-sm text-base-500">Your data will be retained for 30 days</div>
+          </div>
+          <%= link_to "Cancel Plan", cancel_subscription_path, class: "px-4 py-2 text-sm font-medium rounded-full text-error hover:bg-base-300 transition-all cursor-pointer w-fit" %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -13,7 +13,7 @@ class CheckoutsController < ApplicationController
     @subscription = session.subscription
     @plan = Plan.find_by(id: current_account.plan)
     @interval = @subscription.items.data.first.price.recurring.interval
-    render "checkout_success/show"
+    render :success
   end
 
   private

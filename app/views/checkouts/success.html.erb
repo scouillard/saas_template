@@ -1,0 +1,49 @@
+<div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+  <div class="text-center">
+    <div class="rounded-full bg-success/10 p-3 w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+      <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+    </div>
+
+    <h1 class="text-3xl font-extrabold text-base-content">
+      Welcome to <%= @plan&.name || "your plan" %>!
+    </h1>
+
+    <p class="mt-4 text-lg text-base-content/70">
+      Your subscription is now active. You have full access to all <%= @plan&.name %> features.
+    </p>
+
+    <div class="mt-8 bg-base-200 rounded-lg p-6">
+      <h2 class="text-lg font-semibold text-base-content mb-4">Subscription Details</h2>
+
+      <dl class="space-y-3 text-sm">
+        <div class="flex justify-between">
+          <dt class="text-base-content/70">Plan</dt>
+          <dd class="font-medium text-base-content"><%= @plan&.name %></dd>
+        </div>
+
+        <div class="flex justify-between">
+          <dt class="text-base-content/70">Billing</dt>
+          <dd class="font-medium text-base-content"><%= @interval&.titleize %></dd>
+        </div>
+
+        <% if @subscription&.trial_end %>
+          <div class="flex justify-between">
+            <dt class="text-base-content/70">Trial ends</dt>
+            <dd class="font-medium text-base-content"><%= Time.zone.at(@subscription.trial_end).strftime("%B %d, %Y") %></dd>
+          </div>
+        <% end %>
+
+        <div class="flex justify-between">
+          <dt class="text-base-content/70">Next billing date</dt>
+          <dd class="font-medium text-base-content"><%= Time.zone.at(@subscription.current_period_end).strftime("%B %d, %Y") %></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="mt-8">
+      <%= link_to "Go to Dashboard", root_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>

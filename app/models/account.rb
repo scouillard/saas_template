@@ -74,22 +74,6 @@ class Account < ApplicationRecord
     subscription_active? && stripe_subscription_id.present?
   end
 
-  def downgrade_to_free!
-    update!(
-      plan: "free",
-      stripe_subscription_id: nil,
-      subscription_status: nil,
-      current_period_ends_at: nil
-    )
-  end
-
-  def update_subscription_from_stripe!(stripe_subscription)
-    update!(
-      subscription_status: stripe_subscription.status,
-      current_period_ends_at: Time.zone.at(stripe_subscription.current_period_end)
-    )
-  end
-
   def sync_subscription(subscription)
     update!(subscription_attributes(subscription))
   end

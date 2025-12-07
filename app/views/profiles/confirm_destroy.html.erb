@@ -1,118 +1,116 @@
-<div class="max-w-7xl mx-auto px-4 py-8">
-  <%= render "shared/settings_nav" %>
+<%= render "shared/settings_nav" %>
 
-  <div class="bg-base-100 border border-base-300 rounded-2xl p-6">
-    <div class="pb-5 border-b border-base-300 mb-6">
-      <div class="flex items-center gap-3">
-        <%= link_to profile_path, class: "flex items-center justify-center w-8 h-8 rounded-lg bg-base-200 text-base-500 hover:bg-base-300 transition-colors cursor-pointer" do %>
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-          </svg>
-        <% end %>
-        <div>
-          <h2 class="text-xl font-semibold text-error">Delete Account</h2>
-          <p class="text-sm text-base-500">This action is permanent and cannot be undone</p>
-        </div>
+<div class="w-full bg-base-100 border border-base-300 rounded-2xl p-6">
+  <div class="pb-5 border-b border-base-300 mb-6">
+    <div class="flex items-center gap-3">
+      <%= link_to profile_path, class: "flex items-center justify-center w-8 h-8 rounded-lg bg-base-200 text-base-500 hover:bg-base-300 transition-colors cursor-pointer" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+      <% end %>
+      <div>
+        <h2 class="text-xl font-semibold text-error">Delete Account</h2>
+        <p class="text-sm text-base-500">This action is permanent and cannot be undone</p>
       </div>
     </div>
-
-    <% if @can_delete %>
-      <div class="space-y-6">
-        <div class="bg-base-100 border border-error p-4">
-          <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-error shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-            </svg>
-            <div>
-              <p class="text-sm font-medium text-error">Warning: This will permanently delete your account</p>
-              <p class="text-sm text-base-500 mt-1">Once deleted, your data cannot be recovered.</p>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h3 class="text-sm font-semibold text-base-content mb-4">What will be deleted:</h3>
-          <ul class="space-y-3">
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-error shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-              </svg>
-              <div>
-                <span class="text-base-content font-medium">Your profile</span>
-                <p class="text-sm text-base-500"><%= current_user.email %></p>
-              </div>
-            </li>
-
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-error shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-              </svg>
-              <div>
-                <span class="text-base-content font-medium">Team memberships</span>
-                <p class="text-sm text-base-500">You will be removed from <%= pluralize(@total_memberships, "team") %></p>
-              </div>
-            </li>
-
-            <% if @accounts_owned.any? %>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-error shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
-                <div>
-                  <span class="text-base-content font-medium">Teams you own</span>
-                  <p class="text-sm text-base-500">
-                    <% @accounts_owned.each do |account| %>
-                      <%= account.name %><%= ", " unless account == @accounts_owned.last %>
-                    <% end %>
-                  </p>
-                </div>
-              </li>
-            <% end %>
-
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-error shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-              </svg>
-              <div>
-                <span class="text-base-content font-medium">All notifications</span>
-                <p class="text-sm text-base-500">Your notification history will be erased</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        <div class="pt-6 border-t border-base-300 flex flex-col sm:flex-row sm:justify-end gap-3">
-          <%= link_to "Cancel", profile_path,
-              class: "px-4 py-2 text-sm font-medium rounded-full text-base-500 hover:text-base-content hover:bg-base-200 transition-all cursor-pointer text-center" %>
-          <%= button_to "Delete my account permanently", profile_path, method: :delete,
-              class: "px-4 py-2 text-sm font-semibold rounded-full bg-error text-error-content hover:brightness-90 transition-all cursor-pointer" %>
-        </div>
-      </div>
-    <% else %>
-      <div class="space-y-6">
-        <div class="bg-base-200 border border-base-300 rounded-2xl p-4">
-          <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-base-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
-            </svg>
-            <div>
-              <p class="text-sm font-medium text-base-content">Cannot delete account</p>
-              <p class="text-sm text-base-500 mt-1">You are an owner or admin of a team with other members. Before deleting your account, you must either:</p>
-              <ul class="text-sm text-base-500 mt-2 space-y-1 list-disc list-inside">
-                <li>Transfer ownership to another team member</li>
-                <li>Remove all other members from the team</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="pt-6 border-t border-base-300 flex flex-col sm:flex-row sm:justify-end gap-3">
-          <%= link_to "Back to Profile", profile_path,
-              class: "px-4 py-2 text-sm font-medium rounded-full text-base-500 hover:text-base-content hover:bg-base-200 transition-all cursor-pointer text-center" %>
-          <%= link_to "Go to Team Settings", team_path,
-              class: "px-4 py-2 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer text-center" %>
-        </div>
-      </div>
-    <% end %>
   </div>
+
+  <% if @can_delete %>
+    <div class="space-y-6">
+      <div class="bg-base-100 border border-error p-4">
+        <div class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-error shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+          </svg>
+          <div>
+            <p class="text-sm font-medium text-error">Warning: This will permanently delete your account</p>
+            <p class="text-sm text-base-500 mt-1">Once deleted, your data cannot be recovered.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold text-base-content mb-4">What will be deleted:</h3>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-error shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+            <div>
+              <span class="text-base-content font-medium">Your profile</span>
+              <p class="text-sm text-base-500"><%= current_user.email %></p>
+            </div>
+          </li>
+
+          <li class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-error shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+            <div>
+              <span class="text-base-content font-medium">Team memberships</span>
+              <p class="text-sm text-base-500">You will be removed from <%= pluralize(@total_memberships, "team") %></p>
+            </div>
+          </li>
+
+          <% if @accounts_owned.any? %>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-error shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+              <div>
+                <span class="text-base-content font-medium">Teams you own</span>
+                <p class="text-sm text-base-500">
+                  <% @accounts_owned.each do |account| %>
+                    <%= account.name %><%= ", " unless account == @accounts_owned.last %>
+                  <% end %>
+                </p>
+              </div>
+            </li>
+          <% end %>
+
+          <li class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-error shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+            <div>
+              <span class="text-base-content font-medium">All notifications</span>
+              <p class="text-sm text-base-500">Your notification history will be erased</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="pt-6 border-t border-base-300 flex flex-col sm:flex-row sm:justify-end gap-3">
+        <%= link_to "Cancel", profile_path,
+            class: "px-4 py-2 text-sm font-medium rounded-full text-base-500 hover:text-base-content hover:bg-base-200 transition-all cursor-pointer text-center" %>
+        <%= button_to "Delete my account permanently", profile_path, method: :delete,
+            class: "px-4 py-2 text-sm font-semibold rounded-full bg-error text-error-content hover:brightness-90 transition-all cursor-pointer" %>
+      </div>
+    </div>
+  <% else %>
+    <div class="space-y-6">
+      <div class="bg-base-200 border border-base-300 rounded-2xl p-4">
+        <div class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-base-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
+          </svg>
+          <div>
+            <p class="text-sm font-medium text-base-content">Cannot delete account</p>
+            <p class="text-sm text-base-500 mt-1">You are an owner or admin of a team with other members. Before deleting your account, you must either:</p>
+            <ul class="text-sm text-base-500 mt-2 space-y-1 list-disc list-inside">
+              <li>Transfer ownership to another team member</li>
+              <li>Remove all other members from the team</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-base-300 flex flex-col sm:flex-row sm:justify-end gap-3">
+        <%= link_to "Back to Profile", profile_path,
+            class: "px-4 py-2 text-sm font-medium rounded-full text-base-500 hover:text-base-content hover:bg-base-200 transition-all cursor-pointer text-center" %>
+        <%= link_to "Go to Team Settings", team_path,
+            class: "px-4 py-2 text-sm font-semibold rounded-full text-primary border-2 border-base-300 hover:border-base-400 transition-all cursor-pointer text-center" %>
+      </div>
+    </div>
+  <% end %>
 </div>

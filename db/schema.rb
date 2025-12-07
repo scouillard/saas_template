@@ -20,26 +20,26 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_06_232609) do
     t.integer "inviter_id", null: false
     t.string "token", null: false
     t.datetime "updated_at", null: false
-    t.index [ "account_id", "email" ], name: "index_account_invitations_on_account_id_and_email", unique: true
-    t.index [ "account_id" ], name: "index_account_invitations_on_account_id"
-    t.index [ "inviter_id" ], name: "index_account_invitations_on_inviter_id"
-    t.index [ "token" ], name: "index_account_invitations_on_token", unique: true
+    t.index ["account_id", "email"], name: "index_account_invitations_on_account_id_and_email", unique: true
+    t.index ["account_id"], name: "index_account_invitations_on_account_id"
+    t.index ["inviter_id"], name: "index_account_invitations_on_inviter_id"
+    t.index ["token"], name: "index_account_invitations_on_token", unique: true
   end
 
   create_table "accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.datetime "current_period_ends_at"
     t.string "name"
     t.string "plan", default: "free", null: false
     t.string "stripe_customer_id"
-    t.string "stripe_price_id"
     t.string "stripe_subscription_id"
     t.datetime "subscription_ends_at"
     t.datetime "subscription_started_at"
-    t.string "subscription_status", default: "none"
+    t.string "subscription_status"
     t.datetime "updated_at", null: false
-    t.index [ "plan" ], name: "index_accounts_on_plan"
-    t.index [ "stripe_customer_id" ], name: "index_accounts_on_stripe_customer_id", unique: true
-    t.index [ "stripe_subscription_id" ], name: "index_accounts_on_stripe_subscription_id"
+    t.index ["plan"], name: "index_accounts_on_plan"
+    t.index ["stripe_customer_id"], name: "index_accounts_on_stripe_customer_id", unique: true
+    t.index ["stripe_subscription_id"], name: "index_accounts_on_stripe_subscription_id"
   end
 
   create_table "contact_messages", force: :cascade do |t|
@@ -57,10 +57,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_06_232609) do
     t.string "role", default: "member", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
-    t.index [ "account_id" ], name: "index_memberships_on_account_id"
-    t.index [ "role" ], name: "index_memberships_on_role"
-    t.index [ "user_id", "account_id" ], name: "index_memberships_on_user_id_and_account_id", unique: true
-    t.index [ "user_id" ], name: "index_memberships_on_user_id"
+    t.index ["account_id"], name: "index_memberships_on_account_id"
+    t.index ["role"], name: "index_memberships_on_role"
+    t.index ["user_id", "account_id"], name: "index_memberships_on_user_id_and_account_id", unique: true
+    t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
   create_table "noticed_events", force: :cascade do |t|
@@ -71,7 +71,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_06_232609) do
     t.string "record_type"
     t.string "type"
     t.datetime "updated_at", null: false
-    t.index [ "record_type", "record_id" ], name: "index_noticed_events_on_record"
+    t.index ["record_type", "record_id"], name: "index_noticed_events_on_record"
   end
 
   create_table "noticed_notifications", force: :cascade do |t|
@@ -83,15 +83,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_06_232609) do
     t.datetime "seen_at", precision: nil
     t.string "type"
     t.datetime "updated_at", null: false
-    t.index [ "event_id" ], name: "index_noticed_notifications_on_event_id"
-    t.index [ "recipient_type", "recipient_id" ], name: "index_noticed_notifications_on_recipient"
+    t.index ["event_id"], name: "index_noticed_notifications_on_event_id"
+    t.index ["recipient_type", "recipient_id"], name: "index_noticed_notifications_on_recipient"
   end
 
   create_table "subscribers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.datetime "updated_at", null: false
-    t.index [ "email" ], name: "index_subscribers_on_email", unique: true
+    t.index ["email"], name: "index_subscribers_on_email", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -118,11 +118,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_06_232609) do
     t.string "unconfirmed_email"
     t.string "unlock_token"
     t.datetime "updated_at", null: false
-    t.index [ "confirmation_token" ], name: "index_users_on_confirmation_token", unique: true
-    t.index [ "email" ], name: "index_users_on_email", unique: true
-    t.index [ "provider", "uid" ], name: "index_users_on_provider_and_uid", unique: true
-    t.index [ "reset_password_token" ], name: "index_users_on_reset_password_token", unique: true
-    t.index [ "unlock_token" ], name: "index_users_on_unlock_token", unique: true
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
   add_foreign_key "account_invitations", "accounts"

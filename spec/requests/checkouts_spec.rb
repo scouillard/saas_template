@@ -113,5 +113,53 @@ RSpec.describe "Checkouts", type: :request do
         expect(response.body).to include("Payment incomplete")
       end
     end
+
+    context "when Stripe API raises InvalidRequestError" do
+      before do
+        allow(Stripe::Checkout::Session).to receive(:retrieve)
+          .and_raise(Stripe::InvalidRequestError.new("No such session", "session_id"))
+      end
+
+      it "redirects to pricing with error alert" do
+        get checkout_success_path, params: { session_id: "invalid_session_id" }
+
+        expect(response).to redirect_to(pricing_path)
+        expect(flash[:alert]).to eq("Checkout session not found")
+      end
+
+      it "does not update account" do
+        expect {
+          get checkout_success_path, params: { session_id: "invalid_session_id" }
+        }.not_to change { account.reload.attributes }
+      end
+    end
+
+    context "when Stripe API raises AuthenticationError" do
+      before do
+        allow(Stripe::Checkout::Session).to receive(:retrieve)
+          .and_raise(Stripe::AuthenticationError.new("Invalid API Key"))
+      end
+
+      it "redirects to pricing with error alert" do
+        get checkout_success_path, params: { session_id: session_id }
+
+        expect(response).to redirect_to(pricing_path)
+        expect(flash[:alert]).to eq("Checkout session not found")
+      end
+    end
+
+    context "when Stripe API raises APIConnectionError" do
+      before do
+        allow(Stripe::Checkout::Session).to receive(:retrieve)
+          .and_raise(Stripe::APIConnectionError.new("Network error"))
+      end
+
+      it "redirects to pricing with error alert" do
+        get checkout_success_path, params: { session_id: session_id }
+
+        expect(response).to redirect_to(pricing_path)
+        expect(flash[:alert]).to eq("Checkout session not found")
+      end
+    end
   end
 end

@@ -5,6 +5,7 @@ RSpec.describe Account, type: :model do
     it "defines plan enum with string values" do
       expect(described_class.new).to define_enum_for(:plan)
         .with_values(free: "free", pro: "pro", enterprise: "enterprise")
+        .with_prefix(true)
         .backed_by_column_of_type(:string)
     end
 
@@ -17,10 +18,212 @@ RSpec.describe Account, type: :model do
           active: "active",
           past_due: "past_due",
           canceled: "canceled",
-          unpaid: "unpaid"
+          unpaid: "unpaid",
+          canceling: "canceling"
         )
         .with_prefix(true)
         .backed_by_column_of_type(:string)
+    end
+  end
+
+  describe "#subscription_active?" do
+    it "returns true when status is active" do
+      account = build(:account, subscription_status: :active)
+      expect(account.subscription_active?).to be true
+    end
+
+    it "returns true when status is trialing" do
+      account = build(:account, subscription_status: :trialing)
+      expect(account.subscription_active?).to be true
+    end
+
+    it "returns false when status is past_due" do
+      account = build(:account, subscription_status: :past_due)
+      expect(account.subscription_active?).to be false
+    end
+
+    it "returns false when status is canceled" do
+      account = build(:account, subscription_status: :canceled)
+      expect(account.subscription_active?).to be false
+    end
+
+    it "returns false when status is nil" do
+      account = build(:account, subscription_status: nil)
+      expect(account.subscription_active?).to be false
+    end
+  end
+
+  describe "#subscription_canceling?" do
+    it "returns true when status is canceling" do
+      account = build(:account, subscription_status: :canceling)
+      expect(account.subscription_canceling?).to be true
+    end
+
+    it "returns false when status is active" do
+      account = build(:account, subscription_status: :active)
+      expect(account.subscription_canceling?).to be false
+    end
+
+    it "returns false when status is nil" do
+      account = build(:account, subscription_status: nil)
+      expect(account.subscription_canceling?).to be false
+    end
+  end
+
+  describe "#can_reactivate?" do
+    it "returns true when canceling with future period end" do
+      account = build(:account,
+        subscription_status: :canceling,
+        current_period_ends_at: 1.month.from_now
+      )
+      expect(account.can_reactivate?).to be true
+    end
+
+    it "returns false when canceling with past period end" do
+      account = build(:account,
+        subscription_status: :canceling,
+        current_period_ends_at: 1.day.ago
+      )
+      expect(account.can_reactivate?).to be false
+    end
+
+    it "returns false when active" do
+      account = build(:account,
+        subscription_status: :active,
+        current_period_ends_at: 1.month.from_now
+      )
+      expect(account.can_reactivate?).to be false
+    end
+
+    it "returns falsey when current_period_ends_at is nil" do
+      account = build(:account,
+        subscription_status: :canceling,
+        current_period_ends_at: nil
+      )
+      expect(account).not_to be_can_reactivate
+    end
+  end
+
+  describe "#past_due?" do
+    it "returns true when status is past_due" do
+      account = build(:account, subscription_status: :past_due)
+      expect(account.past_due?).to be true
+    end
+
+    it "returns false when status is active" do
+      account = build(:account, subscription_status: :active)
+      expect(account.past_due?).to be false
+    end
+  end
+
+  describe "#canceled?" do
+    it "returns true when status is canceled" do
+      account = build(:account, subscription_status: :canceled)
+      expect(account.canceled?).to be true
+    end
+
+    it "returns false when status is active" do
+      account = build(:account, subscription_status: :active)
+      expect(account.canceled?).to be false
+    end
+  end
+
+  describe "#active_subscription?" do
+    it "returns true when status is active" do
+      account = build(:account, subscription_status: :active)
+      expect(account.active_subscription?).to be true
+    end
+
+    it "returns false when status is trialing" do
+      account = build(:account, subscription_status: :trialing)
+      expect(account.active_subscription?).to be false
+    end
+
+    it "returns false when status is nil" do
+      account = build(:account, subscription_status: nil)
+      expect(account.active_subscription?).to be false
+    end
+  end
+
+  describe "#can_change_plan?" do
+    it "returns true when subscription is active and has stripe_subscription_id" do
+      account = build(:account, :with_stripe, subscription_status: :active)
+      expect(account.can_change_plan?).to be true
+    end
+
+    it "returns true when subscription is trialing and has stripe_subscription_id" do
+      account = build(:account, :with_stripe, subscription_status: :trialing)
+      expect(account.can_change_plan?).to be true
+    end
+
+    it "returns false when subscription is active but no stripe_subscription_id" do
+      account = build(:account, subscription_status: :active, stripe_subscription_id: nil)
+      expect(account.can_change_plan?).to be false
+    end
+
+    it "returns false when has stripe_subscription_id but status is past_due" do
+      account = build(:account, :with_stripe, subscription_status: :past_due)
+      expect(account.can_change_plan?).to be false
+    end
+  end
+
+  describe "#upgrading_to?" do
+    let(:account) { build(:account, plan: :pro) }
+
+    it "returns true when target plan has higher monthly price" do
+      expect(account.upgrading_to?("enterprise")).to be true
+    end
+
+    it "returns false when target plan has lower monthly price" do
+      expect(account.upgrading_to?("free")).to be false
+    end
+
+    it "returns false when target plan is same as current" do
+      expect(account.upgrading_to?("pro")).to be false
+    end
+
+    it "returns false when target plan does not exist" do
+      expect(account.upgrading_to?("nonexistent")).to be false
+    end
+  end
+
+  describe "#downgrading_to?" do
+    let(:account) { build(:account, plan: :pro) }
+
+    it "returns true when target plan has lower monthly price" do
+      expect(account.downgrading_to?("free")).to be true
+    end
+
+    it "returns false when target plan has higher monthly price" do
+      expect(account.downgrading_to?("enterprise")).to be false
+    end
+
+    it "returns false when target plan is same as current" do
+      expect(account.downgrading_to?("pro")).to be false
+    end
+
+    it "returns false when target plan does not exist" do
+      expect(account.downgrading_to?("nonexistent")).to be false
+    end
+  end
+
+  describe "#billing_interval" do
+    it "returns nil when no stripe_subscription_id" do
+      account = build(:account, stripe_subscription_id: nil)
+      expect(account.billing_interval).to be_nil
+    end
+  end
+
+  describe "#determine_interval_from_price_id" do
+    let(:account) { build(:account) }
+
+    it "returns nil for blank price_id" do
+      expect(account.determine_interval_from_price_id(nil)).to be_nil
+      expect(account.determine_interval_from_price_id("")).to be_nil
+    end
+
+    it "returns nil for unrecognized price_id" do
+      expect(account.determine_interval_from_price_id("unknown_price")).to be_nil
     end
   end
 

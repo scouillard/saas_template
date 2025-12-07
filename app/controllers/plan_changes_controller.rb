@@ -1,4 +1,7 @@
 class PlanChangesController < ApplicationController
+  # Security: limit plan change session creation (10 per 5 minutes)
+  rate_limit to: 10, within: 5.minutes, only: :create
+
   before_action :authenticate_user!
   before_action :require_active_subscription, only: [ :new, :create ]
   before_action :set_plans, only: [ :new ]

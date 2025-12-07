@@ -40,6 +40,8 @@ module Webhooks
       customer_id = session.customer
       subscription_id = session.subscription
 
+      return unless subscription_id
+
       account = Account.find_by(stripe_customer_id: customer_id)
       return unless account
 
