@@ -10,7 +10,10 @@ class CheckoutsController < ApplicationController
     return redirect_to root_path, notice: "Subscription already active" if already_processed?(session)
 
     update_account_subscription(session)
-    redirect_to root_path, notice: "Welcome to #{current_account.plan_name}! Your subscription is now active."
+    @subscription = session.subscription
+    @plan = Plan.find_by(id: current_account.plan)
+    @interval = @subscription.items.data.first.price.recurring.interval
+    render "checkout_success/show"
   end
 
   private

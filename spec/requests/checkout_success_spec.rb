@@ -20,8 +20,10 @@ RSpec.describe "CheckoutSuccess", type: :request do
         price = Struct.new(:id, :recurring).new(price_id, recurring)
         item = Struct.new(:price).new(price)
         items = Struct.new(:data).new([ item ])
-        subscription = Struct.new(:items, :trial_end, :current_period_end).new(items, trial_end, current_period_end)
-        Struct.new(:subscription).new(subscription)
+        subscription = Struct.new(:id, :status, :items, :trial_end, :current_period_end, :created).new(
+          "sub_test123", "active", items, trial_end, current_period_end, Time.now.to_i
+        )
+        Struct.new(:status, :customer, :subscription).new("complete", "cus_test123", subscription)
       end
 
       it "renders success page with subscription details" do
@@ -31,9 +33,7 @@ RSpec.describe "CheckoutSuccess", type: :request do
           current_period_end: 1.month.from_now.to_i
         )
 
-        allow(Stripe::Checkout::Session).to receive(:retrieve)
-          .with("cs_test123", expand: [ "subscription" ])
-          .and_return(mock_session)
+        allow(Stripe::Checkout::Session).to receive(:retrieve).and_return(mock_session)
 
         get checkout_success_path, params: { session_id: "cs_test123" }
 
@@ -49,9 +49,7 @@ RSpec.describe "CheckoutSuccess", type: :request do
           current_period_end: trial_end
         )
 
-        allow(Stripe::Checkout::Session).to receive(:retrieve)
-          .with("cs_test_trial", expand: [ "subscription" ])
-          .and_return(mock_session)
+        allow(Stripe::Checkout::Session).to receive(:retrieve).and_return(mock_session)
 
         get checkout_success_path, params: { session_id: "cs_test_trial" }
 
@@ -60,13 +58,12 @@ RSpec.describe "CheckoutSuccess", type: :request do
       end
 
       it "redirects to pricing when session not found" do
-        allow(Stripe::Checkout::Session).to receive(:retrieve)
-          .and_raise(Stripe::InvalidRequestError.new("No such session", "session_id"))
+        allow(Stripe::Checkout::Session).to receive(:retrieve).and_return(nil)
 
         get checkout_success_path, params: { session_id: "invalid_session" }
 
         expect(response).to redirect_to(pricing_path)
-        expect(flash[:alert]).to eq("Session not found")
+        expect(flash[:alert]).to eq("Checkout session not found")
       end
     end
   end

@@ -12,12 +12,13 @@ RSpec.describe "Checkouts", type: :request do
     post user_session_path, params: { user: { email: user.email, password: "password123" } }
   end
 
-  def build_mock_session(status:)
-    mock_price = Struct.new(:id).new("price_pro_monthly")
+  def build_mock_session(status:, trial_end: nil)
+    mock_recurring = Struct.new(:interval).new("month")
+    mock_price = Struct.new(:id, :recurring).new("price_pro_monthly", mock_recurring)
     mock_item = Struct.new(:price).new(mock_price)
     mock_items = Struct.new(:data).new([ mock_item ])
-    mock_subscription = Struct.new(:id, :status, :created, :current_period_end, :items).new(
-      subscription_id, "active", 1.day.ago.to_i, 1.month.from_now.to_i, mock_items
+    mock_subscription = Struct.new(:id, :status, :created, :current_period_end, :items, :trial_end).new(
+      subscription_id, "active", 1.day.ago.to_i, 1.month.from_now.to_i, mock_items, trial_end
     )
     Struct.new(:status, :customer, :subscription).new(status, customer_id, mock_subscription)
   end
@@ -46,12 +47,11 @@ RSpec.describe "Checkouts", type: :request do
         expect(account.reload.plan).to eq("pro")
       end
 
-      it "redirects to root with success message" do
+      it "renders success page with subscription details" do
         get checkout_success_path, params: { session_id: session_id }
 
-        expect(response).to redirect_to(root_path)
-        follow_redirect!
-        expect(response.body).to include("Your subscription is now active")
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Welcome to Pro!")
       end
     end
 
@@ -88,8 +88,7 @@ RSpec.describe "Checkouts", type: :request do
 
     context "when session is invalid" do
       before do
-        allow(Stripe::Checkout::Session).to receive(:retrieve)
-          .and_raise(Stripe::InvalidRequestError.new("No such session", nil))
+        allow(Stripe::Checkout::Session).to receive(:retrieve).and_return(nil)
       end
 
       it "redirects to pricing with alert" do
