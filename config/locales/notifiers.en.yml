@@ -3,3 +3,9 @@ en:
     welcome_notifier:
       notification:
         message: "Welcome to SaaS Template! Edit this message in config/locales/notifiers.en.yml"
+    payment_failed_notifier:
+      notification:
+        message: "Payment failed for your subscription. Please update your payment method."
+    subscription_canceled_notifier:
+      notification:
+        message: "Your subscription has been canceled."
