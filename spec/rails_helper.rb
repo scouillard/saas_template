@@ -24,6 +24,11 @@ RSpec.configure do |config|
 
   # Devise helpers for request specs
   config.include Devise::Test::IntegrationHelpers, type: :request
+
+  # Clear cache before each test to reset rate limits
+  config.before do
+    Rails.cache.clear
+  end
 end
 
 # Shoulda Matchers

@@ -3,7 +3,7 @@ Rails.application.configure do
   config.eager_load = ENV["CI"].present?
   config.public_file_server.headers = { "cache-control" => "public, max-age=3600" }
   config.consider_all_requests_local = true
-  config.cache_store = :null_store
+  config.cache_store = :memory_store
   config.action_dispatch.show_exceptions = :rescuable
   config.action_controller.allow_forgery_protection = false
   config.active_storage.service = :test

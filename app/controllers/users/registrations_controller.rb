@@ -1,4 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  # Strict limit for public endpoint (5 per hour)
+  rate_limit to: 5, within: 1.hour, only: :create
+
   before_action :configure_sign_up_params, only: [ :create ]
 
   def create
